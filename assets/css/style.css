@@ -25,7 +25,7 @@
 
   --bg-gradient-onyx: linear-gradient(
     to bottom right, 
-    hsl(240, 1%, 25%) 3%, 
+    #3f3f40 3%, 
     hsl(0, 0%, 19%) 97%
   );
   --bg-gradient-jet: linear-gradient(
@@ -50,7 +50,7 @@
   );
   --text-gradient-yellow: linear-gradient(
     to right, 
-    hsl(45, 100%, 72%), 
+    #ffdb70, 
     hsl(35, 100%, 68%)
   );
 
@@ -444,6 +444,12 @@ main {
   font-size: 18px;
 }
 
+.social-item-contact .social-link {
+  color: var(--light-gray-70);
+  font-size: 35px;
+}
+
+.social-item-contact .social-link:hover { color: #ffdb70; }
 
 .social-item .social-link:hover { color: var(--light-gray); }
 
