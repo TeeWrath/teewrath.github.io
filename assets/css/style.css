@@ -25,33 +25,51 @@
 
   --bg-gradient-onyx: linear-gradient(
     to bottom right, 
+    /* #3f3f40 3%, 
+    hsl(0, 0%, 19%) 97% */
+
     #3f3f40 3%, 
-    hsl(0, 0%, 19%) 97%
+    hsl(0, 2%, 25%) 97%
   );
   --bg-gradient-jet: linear-gradient(
     to bottom right, 
-    hsla(240, 1%, 18%, 0.251) 0%, 
-    hsla(240, 2%, 11%, 0) 100%
+    /* hsla(240, 1%, 18%, 0.251) 0%, 
+    hsla(240, 2%, 11%, 0) 100% */
+
+    hsla(270, 7%, 17%, 0.295) 0%, 
+    hsla(240, 7%, 17%, 0) 100%
   ), hsl(240, 2%, 13%);
   --bg-gradient-yellow-1: linear-gradient(
     to bottom right, 
-    hsl(45, 100%, 71%) 0%, 
-    hsla(36, 100%, 69%, 0) 50%
+    /* hsl(45, 100%, 71%) 0%, 
+    hsla(36, 100%, 69%, 0) 50% */
+
+    hsl(251, 100%, 71%) 0%, 
+    hsla(239, 100%, 69%, 0.233) 50%
   );
   --bg-gradient-yellow-2: linear-gradient(
     135deg, 
-    hsla(45, 100%, 71%, 0.251) 0%, 
-    hsla(35, 100%, 68%, 0) 59.86%
+    /* hsla(45, 100%, 71%, 0.251) 0%, 
+    hsla(35, 100%, 68%, 0) 59.86% */
+
+    hsla(229, 100%, 71%, 0.251) 0%, 
+    hsla(271, 100%, 68%, 0) 59.86%
   ), hsl(240, 2%, 13%);
   --border-gradient-onyx: linear-gradient(
     to bottom right, 
-    hsl(0, 0%, 25%) 0%, 
-    hsla(0, 0%, 25%, 0) 50%
+    /* hsl(0, 0%, 25%) 0%, 
+    hsla(0, 0%, 25%, 0) 50% */
+
+    hsla(256, 52%, 49%, 0.144) 0%, 
+    hsla(0, 27%, 26%, 0.5) 50%
   );
   --text-gradient-yellow: linear-gradient(
     to right, 
-    #ffdb70, 
-    hsl(35, 100%, 68%)
+    /* #ffdb70, 
+    hsl(35, 100%, 68%) */
+
+    #707eff, 
+    hsl(229, 100%, 68%)
   );
 
   /* solid */
@@ -63,8 +81,10 @@
   --smoky-black: hsl(0, 0%, 7%);
   --white-1: hsl(0, 0%, 100%);
   --white-2: hsl(0, 0%, 98%);
-  --orange-yellow-crayola: hsl(45, 100%, 72%);
-  --vegas-gold: hsl(45, 54%, 58%);
+  /* --orange-yellow-crayola: hsl(45, 100%, 72%); */
+  --orange-yellow-crayola: hsl(263, 100%, 72%);
+  /* --vegas-gold: hsl(45, 54%, 58%); */
+  --vegas-gold: hsl(244, 54%, 58%);
   --light-gray: hsl(0, 0%, 84%);
   --light-gray-70: hsla(0, 0%, 84%, 0.7);
   --bittersweet-shimmer: hsl(0, 43%, 51%);
@@ -96,6 +116,12 @@
    * shadow
    */
   
+  /* --shadow-1: -4px 8px 24px hsla(0, 0%, 0%, 0.25);
+  --shadow-2: 0 16px 30px hsla(0, 0%, 0%, 0.25);
+  --shadow-3: 0 16px 40px hsla(0, 0%, 0%, 0.25);
+  --shadow-4: 0 25px 50px hsla(0, 0%, 0%, 0.15);
+  --shadow-5: 0 24px 80px hsla(0, 0%, 0%, 0.25); */
+
   --shadow-1: -4px 8px 24px hsla(0, 0%, 0%, 0.25);
   --shadow-2: 0 16px 30px hsla(0, 0%, 0%, 0.25);
   --shadow-3: 0 16px 40px hsla(0, 0%, 0%, 0.25);
@@ -449,7 +475,7 @@ main {
   font-size: 35px;
 }
 
-.social-item-contact .social-link:hover { color: #ffdb70; }
+.social-item-contact .social-link:hover { color: #7028b3; }
 
 .social-item .social-link:hover { color: var(--light-gray); }
 
