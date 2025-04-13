@@ -1,4 +1,4 @@
-# vCard - Personal portfolio
+# Personal portfolio
 
 ![GitHub repo size](https://img.shields.io/github/repo-size/TeeWrath/teewrath.github.io)
 ![GitHub stars](https://img.shields.io/github/stars/TeeWrath/teewrath.github.io?style=social)
