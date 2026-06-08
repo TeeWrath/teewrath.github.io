@@ -1,0 +1,311 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Reading… — Subroto Banerjee</title>
+
+    <link rel="shortcut icon" href="./assets/images/newpic.png" type="image/x-icon" />
+    <link rel="stylesheet" href="./assets/css/style.css" />
+    <link rel="stylesheet" href="./assets/css/elite.css" />
+
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Sora:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap"
+      rel="stylesheet"
+    />
+
+    <meta name="theme-color" content="#0a0a0a" />
+    <script>
+      (function () {
+        try {
+          var t = localStorage.getItem("theme");
+          if (!t) t = window.matchMedia("(prefers-color-scheme: light)").matches ? "light" : "dark";
+          document.documentElement.setAttribute("data-theme", t);
+        } catch (e) {
+          document.documentElement.setAttribute("data-theme", "dark");
+        }
+      })();
+    </script>
+
+    <style>
+      .reader-progress {
+        position: fixed; top: 0; left: 0; height: 2px; width: 0%;
+        background: var(--accent); z-index: 60; transition: width 0.1s linear;
+      }
+      .reader-wrap {
+        max-width: 760px; margin: 0 auto; padding: 90px 22px 120px;
+      }
+      .reader-back {
+        font-family: var(--ff-mono); font-size: 13px; color: var(--text-low);
+        display: inline-flex; align-items: center; gap: 8px; margin-bottom: 40px;
+        transition: var(--transition-1);
+      }
+      .reader-back:hover { color: var(--text-hi); gap: 12px; }
+      .reader-meta {
+        font-family: var(--ff-mono); font-size: 12px; letter-spacing: 0.04em;
+        color: var(--text-low); display: flex; flex-wrap: wrap; align-items: center;
+        gap: 10px; margin-bottom: 18px;
+      }
+      .reader-meta .dot { width: 4px; height: 4px; border-radius: 50%; background: var(--text-low); }
+      .reader-title {
+        font-family: var(--ff-display); font-weight: 700; letter-spacing: -0.03em;
+        font-size: clamp(30px, 6vw, 46px); line-height: 1.08; color: var(--text-hi);
+        margin-bottom: 36px;
+      }
+      .reader-hr { height: 1px; background: var(--hairline); border: 0; margin: 0 0 40px; }
+
+      .reader-body { color: var(--text-mid); font-size: 17px; line-height: 1.8; }
+      .reader-body > * + * { margin-top: 22px; }
+      .reader-body h1, .reader-body h2, .reader-body h3, .reader-body h4 {
+        font-family: var(--ff-display); color: var(--text-hi);
+        letter-spacing: -0.02em; line-height: 1.25; margin-top: 44px;
+      }
+      .reader-body h1 { font-size: 30px; }
+      .reader-body h2 { font-size: 25px; }
+      .reader-body h3 { font-size: 20px; }
+      .reader-body a {
+        color: var(--text-hi); border-bottom: 1px solid var(--hairline-strong);
+      }
+      .reader-body a:hover { border-color: var(--text-hi); }
+      .reader-body strong { color: var(--text-hi); font-weight: 600; }
+      .reader-body ul, .reader-body ol { padding-left: 24px; }
+      .reader-body li { margin-top: 8px; }
+      .reader-body li::marker { color: var(--text-low); }
+      .reader-body blockquote {
+        border-left: 2px solid var(--accent); padding: 4px 0 4px 22px;
+        color: var(--text-hi); font-family: var(--ff-display); font-size: 20px;
+        font-style: italic;
+      }
+      .reader-body code {
+        font-family: var(--ff-mono); font-size: 14px;
+        background: var(--panel-2); border: 1px solid var(--hairline);
+        padding: 2px 6px; border-radius: 6px; color: var(--text-hi);
+      }
+      .reader-body pre {
+        background: var(--ink-900); border: 1px solid var(--hairline);
+        border-radius: 14px; padding: 18px 20px; overflow-x: auto;
+      }
+      .reader-body pre code { background: none; border: 0; padding: 0; font-size: 13.5px; line-height: 1.7; }
+      .reader-body img { max-width: 100%; border-radius: 14px; border: 1px solid var(--hairline); }
+      .reader-cover {
+        width: 100%; height: clamp(180px, 34vw, 320px); object-fit: cover;
+        border-radius: 18px; border: 1px solid var(--hairline);
+        margin-bottom: 40px; filter: grayscale(1); transition: filter var(--transition-2);
+      }
+      .reader-cover:hover { filter: grayscale(0); }
+      .reader-footer {
+        margin-top: 64px; padding-top: 28px; border-top: 1px solid var(--hairline);
+        display: flex; flex-wrap: wrap; gap: 14px; align-items: center; justify-content: space-between;
+      }
+      .reader-footer a {
+        font-family: var(--ff-mono); font-size: 13px; color: var(--text-hi);
+        display: inline-flex; align-items: center; gap: 8px;
+      }
+      .reader-state { font-family: var(--ff-mono); color: var(--text-low); }
+
+      .reader-share {
+        margin-left: auto; display: inline-flex; align-items: center; gap: 7px;
+        font-family: var(--ff-mono); font-size: 12px; color: var(--text-mid);
+        padding: 7px 13px; border-radius: 10px; border: 1px solid var(--hairline);
+        background: var(--surface-2); cursor: pointer; transition: var(--transition-1);
+      }
+      .reader-share ion-icon { font-size: 15px; }
+      .reader-share:hover { color: var(--accent-ink); background: var(--accent); border-color: var(--accent); }
+
+      .reader-comments { margin-top: 56px; padding-top: 30px; border-top: 1px solid var(--hairline); }
+      .reader-comments-title {
+        font-family: var(--ff-mono); text-transform: uppercase; letter-spacing: 0.14em;
+        font-size: 11px; color: var(--text-low); margin-bottom: 20px;
+        display: flex; align-items: center; gap: 10px;
+      }
+      .reader-comments-title::after { content: ""; flex: 1; height: 1px; background: var(--hairline); }
+      .comments-placeholder {
+        font-family: var(--ff-mono); font-size: 12.5px; line-height: 1.7; color: var(--text-low);
+        background: var(--surface-2); border: 1px dashed var(--hairline-strong);
+        border-radius: 12px; padding: 18px 20px;
+      }
+      .comments-placeholder code { color: var(--accent); }
+
+      .reader-toast {
+        position: fixed; left: 50%; bottom: 28px; transform: translateX(-50%) translateY(10px);
+        z-index: 200; font-family: var(--ff-mono); font-size: 12px; letter-spacing: .04em;
+        padding: 10px 16px; border-radius: 10px; background: var(--accent); color: var(--accent-ink);
+        opacity: 0; transition: .25s; pointer-events: none;
+      }
+    </style>
+  </head>
+
+  <body>
+    <div class="bg-canvas" aria-hidden="true"></div>
+    <div class="bg-grid" aria-hidden="true"></div>
+    <div class="cursor-glow" aria-hidden="true"></div>
+    <div class="reader-progress" data-progress></div>
+
+    <button class="theme-toggle" data-theme-toggle aria-label="Toggle dark / light theme" title="Toggle theme">
+      <ion-icon class="icon-moon" name="moon-outline"></ion-icon>
+      <ion-icon class="icon-sun" name="sunny-outline"></ion-icon>
+    </button>
+
+    <main class="reader-wrap">
+      <a class="reader-back" href="./index.html#blog">&#8592; All writing</a>
+      <div class="reader-article" data-article>
+        <p class="reader-state">Loading…</p>
+      </div>
+    </main>
+
+    <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+    <script>
+      /* ================= GISCUS CONFIG =================
+         To enable comments + 👍/👎 reactions:
+         1. Enable "Discussions" on the GitHub repo (Settings → Features).
+         2. Install the giscus app: https://github.com/apps/giscus
+         3. Visit https://giscus.app, enter the repo, pick a category,
+            and copy the repoId + categoryId it gives you.
+         4. Paste them below (replace the REPLACE_ values).            */
+      const GISCUS = {
+        repo: "TeeWrath/teewrath.github.io",
+        repoId: "REPLACE_WITH_REPO_ID",
+        category: "Announcements",
+        categoryId: "REPLACE_WITH_CATEGORY_ID"
+      };
+      /* ================================================= */
+
+      (function () {
+        const root = document.documentElement;
+        const giscusTheme = () =>
+          root.getAttribute('data-theme') === 'light' ? 'light' : 'transparent_dark';
+
+        // theme toggle (+ keep giscus in sync)
+        const btn = document.querySelector('[data-theme-toggle]');
+        if (btn) btn.addEventListener('click', () => {
+          const next = root.getAttribute('data-theme') === 'light' ? 'dark' : 'light';
+          root.setAttribute('data-theme', next);
+          try { localStorage.setItem('theme', next); } catch (e) {}
+          const frame = document.querySelector('iframe.giscus-frame');
+          if (frame) frame.contentWindow.postMessage(
+            { giscus: { setConfig: { theme: giscusTheme() } } }, 'https://giscus.app');
+        });
+
+        // toast helper
+        let toastEl;
+        const toast = (msg) => {
+          if (!toastEl) { toastEl = document.createElement('div'); toastEl.className = 'reader-toast'; document.body.appendChild(toastEl); }
+          toastEl.textContent = msg;
+          requestAnimationFrame(() => { toastEl.style.opacity = '1'; toastEl.style.transform = 'translateX(-50%) translateY(0)'; });
+          clearTimeout(toastEl._t);
+          toastEl._t = setTimeout(() => { toastEl.style.opacity = '0'; toastEl.style.transform = 'translateX(-50%) translateY(10px)'; }, 1800);
+        };
+
+        // share current post
+        const share = () => {
+          const data = { title: document.title, url: location.href };
+          if (navigator.share) navigator.share(data).catch(() => {});
+          else if (navigator.clipboard) navigator.clipboard.writeText(location.href).then(() => toast('Link copied'));
+          else prompt('Copy this link:', location.href);
+        };
+
+        // mount giscus once content is ready
+        const mountGiscus = (container) => {
+          if (!GISCUS.repoId || GISCUS.repoId.startsWith('REPLACE')) {
+            container.innerHTML =
+              '<div class="comments-placeholder">Comments &amp; reactions are not wired up yet. ' +
+              'Enable GitHub <code>Discussions</code>, install the <code>giscus</code> app, then paste your ' +
+              '<code>repoId</code> and <code>categoryId</code> into <code>post.html</code>. ' +
+              'Until then, use <strong>Share</strong> to send this post around.</div>';
+            return;
+          }
+          const s = document.createElement('script');
+          s.src = 'https://giscus.app/client.js';
+          s.async = true; s.crossOrigin = 'anonymous';
+          Object.assign(s.dataset, {
+            repo: GISCUS.repo, repoId: GISCUS.repoId,
+            category: GISCUS.category, categoryId: GISCUS.categoryId,
+            mapping: 'pathname', strict: '0', reactionsEnabled: '1',
+            emitMetadata: '0', inputPosition: 'top', theme: giscusTheme(), lang: 'en', loading: 'lazy'
+          });
+          container.appendChild(s);
+        };
+
+        // cursor glow
+        const glow = document.querySelector('.cursor-glow');
+        if (glow && matchMedia('(pointer: fine)').matches && !matchMedia('(prefers-reduced-motion: reduce)').matches) {
+          let x = innerWidth / 2, y = innerHeight / 2, cx = x, cy = y, on = false;
+          addEventListener('mousemove', (e) => { x = e.clientX; y = e.clientY; if (!on) { glow.style.opacity = '1'; on = true; } });
+          (function loop() { cx += (x - cx) * 0.12; cy += (y - cy) * 0.12; glow.style.transform = `translate(${cx}px, ${cy}px)`; requestAnimationFrame(loop); })();
+        }
+
+        // reading progress
+        const bar = document.querySelector('[data-progress]');
+        addEventListener('scroll', () => {
+          const h = document.documentElement;
+          const max = h.scrollHeight - h.clientHeight;
+          bar.style.width = (max > 0 ? (h.scrollTop / max) * 100 : 0) + '%';
+        }, { passive: true });
+
+        // load post
+        const id = new URLSearchParams(location.search).get('id');
+        const wrap = document.querySelector('[data-article]');
+        const fmt = (iso) => { const d = new Date(iso); return isNaN(d) ? iso : d.toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' }); };
+        const readingTime = (txt) => Math.max(1, Math.round(txt.split(/\s+/).length / 200)) + ' min read';
+
+        if (!id) { wrap.innerHTML = '<p class="reader-state">No post specified.</p>'; return; }
+
+        fetch('./blog/posts.json', { cache: 'no-cache' })
+          .then((r) => r.json())
+          .then((posts) => {
+            const post = posts.find((p) => p.id === id);
+            if (!post) throw new Error('not found');
+            if (post.type === 'external') { location.replace(post.url); return Promise.reject('redirect'); }
+            return fetch(post.file, { cache: 'no-cache' }).then((r) => {
+              if (!r.ok) throw new Error('md ' + r.status);
+              return r.text();
+            }).then((md) => ({ post, md }));
+          })
+          .then((res) => {
+            if (!res) return;
+            const { post, md } = res;
+            document.title = post.title + ' — Subroto Banerjee';
+            const cover = post.cover ? `<img class="reader-cover" src="${post.cover}" alt="${post.title}" />` : '';
+            wrap.innerHTML = `
+              <div class="reader-meta">
+                <span>${post.category || ''}</span><span class="dot"></span>
+                <time>${fmt(post.date)}</time><span class="dot"></span>
+                <span>${readingTime(md)}</span>
+                <button class="reader-share" data-share type="button">
+                  <ion-icon name="share-social-outline"></ion-icon> Share
+                </button>
+              </div>
+              <h1 class="reader-title">${post.title}</h1>
+              ${cover}
+              <hr class="reader-hr" />
+              <div class="reader-body">${marked.parse(md)}</div>
+              <div class="reader-footer">
+                <a href="./index.html#blog">&#8592; Back to all writing</a>
+                <button class="reader-share" data-share type="button">
+                  <ion-icon name="share-social-outline"></ion-icon> Share this post
+                </button>
+                <a href="./index.html#contact">Work with me &#8594;</a>
+              </div>
+              <section class="reader-comments">
+                <p class="reader-comments-title">Comments &amp; reactions</p>
+                <div data-giscus></div>
+              </section>`;
+
+            wrap.querySelectorAll('[data-share]').forEach((b) => b.addEventListener('click', share));
+            mountGiscus(wrap.querySelector('[data-giscus]'));
+          })
+          .catch((err) => {
+            if (err === 'redirect') return;
+            console.error(err);
+            wrap.innerHTML = '<p class="reader-state">Post not found. <a href="./index.html#blog" style="color:var(--text-hi)">Back to blog</a>.</p>';
+          });
+      })();
+    </script>
+
+    <script type="module" src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.esm.js"></script>
+    <script nomodule src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.js"></script>
+  </body>
+</html>

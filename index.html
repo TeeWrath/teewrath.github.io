@@ -21,17 +21,52 @@
     <link rel="stylesheet" href="./assets/css/style.css" />
 
     <!--
+    - elite redesign layer (loaded after base styles)
+  -->
+    <link rel="stylesheet" href="./assets/css/elite.css" />
+
+    <!--
     - google font link
   -->
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
-      href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap"
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Sora:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap"
       rel="stylesheet"
     />
+
+    <meta name="theme-color" content="#0a0a0a" />
+
+    <!-- set theme before paint to avoid flash -->
+    <script>
+      (function () {
+        try {
+          var t = localStorage.getItem("theme");
+          if (!t) t = window.matchMedia("(prefers-color-scheme: light)").matches ? "light" : "dark";
+          document.documentElement.setAttribute("data-theme", t);
+        } catch (e) {
+          document.documentElement.setAttribute("data-theme", "dark");
+        }
+      })();
+    </script>
   </head>
 
   <body>
+    <!--
+    - ambient backdrop (aurora + grid + cursor glow)
+  -->
+    <div class="bg-canvas" aria-hidden="true"></div>
+    <div class="bg-grid" aria-hidden="true"></div>
+    <div class="cursor-glow" aria-hidden="true"></div>
+
+    <!--
+    - theme toggle
+  -->
+    <button class="theme-toggle" data-theme-toggle aria-label="Toggle dark / light theme" title="Toggle theme">
+      <ion-icon class="icon-moon" name="moon-outline"></ion-icon>
+      <ion-icon class="icon-sun" name="sunny-outline"></ion-icon>
+    </button>
+
     <!--
     - #MAIN
   -->
@@ -81,12 +116,9 @@
               <div class="contact-info">
                 <p class="contact-title">Hire Me</p>
 
-                <a
-                  target="_blank"
-                  href="https://drive.google.com/drive/folders/1ex4i0-DQcms5r-k4Vz_VuVopnX_t4C9b"
-                  class="contact-link"
-                  >Resume</a
-                >
+                <button class="contact-link resume-trigger" data-resume-open type="button">
+                  View Résumé
+                </button>
               </div>
             </li>
 
@@ -763,82 +795,7 @@ development best practices.
           <section class="timeline">
             <div class="title-wrapper">
               <div class="icon-box">
-                <ion-icon name="book-outline"></ion-icon>
-              </div>
-
-              <h3 class="h3">Awards and Achievements</h3>
-            </div>
-
-            <ol class="timeline-list">
-              <li class="timeline-item">
-                <h4 class="h4 timeline-item-title">
-                  Amar Ujala OutStanding Achiever 2019
-                </h4>
-
-                <span>May 2019</span>
-
-                <p class="timeline-text">
-                  Award by prestegious newspaper - Amar Ujala for being an
-                  outstanding achiever by scoring 98.6% in class 10th CBSE Board
-                  exams.
-                </p>
-              </li>
-
-              <li class="timeline-item">
-                <h4 class="h4 timeline-item-title">
-                  Top 1% Kendriya Vidyalaya Scorers
-                </h4>
-
-                <span>2019 and 2021</span>
-
-                <p class="timeline-text">
-                  Awarded cash prize by Kendriya Vidyalaya Sangathan for being
-                  in top 1% CBSE Board exam scorer both in class 10th and 12th
-                  exams.
-                </p>
-              </li>
-
-              <li class="timeline-item">
-                <h4 class="h4 timeline-item-title">
-                  Education Track Prize Winner
-                </h4>
-
-                <span>August 2023</span>
-
-                <p class="timeline-text">
-                  Won the track prize for Education Track at National Level MLH
-                  Hackathon - Statuc Code 0.
-                </p>
-              </li>
-
-              <li class="timeline-item">
-                <h4 class="h4 timeline-item-title">Most Active Hacker</h4>
-
-                <span>August 2023</span>
-
-                <p class="timeline-text">
-                  Won the award for most active hacker in the hackathon - Status
-                  Code 0.
-                </p>
-              </li>
-
-              <li class="timeline-item">
-                <h4 class="h4 timeline-item-title">Mentor</h4>
-
-                <span>December 2023 - January 2024</span>
-
-                <p class="timeline-text">
-                  Mentored contributers as Mentor in Kharagpur Winter of Code
-                  organized by Kharagpur Open Source Society of IIT Kharagpur.
-                </p>
-              </li>
-            </ol>
-          </section>
-
-          <section class="timeline">
-            <div class="title-wrapper">
-              <div class="icon-box">
-                <ion-icon name="book-outline"></ion-icon>
+                <ion-icon name="people-outline"></ion-icon>
               </div>
 
               <h3 class="h3">Community Efforts and Positions of Responsibility</h3>
@@ -957,52 +914,172 @@ development best practices.
             </ol>
           </section>
 
-          <section class="timeline">
+          <!--
+          - tools & tech
+        -->
+
+          <section class="tech">
             <div class="title-wrapper">
               <div class="icon-box">
-                <ion-icon name="book-outline"></ion-icon>
+                <ion-icon name="layers-outline"></ion-icon>
               </div>
 
-              <h3 class="h3">Education</h3>
+              <h3 class="h3">Tools &amp; Tech</h3>
             </div>
 
-            <ol class="timeline-list">
-              <li class="timeline-item">
-                <h4 class="h4 timeline-item-title">
-                  PM Shree Kendriya Vidyalaya No. 2, Agra Cantt, Agra
-                </h4>
+            <div class="tech-cloud">
+              <div class="tech-group">
+                <p class="tech-label">Languages</p>
+                <ul class="tech-list">
+                  <li class="tech-chip">Dart</li>
+                  <li class="tech-chip">JavaScript</li>
+                  <li class="tech-chip">TypeScript</li>
+                  <li class="tech-chip">Python</li>
+                  <li class="tech-chip">C / C++</li>
+                  <li class="tech-chip">SQL</li>
+                </ul>
+              </div>
 
-                <span>2009 — 2021</span>
+              <div class="tech-group">
+                <p class="tech-label">Frameworks &amp; UI</p>
+                <ul class="tech-list">
+                  <li class="tech-chip">Flutter</li>
+                  <li class="tech-chip">React</li>
+                  <li class="tech-chip">Node.js</li>
+                  <li class="tech-chip">Express</li>
+                  <li class="tech-chip">Tailwind CSS</li>
+                </ul>
+              </div>
 
-                <p class="timeline-text">Completed my 10+2 from here.</p>
-                <p class="timeline-text">
-                  Scored 98.6% in CBSE 10th Board exams securing 2nd position in
-                  district.
+              <div class="tech-group">
+                <p class="tech-label">State &amp; Architecture</p>
+                <ul class="tech-list">
+                  <li class="tech-chip">BLoC</li>
+                  <li class="tech-chip">Provider</li>
+                  <li class="tech-chip">Dio</li>
+                  <li class="tech-chip">REST APIs</li>
+                </ul>
+              </div>
+
+              <div class="tech-group">
+                <p class="tech-label">Data &amp; Infra</p>
+                <ul class="tech-list">
+                  <li class="tech-chip">Firebase</li>
+                  <li class="tech-chip">Supabase</li>
+                  <li class="tech-chip">MongoDB</li>
+                  <li class="tech-chip">MySQL</li>
+                  <li class="tech-chip">Docker</li>
+                </ul>
+              </div>
+
+              <div class="tech-group">
+                <p class="tech-label">Workflow</p>
+                <ul class="tech-list">
+                  <li class="tech-chip">Git</li>
+                  <li class="tech-chip">GitHub</li>
+                  <li class="tech-chip">Linux</li>
+                  <li class="tech-chip">Figma</li>
+                  <li class="tech-chip">Postman</li>
+                </ul>
+              </div>
+            </div>
+          </section>
+
+          <!--
+          - freelance & clients
+        -->
+
+          <section class="freelance">
+            <div class="title-wrapper">
+              <div class="icon-box">
+                <ion-icon name="briefcase-outline"></ion-icon>
+              </div>
+
+              <h3 class="h3">Freelance &amp; Clients</h3>
+            </div>
+
+            <ul class="freelance-list">
+              <li class="freelance-card">
+                <div class="fc-top">
+                  <h4>Jobhyre</h4>
+                  <span class="fc-role">Frontend</span>
+                </div>
+                <p>
+                  Built the frontend of the hiring platform end-to-end —
+                  shipping a clean, responsive product experience.
                 </p>
-                <p class="timeline-text">
-                  Scored 97.2% in CBSE 12th Board exams securing 1st position in
-                  school.April 2025 - Present
-                </p>
+                <a target="_blank" href="https://jobhyre.com/">
+                  Visit site <ion-icon name="arrow-forward-outline"></ion-icon>
+                </a>
               </li>
 
-              <li class="timeline-item">
-                <h4 class="h4 timeline-item-title">
-                  Indian Institute of Information Technology Kalyani
-                </h4>
-
-                <span>2022 — Present</span>
-
-                <p class="timeline-text">
-                  Bachelor in Technology : Electronics and Communication
-                  Engineering
+              <li class="freelance-card">
+                <div class="fc-top">
+                  <h4>Cross-Platform Apps</h4>
+                  <span class="fc-role">Flutter</span>
+                </div>
+                <p>
+                  Delivered client applications across Android, iOS, Web and
+                  Desktop with Flutter &amp; Firebase — scalable and on time.
                 </p>
-                <p class="timeline-text">
-                  Coursework - C programming, Data Structures and Algorithms,
-                  Digital and Analogue Electronics, Digital and Analogue
-                  Communication, Machine Learning, Computer vision and Image Understanding, Verilog/VHDL programming etc
-                </p>
+                <a href="#contact" data-nav-to="contact">
+                  Start a project <ion-icon name="arrow-forward-outline"></ion-icon>
+                </a>
               </li>
-            </ol>
+            </ul>
+
+            <button class="freelance-cta" data-nav-to="contact" type="button">
+              <span>Available for freelance &amp; collaborations — let's talk</span>
+              <ion-icon name="arrow-forward-outline"></ion-icon>
+            </button>
+          </section>
+
+          <!--
+          - testimonials  (edit these with your real client quotes)
+        -->
+
+          <section class="testimonials-v2">
+            <div class="title-wrapper">
+              <div class="icon-box">
+                <ion-icon name="chatbubbles-outline"></ion-icon>
+              </div>
+
+              <h3 class="h3">Testimonials</h3>
+            </div>
+
+            <ul class="tm-list">
+              <li class="tm-card">
+                <span class="tm-mark">&ldquo;</span>
+                <p class="tm-quote">
+                  Subroto shipped fast and communicated clearly throughout.
+                  The product quality and his ownership were exactly what we
+                  needed to move quickly.
+                </p>
+                <div class="tm-author">
+                  <span class="tm-avatar">J</span>
+                  <div>
+                    <p class="tm-name">Client — Jobhyre</p>
+                    <p class="tm-role">Founder</p>
+                  </div>
+                </div>
+              </li>
+
+              <li class="tm-card">
+                <span class="tm-mark">&ldquo;</span>
+                <p class="tm-quote">
+                  Reliable, technically sharp and genuinely invested in the
+                  outcome. He turned ambiguous requirements into a polished
+                  cross-platform app.
+                </p>
+                <div class="tm-author">
+                  <span class="tm-avatar">R</span>
+                  <div>
+                    <p class="tm-name">Engineering Lead</p>
+                    <p class="tm-role">Product Team</p>
+                  </div>
+                </div>
+              </li>
+            </ul>
           </section>
 
           <!-- <section class="skill">
@@ -2019,239 +2096,14 @@ individuals to brainstorm, sketch, and organize ideas effortlessly.
           </header>
 
           <section class="blog-posts">
-            <ul class="blog-posts-list">
+            <ul class="blog-filter" role="tablist">
+              <li><button class="active" data-blog-filter="all" type="button">All</button></li>
+              <li><button data-blog-filter="self" type="button">Mine</button></li>
+              <li><button data-blog-filter="external" type="button">External</button></li>
+            </ul>
 
-              <li class="blog-post-item">
-                <a
-                  target="_blank"
-                  href="https://medium.com/@cookethcompany/introducing-cookethflow-web-alpha-version-6cb5810c3170"
-                >
-                  <figure class="blog-banner-box">
-                    <img
-                      src="./assets/images/cookethflow.png"
-                      alt="The forgotten art of spacing"
-                      loading="lazy"
-                    />
-                  </figure>
-
-                  <div class="blog-content">
-                    <div class="blog-meta">
-                      <p class="blog-category">Flutter</p>
-
-                      <span class="dot"></span>
-
-                      <time datetime="2022-02-23">September 21, 2025</time>
-                    </div>
-
-                    <h3 class="h3 blog-item-title">
-                      Introducing CookethFlow Web Alpha Version!
-                    </h3>
-
-                    <p class="blog-text">
-                      Cookethflow alpha version is out!!
-                    </p>
-                  </div>
-                </a>
-              </li>
-
-              <li class="blog-post-item">
-                <a
-                  target="_blank"
-                  href="https://teewrath.substack.com/p/masking-images-in-flutter?r=22boi1&utm_campaign=post&utm_medium=web&triedRedirect=true"
-                >
-                  <figure class="blog-banner-box">
-                    <img
-                      src="./assets/images/mask images.png"
-                      alt="The forgotten art of spacing"
-                      loading="lazy"
-                    />
-                  </figure>
-
-                  <div class="blog-content">
-                    <div class="blog-meta">
-                      <p class="blog-category">Flutter</p>
-
-                      <span class="dot"></span>
-
-                      <time datetime="2022-02-23">July 21, 2024</time>
-                    </div>
-
-                    <h3 class="h3 blog-item-title">
-                      Masking Images in Flutter
-                    </h3>
-
-                    <p class="blog-text">
-                      How you can easily mask any image in Flutter with your own
-                      custom masks.
-                    </p>
-                  </div>
-                </a>
-              </li>
-
-              <li class="blog-post-item">
-                <a
-                  target="_blank"
-                  href="https://medium.com/@subroto.2003/a-guide-to-flutter-internals-ce8d64d01c50"
-                >
-                  <figure class="blog-banner-box">
-                    <img
-                      src="./assets/images/blog 5.png"
-                      alt="The forgotten art of spacing"
-                      loading="lazy"
-                    />
-                  </figure>
-
-                  <div class="blog-content">
-                    <div class="blog-meta">
-                      <p class="blog-category">Flutter</p>
-
-                      <span class="dot"></span>
-
-                      <time datetime="2022-02-23">June 14, 2024</time>
-                    </div>
-
-                    <h3 class="h3 blog-item-title">
-                      A Guide to Flutter Internals
-                    </h3>
-
-                    <p class="blog-text">
-                      A Dive into the concepts of Trees and Keys in Flutter.
-                    </p>
-                  </div>
-                </a>
-              </li>
-
-              <li class="blog-post-item">
-                <a
-                  target="_blank"
-                  href="https://subwrites.hashnode.dev/c-or-java"
-                >
-                  <figure class="blog-banner-box">
-                    <img
-                      src="./assets/images/blog-1.png"
-                      alt="Design conferences in 2022"
-                      loading="lazy"
-                    />
-                  </figure>
-
-                  <div class="blog-content">
-                    <div class="blog-meta">
-                      <p class="blog-category">Programming</p>
-
-                      <span class="dot"></span>
-
-                      <time datetime="2022-02-23">April 19, 2023</time>
-                    </div>
-
-                    <h3 class="h3 blog-item-title">C++ or JAVA ?</h3>
-
-                    <p class="blog-text">
-                      C++ and Java are two of the most popular programming
-                      languages in use today. Choosing between the two is
-                      difficult for beginners.
-                    </p>
-                  </div>
-                </a>
-              </li>
-
-              <li class="blog-post-item">
-                <a
-                  target="_blank"
-                  href="https://subwrites.hashnode.dev/picked-up-javaoptions"
-                >
-                  <figure class="blog-banner-box">
-                    <img
-                      src="./assets/images/blog 2.png"
-                      alt="Best fonts every designer"
-                      loading="lazy"
-                    />
-                  </figure>
-
-                  <div class="blog-content">
-                    <div class="blog-meta">
-                      <p class="blog-category">Programming</p>
-
-                      <span class="dot"></span>
-
-                      <time datetime="2022-02-23">April 13, 2023</time>
-                    </div>
-
-                    <h3 class="h3 blog-item-title">Picked up _JAVA_OPTIONS</h3>
-
-                    <p class="blog-text">Solution that worked for me?</p>
-                  </div>
-                </a>
-              </li>
-
-              <li class="blog-post-item">
-                <a
-                  target="_blank"
-                  href="https://medium.com/@subroto.2003/my-100daysofcode-journey-and-how-it-can-benefit-you-too-358e097873"
-                >
-                  <figure class="blog-banner-box">
-                    <img
-                      src="./assets/images/blog 3.png"
-                      alt="Design digest #80"
-                      loading="lazy"
-                    />
-                  </figure>
-
-                  <div class="blog-content">
-                    <div class="blog-meta">
-                      <p class="blog-category">Build in Public</p>
-
-                      <span class="dot"></span>
-
-                      <time datetime="2022-02-23">Aug 6, 2023</time>
-                    </div>
-
-                    <h3 class="h3 blog-item-title">
-                      My #100DaysOfCode Journey and How It Can Benefit You Too
-                    </h3>
-
-                    <p class="blog-text">
-                      Major points to improve consistency, getting started with
-                      X (Twitter), manage time, stay motivated and disciplined
-                      and building in public
-                    </p>
-                  </div>
-                </a>
-              </li>
-
-              <li class="blog-post-item">
-                <a
-                  target="_blank"
-                  href="https://subwrites.hashnode.dev/fixing-static-noise-in-microphone-recording-in-linux-using-pulseaudio-modules"
-                >
-                  <figure class="blog-banner-box">
-                    <img
-                      src="./assets/images/blog 4.png"
-                      alt="UI interactions of the week"
-                      loading="lazy"
-                    />
-                  </figure>
-
-                  <div class="blog-content">
-                    <div class="blog-meta">
-                      <p class="blog-category">Programming</p>
-
-                      <span class="dot"></span>
-
-                      <time datetime="2022-02-23">Sep 18, 2023</time>
-                    </div>
-
-                    <h3 class="h3 blog-item-title">
-                      Fixing Static Noise In Microphone Recording In Linux using
-                      PulseAudio modules
-                    </h3>
-
-                    <p class="blog-text">
-                      A quick solution to the problem you face in your Linux
-                      Distribution.
-                    </p>
-                  </div>
-                </a>
-              </li>
+            <ul class="blog-posts-list" data-blog-list>
+              <li class="blog-empty" data-blog-loading>Loading posts…</li>
             </ul>
           </section>
         </article>
@@ -2274,14 +2126,29 @@ individuals to brainstorm, sketch, and organize ideas effortlessly.
         </section> -->
 
           <section class="contact-form">
-            <h3 class="h3 form-title">Book a meet with me</h3>
+            <h3 class="h3 form-title">Let's build something</h3>
 
-            <!-- <form
+            <form
               action="https://formsubmit.co/subroto.2003@gmail.com"
               method="POST"
-              class="form"
+              class="form ec-form"
               data-form
             >
+              <input type="hidden" name="_subject" value="New message from portfolio" />
+              <input type="hidden" name="_captcha" value="false" />
+              <input type="text" name="_honey" style="display:none" />
+
+              <div class="ec-intent">
+                <input type="radio" id="intent-collab" name="intent" value="Collaboration" checked />
+                <label for="intent-collab">Collaborate</label>
+
+                <input type="radio" id="intent-project" name="intent" value="Project / Freelance" />
+                <label for="intent-project">Project / Freelance</label>
+
+                <input type="radio" id="intent-call" name="intent" value="Book a call" />
+                <label for="intent-call">Book a call</label>
+              </div>
+
               <div class="input-wrapper">
                 <input
                   type="text"
@@ -2305,7 +2172,7 @@ individuals to brainstorm, sketch, and organize ideas effortlessly.
               <textarea
                 name="message"
                 class="form-input"
-                placeholder="Your Message"
+                placeholder="Tell me about your idea, project or collab…"
                 required
                 data-form-input
               ></textarea>
@@ -2314,7 +2181,10 @@ individuals to brainstorm, sketch, and organize ideas effortlessly.
                 <ion-icon name="paper-plane"></ion-icon>
                 <span>Send Message</span>
               </button>
-            </form> -->
+            </form>
+
+            <h3 class="h3 form-title" style="margin-top: 30px;">Or book a call directly</h3>
+
             <!-- Cal inline embed code begins -->
             <div
               style="width: 100%; height: 100%; overflow: scroll"
@@ -2491,7 +2361,36 @@ individuals to brainstorm, sketch, and organize ideas effortlessly.
     <!--
     - custom js link
   -->
+    <!--
+    - résumé dialog
+  -->
+    <div class="resume-overlay" data-resume-overlay aria-hidden="true">
+      <div class="resume-modal" role="dialog" aria-modal="true" aria-label="Résumé">
+        <div class="resume-bar">
+          <span class="rb-title">Résumé</span>
+          <button class="rb-btn primary" data-resume-pdf type="button">
+            <ion-icon name="download-outline"></ion-icon> PDF
+          </button>
+          <button class="rb-btn" data-resume-share type="button">
+            <ion-icon name="share-social-outline"></ion-icon> Share
+          </button>
+          <a class="rb-btn" href="./resume.html" target="_blank" rel="noopener">
+            <ion-icon name="open-outline"></ion-icon> Open
+          </a>
+          <button class="rb-btn rb-close" data-resume-close type="button" aria-label="Close">
+            <ion-icon name="close-outline"></ion-icon>
+          </button>
+        </div>
+        <div class="resume-doc" data-resume-doc>
+          <div class="rd-inner"><p>Loading résumé…</p></div>
+        </div>
+      </div>
+    </div>
+
     <script src="./assets/js/script.js"></script>
+    <script src="./assets/js/blog.js"></script>
+    <script src="./assets/js/resume.js"></script>
+    <script src="./assets/js/elite.js"></script>
 
     <!--
     - ionicon link
