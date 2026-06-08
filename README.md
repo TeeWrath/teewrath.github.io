@@ -37,6 +37,34 @@ and links out.
 > Note: the blog loads `blog/posts.json` via `fetch`, so preview locally with a server
 > (`python3 -m http.server`) rather than opening `index.html` from the file system.
 
+## Project launch pages
+
+Every project has its own page at `project.html?id=<slug>`, driven by
+`projects/projects.json`. Each entry:
+
+```json
+{
+  "id": "cooketh-flow",
+  "title": "Cooketh Flow",
+  "category": "applications",
+  "cover": "./assets/images/cooketh.png",
+  "excerpt": "Short tagline shown on the card and hero.",
+  "repo": "https://github.com/CookethOrg/Cooketh-Flow",
+  "demo": "https://…",            // optional live link
+  "watch": "https://youtu.be/…",  // optional video link
+  "tech": ["Flutter", "Supabase"],// optional chips
+  "body": "./projects/details/cooketh-flow.md" // optional long write-up
+}
+```
+
+- The homepage **Projects** grid is generated from your existing cards and each
+  card links to its launch page (filtering still works as before).
+- To add a **detailed launch write-up**, create a Markdown file in
+  `projects/details/` and point `"body"` at it. Leave `"body": ""` for a
+  short page (hero + links only).
+- Each project page has **Share** and its **own** comments + 👍/👎 reactions
+  (Giscus, mapped per project — they never bleed across projects).
+
 ## Comments & reactions (Giscus)
 
 Blog posts support threaded comments and 👍/👎 reactions via

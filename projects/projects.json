@@ -1,0 +1,175 @@
+[
+  {
+    "id": "cooketh-flow",
+    "title": "Cooketh Flow",
+    "category": "applications",
+    "cover": "./assets/images/cooketh.png",
+    "excerpt": "An open-source visual thinking and unified productivity tool — brainstorm, sketch, and organize ideas effortlessly, solo or as a team.",
+    "repo": "https://github.com/CookethOrg/Cooketh-Flow",
+    "demo": "https://medium.com/@cookethcompany/introducing-cookethflow-web-alpha-version-6cb5810c3170",
+    "tech": ["Flutter", "Supabase", "Web", "Canvas"],
+    "body": "./projects/details/cooketh-flow.md"
+  },
+  {
+    "id": "jotit",
+    "title": "Jotit",
+    "category": "applications",
+    "cover": "./assets/images/jotit.png",
+    "excerpt": "Jotit is a sleek and efficient full-stack web application designed for seamless note-taking. Built with a powerful and modern technology stack, it allows users to effortlessly create, update, and delete notes. This project demonstrates robust backend development and a dynamic frontend, all while ensuring security through features like rate limiting",
+    "repo": "https://github.com/TeeWrath/jotit",
+    "body": ""
+  },
+  {
+    "id": "store-api",
+    "title": "Store API",
+    "category": "applications",
+    "cover": "./assets/images/store.png",
+    "excerpt": "A simple store api enabling all kinds of request to add stores, items, fetch, delete and update them.",
+    "repo": "https://github.com/TeeWrath/store-api",
+    "body": ""
+  },
+  {
+    "id": "votely",
+    "title": "Votely",
+    "category": "applications",
+    "cover": "./assets/images/votely-logo.png",
+    "excerpt": "Votely is an open-source voting application designed for small-scale elections or demos. With a responsive Flutter web frontend and a robust Python backend, Votely offers a seamless experience for adding candidates, casting votes, and viewing live results.",
+    "repo": "https://github.com/TeeWrath/votely",
+    "body": ""
+  },
+  {
+    "id": "csnake",
+    "title": "Csnake",
+    "category": "cli projects",
+    "cover": "./assets/images/store.png",
+    "excerpt": "A cross-code translator designed to map C language code into Python, facilitating seamless code migration and interoperability between these two popular programming languages.",
+    "repo": "https://github.com/TeeWrath/csnake",
+    "body": ""
+  },
+  {
+    "id": "modifiable-progress-indicators",
+    "title": "Modifiable Progress Indicators",
+    "category": "packages/plugins",
+    "cover": "./assets/images/img.jpg",
+    "excerpt": "A Flutter package that let's you create beautiful modifiable progress indicators.",
+    "repo": "https://github.com/TeeWrath/modifiable-progress-indicators",
+    "body": ""
+  },
+  {
+    "id": "notex",
+    "title": "NoteX",
+    "category": "applications",
+    "cover": "./assets/images/Notex.png",
+    "excerpt": "An open source easy-to-use social media application to study, share resources, connect with each other, find opportunities and grow. A single platform to cater to all the needs of a student.",
+    "repo": "https://github.com/TeeWrath/NoteX",
+    "body": ""
+  },
+  {
+    "id": "maitri",
+    "title": "Maitri",
+    "category": "applications",
+    "cover": "./assets/images/maitri.png",
+    "excerpt": "An assistance app for visually impaired people in their day-to-day life. \"Maitrī\" goes beyond conventional assistance apps for the visually impaired by incorporating real-time analysis into its array of capabilities.",
+    "demo": "https://devfolio.co/projects/maitri-26aa",
+    "body": ""
+  },
+  {
+    "id": "solana-social-verse",
+    "title": "Solana Social Verse",
+    "category": "applications",
+    "cover": "./assets/images/solanaLogoMark.png",
+    "excerpt": "Crypto Wallet",
+    "repo": "https://github.com/TeeWrath/social-verse-solana",
+    "body": ""
+  },
+  {
+    "id": "mindspace-web",
+    "title": "MindSpace - Web",
+    "category": "web development",
+    "cover": "./assets/images/mindspace.png",
+    "excerpt": "MindSpace is a web app that aims to improve access to mental health resources and support, particularly for those who may not have the means or ability to attend in-person appointments.",
+    "repo": "https://github.com/The-MindSpace/MindSpace-Web",
+    "body": ""
+  },
+  {
+    "id": "annapurna",
+    "title": "Annapurna",
+    "category": "applications",
+    "cover": "./assets/images/meals app.png",
+    "excerpt": "A simple meals app using Firebase for authentication and cloud storage to store user data",
+    "repo": "https://github.com/TeeWrath/Annapurna",
+    "body": ""
+  },
+  {
+    "id": "cli-letter",
+    "title": "CLI Letter",
+    "category": "cli projects",
+    "cover": "./assets/images/cli logo.png",
+    "excerpt": "A cli letter for your siginificant one",
+    "repo": "https://github.com/TeeWrath/cli-letter",
+    "body": ""
+  },
+  {
+    "id": "restaurant-basic-restaurant-management-and-billing-system",
+    "title": "Restaurant Basic-Restaurant-Management-and-Billing-System",
+    "category": "cli projects",
+    "cover": "./assets/images/restaarant.jpg",
+    "excerpt": "This is a basic restaurant management and billing system in C programming language, this is our project for first semester in computer science",
+    "repo": "https://github.com/TeeWrath/Basic-Restaurant-Management-and-Billing-System",
+    "body": ""
+  },
+  {
+    "id": "notexplorer-api",
+    "title": "NoteXplorer-API",
+    "category": "web development",
+    "cover": "./assets/images/notexplorer.webp",
+    "excerpt": "custom built API",
+    "repo": "https://github.com/TeeWrath/NoteXplorer-API",
+    "body": ""
+  },
+  {
+    "id": "angular-weather-app",
+    "title": "Angular Weather App",
+    "category": "web development",
+    "cover": "./assets/images/weather.png",
+    "excerpt": "A Weather application that gives you information about the weather of a city you enter. You can have info about current weather as well as forecast for five days",
+    "repo": "https://github.com/TeeWrath/angular-weather-app",
+    "body": ""
+  },
+  {
+    "id": "pyscript-todo-app",
+    "title": "Pyscript - Todo app",
+    "category": "web development",
+    "cover": "./assets/images/todo.png",
+    "excerpt": "Web development",
+    "repo": "https://github.com/TeeWrath/todo-app-pyscript",
+    "body": ""
+  },
+  {
+    "id": "daastan-e-sach",
+    "title": "Daastan-e-sach",
+    "category": "music",
+    "cover": "./assets/images/song 1.png",
+    "excerpt": "Conscious Rap Song",
+    "watch": "https://youtu.be/Nkc9GWthskQ?feature=shared",
+    "body": ""
+  },
+  {
+    "id": "billi",
+    "title": "Billi",
+    "category": "music",
+    "cover": "./assets/images/song 2.png",
+    "excerpt": "Satiric Rap Song",
+    "watch": "https://youtu.be/vP2-WoC1dK4?feature=shared",
+    "body": ""
+  },
+  {
+    "id": "spring-freestyle",
+    "title": "Spring Freestyle",
+    "category": "music",
+    "cover": "./assets/images/spring freestyle thumbnail.png",
+    "excerpt": "Freestyle Rap Song",
+    "watch": "https://youtu.be/jSK018dCkxk?feature=shared",
+    "body": ""
+  }
+]

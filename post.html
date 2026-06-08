@@ -207,9 +207,10 @@
           else prompt('Copy this link:', location.href);
         };
 
-        // mount giscus once content is ready
-        const mountGiscus = (container) => {
-          if (!GISCUS.repoId || GISCUS.repoId.startsWith('REPLACE')) {
+        // mount giscus once content is ready — one thread PER post
+        const mountGiscus = (container, postId) => {
+          if (!GISCUS.repoId || GISCUS.repoId.startsWith('REPLACE') ||
+              !GISCUS.categoryId || GISCUS.categoryId.startsWith('REPLACE')) {
             container.innerHTML =
               '<div class="comments-placeholder">Comments &amp; reactions are not wired up yet. ' +
               'Enable GitHub <code>Discussions</code>, install the <code>giscus</code> app, then paste your ' +
@@ -223,7 +224,9 @@
           Object.assign(s.dataset, {
             repo: GISCUS.repo, repoId: GISCUS.repoId,
             category: GISCUS.category, categoryId: GISCUS.categoryId,
-            mapping: 'pathname', strict: '0', reactionsEnabled: '1',
+            // unique discussion per post so comments/reactions don't bleed across blogs
+            mapping: 'specific', term: 'blog: ' + postId,
+            strict: '1', reactionsEnabled: '1',
             emitMetadata: '0', inputPosition: 'top', theme: giscusTheme(), lang: 'en', loading: 'lazy'
           });
           container.appendChild(s);
@@ -295,7 +298,7 @@
               </section>`;
 
             wrap.querySelectorAll('[data-share]').forEach((b) => b.addEventListener('click', share));
-            mountGiscus(wrap.querySelector('[data-giscus]'));
+            mountGiscus(wrap.querySelector('[data-giscus]'), post.id);
           })
           .catch((err) => {
             if (err === 'redirect') return;
