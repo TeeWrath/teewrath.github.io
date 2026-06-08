@@ -41,23 +41,23 @@
   },
   {
     "id": "cpp-or-java",
-    "type": "external",
+    "type": "self",
     "title": "C++ or JAVA ?",
     "category": "Programming",
     "date": "2023-04-19",
     "cover": "./assets/images/blog-1.png",
     "excerpt": "C++ and Java are two of the most popular languages in use today. Choosing between the two is difficult for beginners.",
-    "url": "https://subwrites.hashnode.dev/c-or-java"
+    "file": "./blog/posts/c++-or-java.md"
   },
   {
     "id": "picked-up-java-options",
-    "type": "external",
+    "type": "self",
     "title": "Picked up _JAVA_OPTIONS",
     "category": "Programming",
     "date": "2023-04-13",
     "cover": "./assets/images/blog 2.png",
     "excerpt": "The solution that worked for me.",
-    "url": "https://subwrites.hashnode.dev/picked-up-javaoptions"
+    "file": "./blog/posts/picked-up-java-options.md"
   },
   {
     "id": "100daysofcode-journey",

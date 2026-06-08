@@ -62,7 +62,7 @@
 
   /* ---------- scroll reveal ---------- */
   const REVEAL_SEL =
-    '.service-item, .timeline-item, .project-item, .blog-post-item, ' +
+    '.service-item, .xp-company, .timeline-item, .project-item, .blog-post-item, ' +
     '.tech-group, .freelance-card, .freelance-cta, .tm-card, ' +
     '.about-text > p, .service-title, .timeline .title-wrapper, .contact-form > *';
 

@@ -360,6 +360,96 @@ body {
 .timeline-text a:hover { border-color: var(--accent); }
 
 /*-----------------------------------*\
+  #PROFESSIONAL EXPERIENCE (company → roles, promotions)
+\*-----------------------------------*/
+
+.xp-list { display: grid; gap: 16px; }
+
+.xp-company {
+  position: relative;
+  background: var(--surface-2);
+  border: 1px solid var(--hairline);
+  border-radius: 16px;
+  padding: 18px 18px 16px;
+  box-shadow: var(--shadow-1);
+  transition: transform var(--transition-1), border-color var(--transition-1), box-shadow var(--transition-1);
+}
+.xp-company:hover {
+  transform: translateY(-4px);
+  border-color: var(--accent);
+  box-shadow: var(--shadow-3), 0 0 0 1px var(--accent-dim);
+}
+
+.xp-head { display: flex; align-items: center; gap: 14px; margin-bottom: 16px; }
+.xp-logo {
+  flex: none; width: 46px; height: 46px; border-radius: 13px;
+  display: grid; place-items: center;
+  font-family: var(--ff-display); font-weight: 700; font-size: 19px;
+  color: var(--accent); background: var(--accent-dim);
+  border: 1px solid var(--accent-dim);
+}
+.xp-company:hover .xp-logo { background: var(--accent); color: var(--accent-ink); border-color: var(--accent); }
+.xp-company-name { font-family: var(--ff-display); font-size: 16.5px; color: var(--text-hi); letter-spacing: -0.01em; }
+.xp-company-meta {
+  font-family: var(--ff-mono); font-size: 10.5px; text-transform: uppercase;
+  letter-spacing: 0.1em; color: var(--text-low); margin-top: 4px;
+}
+
+/* roles — a mini vertical progression timeline */
+.xp-roles { position: relative; padding-left: 24px; }
+/* connecting rail only when there are 2+ roles (a real promotion path) */
+.xp-roles:has(.xp-role + .xp-role)::before {
+  content: ""; position: absolute; left: 4px; top: 8px; bottom: 14px; width: 2px;
+  background: linear-gradient(var(--accent), var(--accent-dim));
+  border-radius: 2px;
+}
+.xp-role { position: relative; }
+.xp-role + .xp-role { margin-top: 16px; padding-top: 16px; border-top: 1px dashed var(--hairline); }
+.xp-role::before {
+  content: ""; position: absolute; left: -24px; top: 4px;
+  width: 11px; height: 11px; border-radius: 50%;
+  background: var(--surface-2); border: 2px solid var(--accent);
+  box-shadow: 0 0 0 3px var(--accent-dim);
+}
+.xp-role.current::before { background: var(--accent); }
+.xp-role.current::after {
+  content: ""; position: absolute; left: -24px; top: 4px;
+  width: 11px; height: 11px; border-radius: 50%;
+  border: 2px solid var(--accent); animation: xpPulse 2s ease-out infinite;
+}
+@keyframes xpPulse {
+  0%   { transform: scale(1); opacity: 0.7; }
+  70%  { transform: scale(2.1); opacity: 0; }
+  100% { opacity: 0; }
+}
+
+.xp-role-head { display: flex; align-items: center; flex-wrap: wrap; gap: 8px 10px; margin-bottom: 8px; }
+.xp-role-title { font-family: var(--ff-display); font-size: 14.5px; color: var(--text-hi); }
+.xp-role-date {
+  font-family: var(--ff-mono); font-size: 11px; letter-spacing: 0.04em;
+  color: var(--accent); background: var(--accent-dim); border-radius: 6px; padding: 3px 8px;
+  margin-left: auto;
+}
+.xp-badge {
+  font-family: var(--ff-mono); font-size: 9px; text-transform: uppercase; letter-spacing: 0.12em;
+  color: var(--accent-ink); background: var(--accent); border-radius: 999px; padding: 3px 8px;
+  display: inline-flex; align-items: center; gap: 4px;
+}
+.xp-badge::before { content: "▲"; font-size: 7px; }
+.xp-points { list-style: none; margin: 0; padding: 0; }
+.xp-points li {
+  position: relative; padding-left: 16px; color: var(--text-low);
+  font-size: 13.5px; line-height: 1.6;
+}
+.xp-points li + li { margin-top: 6px; }
+.xp-points li::before {
+  content: ""; position: absolute; left: 0; top: 9px;
+  width: 5px; height: 5px; border-radius: 50%; background: var(--accent); opacity: 0.7;
+}
+.xp-points a { color: var(--accent); border-bottom: 1px solid var(--accent-dim); }
+.xp-points a:hover { border-color: var(--accent); }
+
+/*-----------------------------------*\
   #TOOLS & TECH
 \*-----------------------------------*/
 

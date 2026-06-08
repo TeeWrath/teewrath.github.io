@@ -705,90 +705,161 @@
           <section class="timeline">
             <div class="title-wrapper">
               <div class="icon-box">
-                <ion-icon name="book-outline"></ion-icon>
+                <ion-icon name="briefcase-outline"></ion-icon>
               </div>
 
               <h3 class="h3">Professional Experience</h3>
             </div>
 
-            <ol class="timeline-list">
-              <li class="timeline-item">
-                <h4 class="h4 timeline-item-title">
-                  DevRel Intern at Hooman Digital LLP
-                </h4>
-
-                <span>June — July 2023</span>
-
-                <p class="timeline-text">
-                  • Oversaw and optimized the social media presence of the
-                  clients,resulting in thousands of impressions on X.
-                  <br />
-                  • Authored technical articles and social media content focused
-                  on the product to drive engagement and increase traction.
-                </p>
+            <!--
+              Each <li class="xp-company"> is ONE company.
+              Inside .xp-roles, every <li class="xp-role"> is a position.
+              • Add another .xp-role to show a PROMOTION within the same company.
+              • Put the most recent role first and give it class "xp-role current".
+              • Add <span class="xp-badge">Promoted</span> to a role to flag the step up.
+              A "PROMOTION TEMPLATE" example is commented at the bottom of this list.
+            -->
+            <ol class="xp-list">
+              <!-- RudraX -->
+              <li class="xp-company">
+                <div class="xp-head">
+                  <span class="xp-logo">R</span>
+                  <div class="xp-head-info">
+                    <h4 class="xp-company-name">RudraX Ltd.</h4>
+                    <p class="xp-company-meta">Internship · Oct 2025 — Present</p>
+                  </div>
+                </div>
+                <ol class="xp-roles">
+                  <li class="xp-role current">
+                    <div class="xp-role-head">
+                      <h5 class="xp-role-title">SDE Mobile Intern</h5>
+                      <span class="xp-role-date">Oct 2025 — Present</span>
+                    </div>
+                    <ul class="xp-points">
+                      <li>Engineering multiple applications in Flutter, implementing the BLoC pattern for predictable state management and Dio for efficient RESTful API communication, adhering to strict coding standards and best practices.</li>
+                    </ul>
+                  </li>
+                </ol>
               </li>
-            </ol>
-            <br />
-            <ol class="timeline-list">
-              <li class="timeline-item">
-                <h4 class="h4 timeline-item-title">
-                  Mobile App Development Intern at The Anantkaal
-                </h4>
 
-                <span>August - September 2024</span>
-
-                <p class="timeline-text">
-                  • Added functionalities by efficient management of application state using state management libraries like provider.
-<br>• Designed and implemented end-to-end user flow for a travel application, ensuring efficient state management,
-robust debugging processes, and a seamless user experience.
-                </p>
+              <!-- Zaka Networks -->
+              <li class="xp-company">
+                <div class="xp-head">
+                  <span class="xp-logo">Z</span>
+                  <div class="xp-head-info">
+                    <h4 class="xp-company-name">Zaka Networks</h4>
+                    <p class="xp-company-meta">Internship · Jan — Jun 2025</p>
+                  </div>
+                </div>
+                <ol class="xp-roles">
+                  <li class="xp-role">
+                    <div class="xp-role-head">
+                      <h5 class="xp-role-title">SDE Intern</h5>
+                      <span class="xp-role-date">Jan — Jun 2025</span>
+                    </div>
+                    <ul class="xp-points">
+                      <li>Developed and delivered multiple client applications using Flutter and Firebase, architecting robust, scalable solutions optimized for cross-platform deployment across Android, iOS, Web and Desktop.</li>
+                    </ul>
+                  </li>
+                </ol>
               </li>
-            </ol>
-<br>
-            <ol class="timeline-list">
-              <li class="timeline-item">
-                <h4 class="h4 timeline-item-title">
-                  Fullstack Engineer at Jobhyre
-                </h4>
 
-                <span>June - September 2024</span>
-
-                <p class="timeline-text">
-                  Freelance work. Built the frontend of the platform - <a href="https://jobhyre.com/">Jobhyre</a>
-                </p>
+              <!-- Jobhyre -->
+              <li class="xp-company">
+                <div class="xp-head">
+                  <span class="xp-logo">J</span>
+                  <div class="xp-head-info">
+                    <h4 class="xp-company-name">Jobhyre</h4>
+                    <p class="xp-company-meta">Freelance · Jun — Sep 2024</p>
+                  </div>
+                </div>
+                <ol class="xp-roles">
+                  <li class="xp-role">
+                    <div class="xp-role-head">
+                      <h5 class="xp-role-title">Fullstack Engineer</h5>
+                      <span class="xp-role-date">Jun — Sep 2024</span>
+                    </div>
+                    <ul class="xp-points">
+                      <li>Built the frontend of the hiring platform <a href="https://jobhyre.com/" target="_blank" rel="noopener">Jobhyre</a> end-to-end.</li>
+                    </ul>
+                  </li>
+                </ol>
               </li>
-            </ol>
-            <br>
-            <ol class="timeline-list">
-              <li class="timeline-item">
-                <h4 class="h4 timeline-item-title">
-                  SDE Intern at Zaka Networks
-                </h4>
 
-                <span>Jan — June 2025</span>
-
-                <p class="timeline-text">
-                  • Developed and delivered multiple client applications using Flutter and Firebase, 
-                  architecting robust, scalable solutions optimized for cross-platform deployment 
-                  across Android, iOS, Web, and Desktop.
-                </p>
+              <!-- The Anantkaal -->
+              <li class="xp-company">
+                <div class="xp-head">
+                  <span class="xp-logo">A</span>
+                  <div class="xp-head-info">
+                    <h4 class="xp-company-name">The Anantkaal</h4>
+                    <p class="xp-company-meta">Internship · Aug — Sep 2024</p>
+                  </div>
+                </div>
+                <ol class="xp-roles">
+                  <li class="xp-role">
+                    <div class="xp-role-head">
+                      <h5 class="xp-role-title">Mobile App Development Intern</h5>
+                      <span class="xp-role-date">Aug — Sep 2024</span>
+                    </div>
+                    <ul class="xp-points">
+                      <li>Managed application state efficiently using libraries like Provider.</li>
+                      <li>Designed and implemented an end-to-end user flow for a travel app with robust debugging and a seamless UX.</li>
+                    </ul>
+                  </li>
+                </ol>
               </li>
-            </ol>
 
-            <ol class="timeline-list">
-              <li class="timeline-item">
-                <h4 class="h4 timeline-item-title">
-                  SDE Mobile Intern at RudraX Ltd.
-                </h4>
-
-                <span>Oct 2025 - Present</span>
-
-                <p class="timeline-text">
-                  • Engineering multiple applications using Flutter, implementing the BLoC pattern for predictable state management
-and Dio for robust, efficient RESTful API communication, adhering to strict coding standards and software
-development best practices.
-                </p>
+              <!-- Hooman Digital -->
+              <li class="xp-company">
+                <div class="xp-head">
+                  <span class="xp-logo">H</span>
+                  <div class="xp-head-info">
+                    <h4 class="xp-company-name">Hooman Digital LLP</h4>
+                    <p class="xp-company-meta">Internship · Jun — Jul 2023</p>
+                  </div>
+                </div>
+                <ol class="xp-roles">
+                  <li class="xp-role">
+                    <div class="xp-role-head">
+                      <h5 class="xp-role-title">DevRel Intern</h5>
+                      <span class="xp-role-date">Jun — Jul 2023</span>
+                    </div>
+                    <ul class="xp-points">
+                      <li>Oversaw and optimized clients' social media presence, driving thousands of impressions on X.</li>
+                      <li>Authored technical articles and content to grow engagement and traction.</li>
+                    </ul>
+                  </li>
+                </ol>
               </li>
+
+              <!-- ===== PROMOTION TEMPLATE — copy this whole <li>, edit, and remove this comment =====
+              <li class="xp-company">
+                <div class="xp-head">
+                  <span class="xp-logo">C</span>
+                  <div class="xp-head-info">
+                    <h4 class="xp-company-name">Company Name</h4>
+                    <p class="xp-company-meta">Full-time · 2024 — Present · 2 roles</p>
+                  </div>
+                </div>
+                <ol class="xp-roles">
+                  <li class="xp-role current">
+                    <div class="xp-role-head">
+                      <h5 class="xp-role-title">Senior Engineer</h5>
+                      <span class="xp-badge">Promoted</span>
+                      <span class="xp-role-date">2025 — Present</span>
+                    </div>
+                    <ul class="xp-points"><li>What you do now.</li></ul>
+                  </li>
+                  <li class="xp-role">
+                    <div class="xp-role-head">
+                      <h5 class="xp-role-title">Engineer</h5>
+                      <span class="xp-role-date">2024 — 2025</span>
+                    </div>
+                    <ul class="xp-points"><li>What you did before the promotion.</li></ul>
+                  </li>
+                </ol>
+              </li>
+              ============================================================================== -->
             </ol>
           </section>
 
