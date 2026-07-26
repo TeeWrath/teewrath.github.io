@@ -1,22 +1,30 @@
 [
   {
     "label": "Languages",
-    "items": ["Dart", "JavaScript", "TypeScript", "Python", "C / C++", "SQL"]
+    "items": ["Dart", "JavaScript", "TypeScript", "C / C++", "SQL"]
   },
   {
-    "label": "Frameworks & UI",
-    "items": ["Flutter", "React", "Node.js", "Express", "Tailwind CSS"]
+    "label": "Frontend/Mobile",
+    "items": [
+      "Flutter",
+      "Dart",
+      "BLoC",
+      "Provider",
+      "React.js",
+      "Next.js",
+      "JavaScript",
+      "TypeScript",
+      "HTML/CSS",
+      "Tailwind",
+      "CSS"
+    ]
   },
   {
-    "label": "State & Architecture",
-    "items": ["BLoC", "Provider", "Dio", "REST APIs"]
+    "label": "Backend",
+    "items": ["Node.js", "Express.js", "REST APIs", "JWT", "Authentication", "MongoDB", "PostgreSQL", "Supabase", "Firebase"]
   },
   {
-    "label": "Data & Infra",
-    "items": ["Firebase", "Supabase", "MongoDB", "MySQL", "Docker"]
-  },
-  {
-    "label": "Workflow",
-    "items": ["Git", "GitHub", "Linux", "Figma", "Postman"]
+    "label": "Tools & DevOps:",
+    "items": ["Git", "GitHub Actions", "Docker", "Postman", "CI/CD", "Vite"]
   }
 ]

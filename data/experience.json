@@ -5,11 +5,27 @@
     "meta": "Internship · Oct 2025 — Present",
     "roles": [
       {
-        "title": "SDE Mobile Intern",
+        "title": "SDE Intern",
         "date": "Oct 2025 — Present",
         "current": true,
         "points": [
-          "Engineering multiple applications in Flutter, implementing the BLoC pattern for predictable state management and Dio for efficient RESTful API communication, adhering to strict coding standards and best practices."
+          "Delivered 7+ production projects across mobile, web, and QA domains; sole mobile engineer on a client application, building cross-platform Flutter apps with BLoC state management and Dio for REST API integration. ",
+          "Built 4 web applications using Next.js, TypeScript, and Tailwind CSS with REST API integration; executed black-box QA testing across releases prior to client delivery."
+        ]
+      }
+    ]
+  },{
+    "logo": "C",
+    "company": "Cooketh Company",
+    "meta": "Part Time · Feb — Oct 2025",
+    "roles": [
+      {
+        "title": "Founder and Principal Engineer",
+        "date": "Feb — Oct 2025",
+        "current": false,
+        "points": [
+          "Development and Design Studio.",
+          "Headed 3 client projects and lead a team of 4 folks comprising of fullstack engineers and UI UX designers."
         ]
       }
     ]
@@ -24,22 +40,7 @@
         "date": "Jan — Jun 2025",
         "current": false,
         "points": [
-          "Developed and delivered multiple client applications using Flutter and Firebase, architecting robust, scalable solutions optimized for cross-platform deployment across Android, iOS, Web and Desktop."
-        ]
-      }
-    ]
-  },
-  {
-    "logo": "J",
-    "company": "Jobhyre",
-    "meta": "Freelance · Jun — Sep 2024",
-    "roles": [
-      {
-        "title": "Fullstack Engineer",
-        "date": "Jun — Sep 2024",
-        "current": false,
-        "points": [
-          "Built the frontend of the hiring platform <a href=\"https://jobhyre.com/\" target=\"_blank\" rel=\"noopener\">Jobhyre</a> end-to-end."
+          "Built 2 cross-platform Flutter apps (Android, iOS, Web) with Firebase auth and real-time sync."
         ]
       }
     ]
@@ -54,9 +55,8 @@
         "date": "Aug — Sep 2024",
         "current": false,
         "points": [
-          "Managed application state efficiently using libraries like Provider.",
-          "Designed and implemented an end-to-end user flow for a travel app with robust debugging and a seamless UX."
-        ]
+          "Implemented end-to-end user flows for a travel application in Flutter using Provider for state management."
+                  ]
       }
     ]
   },

@@ -10,12 +10,12 @@
       "external": true
     },
     {
-      "title": "Cross-Platform Apps",
-      "role": "Flutter",
-      "description": "Delivered client applications across Android, iOS, Web and Desktop with Flutter & Firebase — scalable and on time.",
-      "linkText": "Start a project",
-      "linkHref": "#contact",
-      "navTo": "contact"
+      "title": "Naamya Gems",
+      "role": "Product Engineer",
+      "description": "Built the entire website for Naamya Gems. Also delivered admin site to control the whole website.",
+      "linkText": "Visit Site",
+      "linkHref": "https://naamyagems.com",
+      "external": true
     }
   ],
   "cta": "Available for freelance & collaborations — let's talk"
