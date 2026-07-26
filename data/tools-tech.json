@@ -1,0 +1,22 @@
+[
+  {
+    "label": "Languages",
+    "items": ["Dart", "JavaScript", "TypeScript", "Python", "C / C++", "SQL"]
+  },
+  {
+    "label": "Frameworks & UI",
+    "items": ["Flutter", "React", "Node.js", "Express", "Tailwind CSS"]
+  },
+  {
+    "label": "State & Architecture",
+    "items": ["BLoC", "Provider", "Dio", "REST APIs"]
+  },
+  {
+    "label": "Data & Infra",
+    "items": ["Firebase", "Supabase", "MongoDB", "MySQL", "Docker"]
+  },
+  {
+    "label": "Workflow",
+    "items": ["Git", "GitHub", "Linux", "Figma", "Postman"]
+  }
+]

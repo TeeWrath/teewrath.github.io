@@ -1,15 +1,5 @@
 [
   {
-    "id": "writing-on-my-own-terms",
-    "type": "self",
-    "title": "Writing on My Own Terms",
-    "category": "Meta",
-    "date": "2026-06-08",
-    "cover": null,
-    "excerpt": "Why I'm moving my writing onto my own site — owning the platform, the words, and the distribution.",
-    "file": "./blog/posts/writing-on-my-own-terms.md"
-  },
-  {
     "id": "introducing-cookethflow-web-alpha",
     "type": "external",
     "title": "Introducing CookethFlow Web Alpha Version!",

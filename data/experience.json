@@ -1,0 +1,79 @@
+[
+  {
+    "logo": "R",
+    "company": "RudraX Ltd.",
+    "meta": "Internship · Oct 2025 — Present",
+    "roles": [
+      {
+        "title": "SDE Mobile Intern",
+        "date": "Oct 2025 — Present",
+        "current": true,
+        "points": [
+          "Engineering multiple applications in Flutter, implementing the BLoC pattern for predictable state management and Dio for efficient RESTful API communication, adhering to strict coding standards and best practices."
+        ]
+      }
+    ]
+  },
+  {
+    "logo": "Z",
+    "company": "Zaka Networks",
+    "meta": "Internship · Jan — Jun 2025",
+    "roles": [
+      {
+        "title": "SDE Intern",
+        "date": "Jan — Jun 2025",
+        "current": false,
+        "points": [
+          "Developed and delivered multiple client applications using Flutter and Firebase, architecting robust, scalable solutions optimized for cross-platform deployment across Android, iOS, Web and Desktop."
+        ]
+      }
+    ]
+  },
+  {
+    "logo": "J",
+    "company": "Jobhyre",
+    "meta": "Freelance · Jun — Sep 2024",
+    "roles": [
+      {
+        "title": "Fullstack Engineer",
+        "date": "Jun — Sep 2024",
+        "current": false,
+        "points": [
+          "Built the frontend of the hiring platform <a href=\"https://jobhyre.com/\" target=\"_blank\" rel=\"noopener\">Jobhyre</a> end-to-end."
+        ]
+      }
+    ]
+  },
+  {
+    "logo": "A",
+    "company": "The Anantkaal",
+    "meta": "Internship · Aug — Sep 2024",
+    "roles": [
+      {
+        "title": "Mobile App Development Intern",
+        "date": "Aug — Sep 2024",
+        "current": false,
+        "points": [
+          "Managed application state efficiently using libraries like Provider.",
+          "Designed and implemented an end-to-end user flow for a travel app with robust debugging and a seamless UX."
+        ]
+      }
+    ]
+  },
+  {
+    "logo": "H",
+    "company": "Hooman Digital LLP",
+    "meta": "Internship · Jun — Jul 2023",
+    "roles": [
+      {
+        "title": "DevRel Intern",
+        "date": "Jun — Jul 2023",
+        "current": false,
+        "points": [
+          "Oversaw and optimized clients' social media presence, driving thousands of impressions on X.",
+          "Authored technical articles and content to grow engagement and traction."
+        ]
+      }
+    ]
+  }
+]

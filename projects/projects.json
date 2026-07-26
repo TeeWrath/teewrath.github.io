@@ -20,6 +20,15 @@
     "body": ""
   },
   {
+    "id": "annapurna",
+    "title": "Annapurna",
+    "category": "applications",
+    "cover": "./assets/images/meals app.png",
+    "excerpt": "A simple meals app using Firebase for authentication and cloud storage to store user data",
+    "repo": "https://github.com/TeeWrath/Annapurna",
+    "body": ""
+  },
+  {
     "id": "store-api",
     "title": "Store API",
     "category": "applications",
@@ -74,15 +83,6 @@
     "body": ""
   },
   {
-    "id": "solana-social-verse",
-    "title": "Solana Social Verse",
-    "category": "applications",
-    "cover": "./assets/images/solanaLogoMark.png",
-    "excerpt": "Crypto Wallet",
-    "repo": "https://github.com/TeeWrath/social-verse-solana",
-    "body": ""
-  },
-  {
     "id": "mindspace-web",
     "title": "MindSpace - Web",
     "category": "web development",
@@ -91,15 +91,7 @@
     "repo": "https://github.com/The-MindSpace/MindSpace-Web",
     "body": ""
   },
-  {
-    "id": "annapurna",
-    "title": "Annapurna",
-    "category": "applications",
-    "cover": "./assets/images/meals app.png",
-    "excerpt": "A simple meals app using Firebase for authentication and cloud storage to store user data",
-    "repo": "https://github.com/TeeWrath/Annapurna",
-    "body": ""
-  },
+  
   {
     "id": "cli-letter",
     "title": "CLI Letter",

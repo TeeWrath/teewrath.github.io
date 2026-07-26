@@ -78,15 +78,27 @@ Blog posts support threaded comments and 👍/👎 reactions via
 
 Until configured, posts show a placeholder; the **Share** button works regardless.
 
+## Editable content (`data/`)
+
+The Experience page (professional experience, freelance & clients, testimonials,
+community efforts, tools & tech) and the Talks/Sessions page are all rendered from
+JSON files in `data/`, so you can edit them without touching any HTML:
+
+- `data/experience.json` — professional experience, grouped by company/role
+- `data/freelance.json` — freelance & client cards, the NDA note, and the CTA text
+- `data/testimonials.json` — testimonial cards
+- `data/community.json` — community efforts & positions of responsibility
+- `data/tools-tech.json` — tools & tech chip groups
+- `data/sessions.json` — talks / sessions list
+
+Edit an entry, save, and refresh — `assets/js/content.js` fetches and renders these
+on page load. (Projects and blog posts already live in `projects/projects.json` and
+`blog/posts.json` respectively.)
+
 ## Résumé
 
-Your résumé is a single Markdown file: `resume.md`. Edit it there — it powers both:
-
-- the **View Résumé** dialog on the homepage, and
-- the standalone, printable page `resume.html`.
-
-Visitors can **Download PDF** (generated client-side on a clean light layout),
-**Share** the link, or **Print**. No external resume host needed.
+The résumé isn't hosted on the site — **View Résumé** links straight out to the
+Google Drive folder that holds it, so there's nothing to keep in sync here.
 
 ## Theming
 

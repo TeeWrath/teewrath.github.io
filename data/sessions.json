@@ -1,0 +1,68 @@
+[
+  {
+    "title": "Exploring Open Source",
+    "category": "A session about what the hell is open source?",
+    "image": "./assets/images/wth.jpeg",
+    "url": "https://www.linkedin.com/posts/subroto-banerjee-70983b214_this-wednesday-i-had-the-privilege-of-being-activity-7400450421602869248-xjCE?utm_source=share&utm_medium=member_desktop&rcm=ACoAADY6oTkB89zjB5ekf7X9v5UGseMD5Kocaks"
+  },
+  {
+    "title": "FOSS Foundations 2.0",
+    "category": "Introductory Session",
+    "image": "./assets/images/fossfound.png",
+    "url": "https://www.linkedin.com/posts/free-and-open-source-software-club-iiit-kalyani_foss-foundation-20-was-an-incredible-journey-activity-7299814180520402946-zlXo?utm_source=share&utm_medium=member_desktop&rcm=ACoAADY6oTkB89zjB5ekf7X9v5UGseMD5Kocaks"
+  },
+  {
+    "title": "Git and Github Session",
+    "category": "Introductory Session",
+    "image": "./assets/images/session 1.jpg",
+    "url": "https://x.com/gdsciiitkalyani/status/1704800311393829135?ref_src=twsrc%5Etfw%7Ctwcamp%5Etweetembed%7Ctwterm%5E1704800311393829135%7Ctwgr%5E%7Ctwcon%5Es1_&ref_url="
+  },
+  {
+    "title": "Intro to APIs with Postman",
+    "category": "API Literacy",
+    "image": "./assets/images/api.png",
+    "url": "https://www.youtube.com/watch?v=VTcWquhcBS0"
+  },
+  {
+    "title": "Tech Talks",
+    "category": "Web Wonders Weekly",
+    "image": "./assets/images/web wonder weekly.png",
+    "url": "https://www.youtube.com/playlist?list=PLTzgn5VEtSmSDXYPYZ3NICElE08oQH4bz"
+  },
+  {
+    "title": "FOSS Club Introductory Session",
+    "category": "what are FOSS Clubs ?",
+    "image": "./assets/images/foss club intro.png",
+    "url": "https://www.linkedin.com/posts/subroto-banerjee-70983b214_foss-opensource-fossclubs-activity-7114832078143168512-q0Mj?utm_source=share&utm_medium=member_desktop"
+  },
+  {
+    "title": "Deep Dive into APIs",
+    "category": "API Literacy",
+    "image": "./assets/images/deep dive.png",
+    "url": "https://www.linkedin.com/posts/subroto-banerjee-70983b214_embark-on-a-2-day-journey-of-api-discovery-activity-7124479876803223552-TFIm?utm_source=share&utm_medium=member_desktop"
+  },
+  {
+    "title": "FOSS Foundations",
+    "category": "FOSS Fundamentals",
+    "image": "./assets/images/foss founcatiod.png",
+    "url": "https://www.linkedin.com/posts/subroto-banerjee-70983b214_fossfoundation-opensource-softwarefreedom-activity-7154482624743309312-cX9Y?utm_source=share&utm_medium=member_desktop"
+  },
+  {
+    "title": "Weekly Meetups",
+    "category": "Community Building",
+    "image": "./assets/images/weekly meetup.png",
+    "url": "https://www.linkedin.com/posts/subroto-banerjee-70983b214_opensource-penpot-figmaalternative-activity-7159129096545800192-rp1S?utm_source=share&utm_medium=member_desktop"
+  },
+  {
+    "title": "Intro to Rebase",
+    "category": "Online Month-long Hackathon",
+    "image": "./assets/images/intro to rebase.png",
+    "url": "https://www.linkedin.com/posts/subroto-banerjee-70983b214_are-you-ready-to-dive-into-the-upcoming-rebase-activity-7172397867611877376-Ud6b?utm_source=share&utm_medium=member_desktop"
+  },
+  {
+    "title": "Kalyani FOSS Meetups",
+    "category": "Community Building",
+    "image": "./assets/images/Kalyani FOSS Meetup.png",
+    "url": "https://forum.fossunited.org/t/foss-meetups-kalyani-2024/2974"
+  }
+]

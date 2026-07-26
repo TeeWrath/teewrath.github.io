@@ -1,0 +1,22 @@
+{
+  "note": "* Note: I can only showcase projects where I retain public sharing rights. Many of the enterprise platforms and white-label applications I have engineered remain under NDA.",
+  "items": [
+    {
+      "title": "Jobhyre",
+      "role": "Frontend",
+      "description": "Built the frontend of the hiring platform end-to-end — shipping a clean, responsive product experience.",
+      "linkText": "Visit site",
+      "linkHref": "https://jobhyre.com/",
+      "external": true
+    },
+    {
+      "title": "Cross-Platform Apps",
+      "role": "Flutter",
+      "description": "Delivered client applications across Android, iOS, Web and Desktop with Flutter & Firebase — scalable and on time.",
+      "linkText": "Start a project",
+      "linkHref": "#contact",
+      "navTo": "contact"
+    }
+  ],
+  "cta": "Available for freelance & collaborations — let's talk"
+}

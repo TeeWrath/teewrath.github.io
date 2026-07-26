@@ -27,12 +27,18 @@
   };
 
   // CTAs anywhere that want to switch pages: data-nav-to="contact"
-  document.querySelectorAll('[data-nav-to]').forEach((el) => {
-    el.addEventListener('click', (e) => {
-      e.preventDefault();
-      goToPage(el.getAttribute('data-nav-to'));
+  // (re-run on content:updated so JSON-injected CTAs pick this up too)
+  const bindNavTo = () => {
+    document.querySelectorAll('[data-nav-to]:not([data-nav-bound])').forEach((el) => {
+      el.dataset.navBound = '1';
+      el.addEventListener('click', (e) => {
+        e.preventDefault();
+        goToPage(el.getAttribute('data-nav-to'));
+      });
     });
-  });
+  };
+  bindNavTo();
+  document.addEventListener('content:updated', bindNavTo);
 
   // open a page from URL hash (e.g. coming back from post.html#blog)
   if (location.hash) {
@@ -108,10 +114,14 @@
     });
   });
 
-  // blog cards are injected async — observe them when ready
+  // blog cards / experience / sessions are injected async — observe them when ready
   document.addEventListener('content:updated', () => {
     const blog = document.querySelector('article.blog');
     if (blog) stagger(blog);
+    const experience = document.querySelector('article.resume');
+    if (experience) stagger(experience);
+    const sessions = document.querySelector('article[data-page="sessions"]');
+    if (sessions) stagger(sessions);
     applyTilt();
   });
 
