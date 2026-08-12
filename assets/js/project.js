@@ -15,6 +15,8 @@
     const next = root.getAttribute('data-theme') === 'light' ? 'dark' : 'light';
     root.setAttribute('data-theme', next);
     try { localStorage.setItem('theme', next); } catch (e) {}
+    const meta = document.querySelector('meta[name="theme-color"]');
+    if (meta) meta.setAttribute('content', next === 'light' ? '#f1f4f6' : '#080a0c');
     const frame = document.querySelector('iframe.giscus-frame');
     if (frame) frame.contentWindow.postMessage({ giscus: { setConfig: { theme: giscusTheme() } } }, 'https://giscus.app');
   });
@@ -23,15 +25,17 @@
   const glow = document.querySelector('.cursor-glow');
   if (glow && matchMedia('(pointer: fine)').matches && !matchMedia('(prefers-reduced-motion: reduce)').matches) {
     let x = innerWidth / 2, y = innerHeight / 2, cx = x, cy = y, on = false;
-    addEventListener('mousemove', (e) => { x = e.clientX; y = e.clientY; if (!on) { glow.style.opacity = '1'; on = true; } });
-    (function loop(){ cx += (x-cx)*0.12; cy += (y-cy)*0.12; glow.style.transform = `translate(${cx}px,${cy}px)`; requestAnimationFrame(loop); })();
+    addEventListener('mousemove', (e) => { x = e.clientX; y = e.clientY; if (!on) { glow.style.opacity = '1'; on = true; } }, { passive: true });
+    (function loop(){ cx += (x-cx)*0.13; cy += (y-cy)*0.13; glow.style.transform = `translate3d(${cx}px,${cy}px,0)`; requestAnimationFrame(loop); })();
   }
 
-  /* reading progress */
+  /* reading progress + sticky bar */
   const bar = document.querySelector('[data-progress]');
-  if (bar) addEventListener('scroll', () => {
+  const topbar = document.querySelector('[data-topbar]');
+  addEventListener('scroll', () => {
     const h = document.documentElement, max = h.scrollHeight - h.clientHeight;
-    bar.style.width = (max > 0 ? (h.scrollTop / max) * 100 : 0) + '%';
+    if (bar) bar.style.width = (max > 0 ? (h.scrollTop / max) * 100 : 0) + '%';
+    if (topbar) topbar.classList.toggle('stuck', h.scrollTop > 24);
   }, { passive: true });
 
   /* toast + share */
@@ -118,8 +122,8 @@
         </div>
         ${bodyHtml}
         <div class="proj-footer">
-          <a href="./index.html#projects">&#8592; All projects</a>
-          <a href="./index.html#contact">Work with me &#8594;</a>
+          <a href="./index.html#projects"><ion-icon name="arrow-back-outline"></ion-icon> All projects</a>
+          <a href="./index.html#contact">Work with me <ion-icon name="arrow-forward-outline"></ion-icon></a>
         </div>
         <section class="proj-comments">
           <p class="proj-comments-title">Reactions &amp; comments</p>

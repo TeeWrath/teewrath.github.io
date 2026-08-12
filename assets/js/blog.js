@@ -12,36 +12,41 @@
     return d.toLocaleDateString('en-US', { year: 'numeric', month: 'short', day: 'numeric' });
   };
 
-  const escapeAttr = (s) => String(s).replace(/"/g, '&quot;');
+  const esc = (s) =>
+    String(s == null ? '' : s)
+      .replace(/&/g, '&amp;')
+      .replace(/</g, '&lt;')
+      .replace(/>/g, '&gt;')
+      .replace(/"/g, '&quot;');
 
   const card = (p) => {
     const isSelf = p.type === 'self';
     const href = isSelf ? `./post.html?id=${encodeURIComponent(p.id)}` : p.url;
     const target = isSelf ? '' : ' target="_blank" rel="noopener"';
     const tag = isSelf
-      ? '<span class="blog-tag-self">Mine</span>'
-      : '<span class="blog-tag-ext">External &#8599;</span>';
+      ? '<span class="blog-tag self">Mine</span>'
+      : '<span class="blog-tag ext">External &#8599;</span>';
     const cover = p.cover
-      ? `<figure class="blog-banner-box"><img src="${escapeAttr(p.cover)}" alt="${escapeAttr(p.title)}" loading="lazy" /></figure>`
-      : `<div class="blog-cover-fallback"><span>${escapeAttr((p.category || 'Writing').toUpperCase())}</span></div>`;
+      ? `<img src="${esc(p.cover)}" alt="${esc(p.title)}" loading="lazy" />`
+      : `<div class="blog-fallback"><span>${esc((p.category || 'Writing').toUpperCase())}</span></div>`;
     const readmore = isSelf
-      ? '<span class="blog-readmore">Read article &#8594;</span>'
-      : '<span class="blog-readmore">Read on the web &#8599;</span>';
+      ? 'Read article <ion-icon name="arrow-forward-outline"></ion-icon>'
+      : 'Read on the web <ion-icon name="open-outline"></ion-icon>';
 
     return `
-      <li class="blog-post-item reveal" data-type="${p.type}">
-        <a href="${escapeAttr(href)}"${target}>
-          ${cover}
-          <div class="blog-content">
+      <li class="reveal" data-type="${esc(p.type)}">
+        <a class="card blog-card brackets" href="${esc(href)}"${target}>
+          <figure class="blog-cover">${cover}</figure>
+          <div class="blog-body">
             <div class="blog-meta">
-              <p class="blog-category">${escapeAttr(p.category || '')}</p>
-              <span class="dot"></span>
-              <time datetime="${escapeAttr(p.date)}">${fmtDate(p.date)}</time>
+              <span class="blog-cat">${esc(p.category || '')}</span>
+              <span class="dot" aria-hidden="true"></span>
+              <time datetime="${esc(p.date)}">${fmtDate(p.date)}</time>
               ${tag}
             </div>
-            <h3 class="h3 blog-item-title">${escapeAttr(p.title)}</h3>
-            <p class="blog-text">${escapeAttr(p.excerpt || '')}</p>
-            ${readmore}
+            <h3 class="blog-title">${esc(p.title)}</h3>
+            <p class="blog-excerpt">${esc(p.excerpt || '')}</p>
+            <span class="blog-read">${readmore}</span>
           </div>
         </a>
       </li>`;
@@ -53,8 +58,8 @@
     const shown = filter === 'all' ? posts : posts.filter((p) => p.type === filter);
     list.innerHTML = shown.length
       ? shown.map(card).join('')
-      : '<li class="blog-empty">No posts here yet.</li>';
-    // let the reveal observer (elite.js) pick up the new nodes
+      : '<li class="state-line">No posts here yet.</li>';
+    // let app.js pick up the new nodes (reveals + card interactions)
     document.dispatchEvent(new CustomEvent('content:updated'));
   };
 
@@ -70,11 +75,11 @@
     .catch((err) => {
       console.error('Blog load failed:', err);
       list.innerHTML =
-        '<li class="blog-empty">Couldn\'t load posts. If you opened this file directly, run a local server (e.g. <code>python3 -m http.server</code>).</li>';
+        '<li class="state-line">Couldn\'t load posts. If you opened this file directly, run a local server (e.g. <code>python3 -m http.server</code>).</li>';
     });
 
   // filter tabs
-  const tabs = document.querySelectorAll('[data-blog-filter]');
+  const tabs = Array.from(document.querySelectorAll('[data-blog-filter]'));
   tabs.forEach((btn) => {
     btn.addEventListener('click', () => {
       tabs.forEach((b) => b.classList.remove('active'));

@@ -5,45 +5,34 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Subroto Banerjee</title>
-
-    <!--
-    - favicon
-  -->
-    <link
-      rel="shortcut icon"
-      href="./assets/images/newpic.png"
-      type="image/x-icon"
+    <meta
+      name="description"
+      content="Subroto Banerjee — Builder | Creator. Software Development Engineer and product founder building tools that solve real-world inefficiencies."
     />
 
-    <!--
-    - custom css link
-  -->
-    <link rel="stylesheet" href="./assets/css/style.css" />
+    <!-- favicon -->
+    <link rel="shortcut icon" href="./assets/images/newpic.png" type="image/x-icon" />
 
-    <!--
-    - elite redesign layer (loaded after base styles)
-  -->
-    <link rel="stylesheet" href="./assets/css/elite.css" />
+    <!-- stylesheets -->
+    <link rel="stylesheet" href="./assets/css/core.css" />
+    <link rel="stylesheet" href="./assets/css/sections.css" />
 
-    <!--
-    - google font link
-  -->
+    <!-- fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
-      href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Sora:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap"
+      href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap"
       rel="stylesheet"
     />
 
-    <meta name="theme-color" content="#0a0a0a" />
+    <meta name="theme-color" content="#080a0c" />
 
     <!-- set theme before paint to avoid flash -->
     <script>
       (function () {
+        // dark is the house style — only an explicit user choice overrides it
         try {
-          var t = localStorage.getItem("theme");
-          if (!t) t = window.matchMedia("(prefers-color-scheme: light)").matches ? "light" : "dark";
-          document.documentElement.setAttribute("data-theme", t);
+          document.documentElement.setAttribute("data-theme", localStorage.getItem("theme") || "dark");
         } catch (e) {
           document.documentElement.setAttribute("data-theme", "dark");
         }
@@ -52,1436 +41,1033 @@
   </head>
 
   <body>
-    <!--
-    - ambient backdrop (aurora + grid + cursor glow)
-  -->
-    <div class="bg-canvas" aria-hidden="true"></div>
-    <div class="bg-grid" aria-hidden="true"></div>
+    <!-- ============================= ATMOSPHERE ============================= -->
+    <div class="fx-aurora" aria-hidden="true"></div>
+    <div class="fx-grid" aria-hidden="true"></div>
+    <canvas class="fx-net" data-net aria-hidden="true"></canvas>
+    <div class="fx-vignette" aria-hidden="true"></div>
+    <div class="fx-grain" aria-hidden="true"></div>
     <div class="cursor-glow" aria-hidden="true"></div>
+    <div class="scroll-progress" aria-hidden="true"><i data-progress></i></div>
 
-    <!--
-    - theme toggle
-  -->
-    <button class="theme-toggle" data-theme-toggle aria-label="Toggle dark / light theme" title="Toggle theme">
-      <ion-icon class="icon-moon" name="moon-outline"></ion-icon>
-      <ion-icon class="icon-sun" name="sunny-outline"></ion-icon>
-    </button>
+    <!-- ============================= BOOT ============================= -->
+    <div class="boot" data-boot aria-hidden="true">
+      <div class="boot-mark"><span>SB</span></div>
+      <div class="boot-lines">
+        <span>Initializing interface</span>
+        <span>Loading modules</span>
+        <span><b>Subroto Banerjee</b> — Builder | Creator</span>
+      </div>
+      <div class="boot-bar"><i></i></div>
+    </div>
 
-    <!--
-    - #MAIN
-  -->
+    <!-- ============================= COMMAND BAR ============================= -->
+    <header class="topbar" data-topbar>
+      <a class="brand" href="#top" aria-label="Subroto Banerjee — top of page">
+        <span class="brand-mark"><span>SB</span></span>
+        <span class="brand-text">
+          <span class="brand-name">Subroto Banerjee</span>
+          <span class="brand-role">Builder | Creator</span>
+        </span>
+      </a>
 
-    <main>
-      <!--
-      - #SIDEBAR
-    -->
+      <nav class="nav" data-nav aria-label="Sections">
+        <span class="nav-pill" data-nav-pill aria-hidden="true"></span>
+        <a class="nav-link" href="#about" data-nav-link>About</a>
+        <a class="nav-link" href="#experience" data-nav-link>Experience</a>
+        <a class="nav-link" href="#projects" data-nav-link>Projects</a>
+        <a class="nav-link" href="#sessions" data-nav-link>Sessions</a>
+        <a class="nav-link" href="#blog" data-nav-link>Blog</a>
+        <a class="nav-link" href="#contact" data-nav-link>Contact</a>
+      </nav>
 
-      <aside class="sidebar" data-sidebar>
-        <div class="sidebar-info">
-          <figure class="avatar-box">
-            <img
-              src="./assets/images/newpic.png"
-              alt="Subroto Banerjee"
-              width="80"
-            />
-          </figure>
+      <div class="bar-actions">
+        <button class="kbd-btn" data-cmdk-open type="button">
+          <ion-icon name="search-outline"></ion-icon>
+          <kbd>⌘K</kbd>
+        </button>
 
-          <div class="info-content">
-            <h1 class="name" title="Subroto Banerjee">Subroto Banerjee</h1>
+        <button
+          class="icon-btn theme-toggle"
+          data-theme-toggle
+          aria-label="Toggle dark / light theme"
+          title="Toggle theme"
+          type="button"
+        >
+          <ion-icon class="icon-moon" name="moon-outline"></ion-icon>
+          <ion-icon class="icon-sun" name="sunny-outline"></ion-icon>
+        </button>
 
-            <p class="title">
-              Builder | Creator
+        <a class="btn btn-primary btn-sm btn-sheen" href="#contact" data-hire>
+          <span>Hire Me</span>
+        </a>
+
+        <button class="icon-btn burger" data-drawer-toggle aria-label="Open menu" aria-expanded="false" type="button">
+          <i></i><i></i>
+        </button>
+      </div>
+    </header>
+
+    <!-- ============================= MOBILE DRAWER ============================= -->
+    <div class="drawer" data-drawer>
+      <a class="drawer-link" href="#about" data-drawer-link style="--d: 60ms"><em>01</em> About</a>
+      <a class="drawer-link" href="#experience" data-drawer-link style="--d: 110ms"><em>02</em> Experience</a>
+      <a class="drawer-link" href="#projects" data-drawer-link style="--d: 160ms"><em>03</em> Projects</a>
+      <a class="drawer-link" href="#sessions" data-drawer-link style="--d: 210ms"><em>04</em> Sessions</a>
+      <a class="drawer-link" href="#blog" data-drawer-link style="--d: 260ms"><em>05</em> Blog</a>
+      <a class="drawer-link" href="#contact" data-drawer-link style="--d: 310ms"><em>06</em> Contact</a>
+
+      <div class="drawer-foot">
+        <a class="chip" href="mailto:subroto.2003@gmail.com">
+          <ion-icon name="mail-outline"></ion-icon> subroto.2003@gmail.com
+        </a>
+        <a
+          class="chip"
+          href="https://drive.google.com/drive/folders/1ex4i0-DQcms5r-k4Vz_VuVopnX_t4C9b?usp=sharing"
+          target="_blank"
+          rel="noopener"
+        >
+          <ion-icon name="newspaper-outline"></ion-icon> View Résumé
+        </a>
+        <a class="chip" href="https://github.com/TeeWrath" target="_blank" rel="noopener">
+          <ion-icon name="logo-github"></ion-icon> GitHub
+        </a>
+        <a
+          class="chip"
+          href="https://www.linkedin.com/in/subroto-banerjee-70983b214/"
+          target="_blank"
+          rel="noopener"
+        >
+          <ion-icon name="logo-linkedin"></ion-icon> LinkedIn
+        </a>
+      </div>
+    </div>
+
+    <!-- ============================= SIDE RAILS ============================= -->
+    <aside class="rail rail-left" aria-hidden="true">
+      <a href="https://bio.link/teewrath" target="_blank" rel="noopener" tabindex="-1">
+        <ion-icon name="link-outline"></ion-icon>
+      </a>
+      <a href="https://github.com/TeeWrath" target="_blank" rel="noopener" tabindex="-1">
+        <ion-icon name="logo-github"></ion-icon>
+      </a>
+      <a href="https://www.linkedin.com/in/subroto-banerjee-70983b214/" target="_blank" rel="noopener" tabindex="-1">
+        <ion-icon name="logo-linkedin"></ion-icon>
+      </a>
+      <a href="https://twitter.com/Subroto0108" target="_blank" rel="noopener" tabindex="-1">
+        <ion-icon name="logo-twitter"></ion-icon>
+      </a>
+      <a href="https://instagram.com/subroto._banerjee" target="_blank" rel="noopener" tabindex="-1">
+        <ion-icon name="logo-instagram"></ion-icon>
+      </a>
+    </aside>
+
+    <aside class="rail rail-right" aria-hidden="true">
+      <a class="rail-mail" href="mailto:subroto.2003@gmail.com" tabindex="-1">subroto.2003@gmail.com</a>
+    </aside>
+
+    <!-- ============================= HERO ============================= -->
+    <main id="top">
+      <section class="hero">
+        <div class="shell hero-grid">
+          <div class="hero-copy">
+            <p class="hero-status">
+              <span class="pulse-dot"></span>
+              Available for freelance &amp; collaborations
             </p>
-            <br />
-            <!-- <p class="title">Writer</p> -->
+
+            <h1 class="hero-name">
+              <span class="ln"><span>Subroto</span></span>
+              <span class="ln"><span>Banerjee</span></span>
+            </h1>
+
+            <p class="hero-role">
+              <span data-typed data-text="Builder | Creator">Builder | Creator</span>
+              <i class="cursor" aria-hidden="true"></i>
+            </p>
+
+            <p class="hero-lede">
+              I am a Software Development Engineer and product founder who builds tools to solve
+              real-world inefficiencies.
+            </p>
+
+            <div class="hero-cta">
+              <a class="btn btn-primary btn-sheen" href="#projects">
+                <span>Explore the work</span>
+                <ion-icon name="arrow-forward-outline"></ion-icon>
+              </a>
+              <a
+                class="btn"
+                href="https://drive.google.com/drive/folders/1ex4i0-DQcms5r-k4Vz_VuVopnX_t4C9b?usp=sharing"
+                target="_blank"
+                rel="noopener"
+              >
+                <ion-icon name="newspaper-outline"></ion-icon>
+                <span>View Résumé</span>
+              </a>
+            </div>
+
+            <div class="hero-meta">
+              <span>
+                <ion-icon name="location-outline"></ion-icon>
+                <address>Agra, Uttar Pradesh, India</address>
+              </span>
+              <span>
+                <ion-icon name="mail-outline"></ion-icon>
+                <a href="mailto:subroto.2003@gmail.com">subroto.2003@gmail.com</a>
+              </span>
+            </div>
           </div>
 
-          <button class="info_more-btn" data-sidebar-btn>
-            <span>Show Contacts</span>
+          <div class="hero-visual">
+            <span class="hero-orbit" aria-hidden="true"></span>
+            <span class="hero-orbit-2" aria-hidden="true"></span>
+            <span class="hero-ring" aria-hidden="true"></span>
 
-            <ion-icon name="chevron-down"></ion-icon>
-          </button>
+            <figure class="hero-portrait">
+              <img src="./assets/images/newpic.png" alt="Subroto Banerjee" width="400" height="400" />
+            </figure>
+
+            <div class="hero-tile t1">
+              <b>Wrath Labs</b>
+              <em>Currently building</em>
+            </div>
+            <div class="hero-tile t2">
+              <b>FOSS United</b>
+              <em>Kolkata lead</em>
+            </div>
+          </div>
         </div>
 
-        <div class="sidebar-info_more">
-          <!-- <div class="separator"></div> -->
+        <a class="hero-scroll" href="#about" aria-label="Scroll to about">
+          <span>Scroll</span>
+          <i aria-hidden="true"></i>
+        </a>
+      </section>
 
-          <ul class="contacts-list">
-            <li class="contact-item">
-              <div class="icon-box">
-                <ion-icon name="newspaper-outline"></ion-icon>
+      <!-- tech ticker (rendered from data/tools-tech.json) -->
+      <div class="ticker" data-ticker aria-hidden="true">
+        <div class="ticker-track" data-ticker-track></div>
+      </div>
+
+      <!-- ============================= ABOUT ============================= -->
+      <section class="section" id="about" data-section>
+        <div class="shell">
+          <header class="sec-head reveal">
+            <p class="sec-index"><b>01</b> — About</p>
+            <h2 class="sec-title" data-scramble>About me</h2>
+          </header>
+
+          <div class="about-grid">
+            <div class="about-copy">
+              <p class="reveal">
+                I currently operate Wrath Labs, a sandbox for technical innovation where I build and
+                iterate on experimental product ideas. My focus right now is directed toward a major,
+                unannounced project that is currently in the early stages of development.
+              </p>
+
+              <p class="reveal">
+                Previously, I founded
+                <a href="https://cookethorg.github.io/CookethOrg/" target="_blank" rel="noopener">Cooketh Company</a>,
+                a development studio where I shipped B2B and B2C platforms spanning immigration,
+                employment, and writing industries. During this time, I also built and released
+                <a href="https://cookethflow.framer.website" target="_blank" rel="noopener">Cooketh Flow</a>, an
+                open-source visual thinking application.
+              </p>
+
+              <p class="reveal">
+                I strongly believe in the power of developer communities. What started as organizing
+                campus-level events evolved into leading city-wide initiatives, including organizing
+                official FOSS Meetups in Kolkata to champion open-source software.
+              </p>
+
+              <p class="reveal">
+                When I am not building products or communities, I spend my time reading about self
+                help, psychology, finance, and history, or exploring new music.
+              </p>
+            </div>
+
+            <div class="card id-panel reveal">
+              <div class="id-head">
+                <figure class="id-avatar">
+                  <img src="./assets/images/newpic.png" alt="Subroto Banerjee" width="80" height="80" />
+                </figure>
+                <div>
+                  <h3>Subroto Banerjee</h3>
+                  <p>Builder | Creator</p>
+                </div>
               </div>
 
-              <div class="contact-info">
-                <p class="contact-title">Hire Me</p>
+              <ul class="id-list">
+                <li class="id-item">
+                  <span class="ico"><ion-icon name="newspaper-outline"></ion-icon></span>
+                  <div>
+                    <p class="k">Hire Me</p>
+                    <a
+                      class="v"
+                      href="https://drive.google.com/drive/folders/1ex4i0-DQcms5r-k4Vz_VuVopnX_t4C9b?usp=sharing"
+                      target="_blank"
+                      rel="noopener"
+                      >View Résumé</a
+                    >
+                  </div>
+                </li>
 
+                <li class="id-item">
+                  <span class="ico"><ion-icon name="mail-outline"></ion-icon></span>
+                  <div>
+                    <p class="k">Email</p>
+                    <a class="v" href="mailto:subroto.2003@gmail.com">subroto.2003@gmail.com</a>
+                  </div>
+                </li>
+
+                <li class="id-item">
+                  <span class="ico"><ion-icon name="location-outline"></ion-icon></span>
+                  <div>
+                    <p class="k">Location</p>
+                    <address class="v">Agra, Uttar Pradesh, India</address>
+                  </div>
+                </li>
+              </ul>
+
+              <ul class="id-socials">
+                <li>
+                  <a class="soc-btn" href="https://bio.link/teewrath" target="_blank" rel="noopener" aria-label="bio.link">
+                    <ion-icon name="link-outline"></ion-icon>
+                  </a>
+                </li>
+                <li>
+                  <a class="soc-btn" href="https://github.com/TeeWrath" target="_blank" rel="noopener" aria-label="GitHub">
+                    <ion-icon name="logo-github"></ion-icon>
+                  </a>
+                </li>
+                <li>
+                  <a
+                    class="soc-btn"
+                    href="https://www.linkedin.com/in/subroto-banerjee-70983b214/"
+                    target="_blank"
+                    rel="noopener"
+                    aria-label="LinkedIn"
+                  >
+                    <ion-icon name="logo-linkedin"></ion-icon>
+                  </a>
+                </li>
+                <li>
+                  <a class="soc-btn" href="https://reddit.com/u/TeeWrath" target="_blank" rel="noopener" aria-label="Reddit">
+                    <ion-icon name="logo-reddit"></ion-icon>
+                  </a>
+                </li>
+                <li>
+                  <a class="soc-btn" href="https://twitter.com/Subroto0108" target="_blank" rel="noopener" aria-label="Twitter">
+                    <ion-icon name="logo-twitter"></ion-icon>
+                  </a>
+                </li>
+                <li>
+                  <a
+                    class="soc-btn"
+                    href="https://instagram.com/subroto._banerjee"
+                    target="_blank"
+                    rel="noopener"
+                    aria-label="Instagram"
+                  >
+                    <ion-icon name="logo-instagram"></ion-icon>
+                  </a>
+                </li>
+              </ul>
+            </div>
+          </div>
+
+          <!-- what I'm doing -->
+          <div class="svc-block">
+            <p class="block-label reveal" style="margin-top: clamp(46px, 6vw, 74px)">
+              <span class="ico"><ion-icon name="pulse-outline"></ion-icon></span>
+              <span>What I'm doing</span>
+            </p>
+
+            <ul class="svc-grid" style="margin-top: 0">
+              <li class="card brackets svc-card reveal">
+                <i class="edge" aria-hidden="true"></i>
+                <span class="svc-num">01</span>
+                <h4>SaaS &amp; Product Development</h4>
+                <p>
+                  Architecting and engineering scalable, cross-platform applications from 0 to 1.
+                  Focused on delivering high-performance, end-to-end solutions that drive real
+                  business value.
+                </p>
+              </li>
+
+              <li class="card brackets svc-card reveal">
+                <i class="edge" aria-hidden="true"></i>
+                <span class="svc-num">02</span>
+                <h4>Tools &amp; Open Source</h4>
+                <p>
+                  Building intuitive developer tools and open-source software designed to optimize
+                  creative workflows and solve complex technical inefficiencies.
+                </p>
+              </li>
+
+              <li class="card brackets svc-card reveal">
+                <i class="edge" aria-hidden="true"></i>
+                <span class="svc-num">03</span>
+                <h4>Technical Writing</h4>
+                <p>
+                  Crafting clear, comprehensive technical documentation, architecture guides, and
+                  engineering articles that bridge the gap between complex code and user
+                  understanding.
+                </p>
+              </li>
+
+              <li class="card brackets svc-card reveal">
+                <i class="edge" aria-hidden="true"></i>
+                <span class="svc-num">04</span>
+                <h4>Community Building</h4>
+                <p>
+                  Fostering vibrant developer ecosystems through tech evangelism, organizing
+                  city-wide open-source meetups, and championing collaborative engineering cultures.
+                </p>
+              </li>
+
+              <li class="card brackets svc-card reveal">
+                <i class="edge" aria-hidden="true"></i>
+                <span class="svc-num">05</span>
+                <h4>Music &amp; Audio</h4>
+                <p>
+                  Exploring the creative process through music. Always open to connecting over audio
+                  production, lyrical breakdowns, or collaborative creative projects.
+                </p>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </section>
+
+      <!-- ============================= EXPERIENCE ============================= -->
+      <section class="section" id="experience" data-section>
+        <div class="shell">
+          <header class="sec-head reveal">
+            <p class="sec-index"><b>02</b> — Experience</p>
+            <h2 class="sec-title" data-scramble>Experience</h2>
+          </header>
+
+          <!-- 1. Professional Experience -->
+          <div class="xp-block">
+            <p class="block-label reveal">
+              <span class="ico"><ion-icon name="briefcase-outline"></ion-icon></span>
+              <span>Professional Experience</span>
+            </p>
+
+            <ol class="xp-list" data-xp-list>
+              <li class="xp-empty">Loading experience…</li>
+            </ol>
+          </div>
+
+          <!-- 2. Freelance & Clients -->
+          <div class="xp-block">
+            <p class="block-label reveal">
+              <span class="ico"><ion-icon name="rocket-outline"></ion-icon></span>
+              <span>Freelance &amp; Clients</span>
+            </p>
+
+            <p class="fl-note reveal" data-freelance-note></p>
+
+            <ul class="fl-list" data-freelance-list>
+              <li class="state-line">Loading…</li>
+            </ul>
+
+            <a class="fl-cta reveal" href="#contact" data-freelance-cta>
+              <span></span>
+              <ion-icon name="arrow-forward-outline"></ion-icon>
+            </a>
+          </div>
+
+          <!-- 3. Testimonials -->
+          <div class="xp-block">
+            <p class="block-label reveal">
+              <span class="ico"><ion-icon name="chatbubbles-outline"></ion-icon></span>
+              <span>Testimonials</span>
+            </p>
+
+            <ul class="tm-list" data-tm-list>
+              <li class="state-line">Loading testimonials…</li>
+            </ul>
+          </div>
+
+          <!-- 4. Community Efforts and Positions of Responsibility -->
+          <div class="xp-block">
+            <p class="block-label reveal">
+              <span class="ico"><ion-icon name="people-outline"></ion-icon></span>
+              <span>Community Efforts and Positions of Responsibility</span>
+            </p>
+
+            <ol class="tl-list" data-community-list data-beam>
+              <li class="state-line">Loading…</li>
+            </ol>
+          </div>
+
+          <!-- 5. Tools & Tech -->
+          <div class="xp-block">
+            <p class="block-label reveal">
+              <span class="ico"><ion-icon name="layers-outline"></ion-icon></span>
+              <span>Tools &amp; Tech</span>
+            </p>
+
+            <div class="tech-cloud" data-tech-cloud>
+              <div class="tech-group">Loading…</div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ============================= PROJECTS ============================= -->
+      <section class="section" id="projects" data-section>
+        <div class="shell">
+          <header class="sec-head reveal">
+            <p class="sec-index"><b>03</b> — Projects</p>
+            <h2 class="sec-title" data-scramble>Projects</h2>
+          </header>
+
+          <div class="filter-bar reveal" data-filter-bar>
+            <button class="filter-btn active" data-filter-btn type="button">All</button>
+            <button class="filter-btn" data-filter-btn type="button">Applications</button>
+            <button class="filter-btn" data-filter-btn type="button">Packages/Plugins</button>
+            <button class="filter-btn" data-filter-btn type="button">Web development</button>
+            <button class="filter-btn" data-filter-btn type="button">CLI Projects</button>
+            <button class="filter-btn" data-filter-btn type="button">Music</button>
+          </div>
+
+          <div class="filter-select-box">
+            <button class="filter-select" data-select type="button">
+              <span class="select-value" data-select-value>Select category</span>
+              <ion-icon name="chevron-down"></ion-icon>
+            </button>
+
+            <ul class="select-list">
+              <li><button data-select-item type="button">All</button></li>
+              <li><button data-select-item type="button">CLI Projects</button></li>
+              <li><button data-select-item type="button">Packages/Plugins</button></li>
+              <li><button data-select-item type="button">Applications</button></li>
+              <li><button data-select-item type="button">Web development</button></li>
+              <li><button data-select-item type="button">Music</button></li>
+            </ul>
+          </div>
+
+          <ul class="work-grid" data-project-grid>
+            <li class="work-item reveal" data-filter-item data-category="applications">
+              <a class="card work-card brackets" href="./project.html?id=cooketh-flow">
+                <figure class="work-media">
+                  <img src="./assets/images/cooketh.png" alt="Cooketh Flow" loading="lazy" />
+                  <span class="work-eye"><span><ion-icon name="eye-outline"></ion-icon></span></span>
+                </figure>
+                <div class="work-body">
+                  <p class="work-kicker"><i class="pulse-dot" aria-hidden="true"></i> Applications</p>
+                  <h3 class="work-title">Cooketh Flow</h3>
+                  <p class="work-text">
+                    Cooketh Flow is an open source, powerful visual thinking, and unified productivity
+                    tool. designed for teams and individuals to brainstorm, sketch, and organize ideas
+                    effortlessly.
+                  </p>
+                  <span class="work-more">Open case <ion-icon name="arrow-forward-outline"></ion-icon></span>
+                </div>
+              </a>
+            </li>
+
+            <li class="work-item reveal" data-filter-item data-category="applications">
+              <a class="card work-card brackets" href="./project.html?id=jotit">
+                <figure class="work-media">
+                  <img src="./assets/images/jotit.png" alt="Jotit" loading="lazy" />
+                  <span class="work-eye"><span><ion-icon name="eye-outline"></ion-icon></span></span>
+                </figure>
+                <div class="work-body">
+                  <p class="work-kicker"><i class="pulse-dot" aria-hidden="true"></i> Applications</p>
+                  <h3 class="work-title">Jotit</h3>
+                  <p class="work-text">
+                    Jotit is a sleek and efficient full-stack web application designed for seamless
+                    note-taking. Built with a powerful and modern technology stack, it allows users to
+                    effortlessly create, update, and delete notes. This project demonstrates robust
+                    backend development and a dynamic frontend, all while ensuring security through
+                    features like rate limiting
+                  </p>
+                  <span class="work-more">Open case <ion-icon name="arrow-forward-outline"></ion-icon></span>
+                </div>
+              </a>
+            </li>
+
+            <li class="work-item reveal" data-filter-item data-category="applications">
+              <a class="card work-card brackets" href="./project.html?id=store-api">
+                <figure class="work-media">
+                  <img src="./assets/images/store.png" alt="Store API" loading="lazy" />
+                  <span class="work-eye"><span><ion-icon name="eye-outline"></ion-icon></span></span>
+                </figure>
+                <div class="work-body">
+                  <p class="work-kicker"><i class="pulse-dot" aria-hidden="true"></i> Applications</p>
+                  <h3 class="work-title">Store API</h3>
+                  <p class="work-text">
+                    A simple store api enabling all kinds of request to add stores, items, fetch,
+                    delete and update them.
+                  </p>
+                  <span class="work-more">Open case <ion-icon name="arrow-forward-outline"></ion-icon></span>
+                </div>
+              </a>
+            </li>
+
+            <li class="work-item reveal" data-filter-item data-category="applications">
+              <a class="card work-card brackets" href="./project.html?id=votely">
+                <figure class="work-media">
+                  <img src="./assets/images/votely-logo.png" alt="Votely" loading="lazy" />
+                  <span class="work-eye"><span><ion-icon name="eye-outline"></ion-icon></span></span>
+                </figure>
+                <div class="work-body">
+                  <p class="work-kicker"><i class="pulse-dot" aria-hidden="true"></i> Applications</p>
+                  <h3 class="work-title">Votely</h3>
+                  <p class="work-text">
+                    Votely is an open-source voting application designed for small-scale elections or
+                    demos. With a responsive Flutter web frontend and a robust Python backend, Votely
+                    offers a seamless experience for adding candidates, casting votes, and viewing
+                    live results.
+                  </p>
+                  <span class="work-more">Open case <ion-icon name="arrow-forward-outline"></ion-icon></span>
+                </div>
+              </a>
+            </li>
+
+            <li class="work-item reveal" data-filter-item data-category="cli projects">
+              <a class="card work-card brackets" href="./project.html?id=csnake">
+                <figure class="work-media">
+                  <img src="./assets/images/store.png" alt="Csnake" loading="lazy" />
+                  <span class="work-eye"><span><ion-icon name="eye-outline"></ion-icon></span></span>
+                </figure>
+                <div class="work-body">
+                  <p class="work-kicker"><i class="pulse-dot" aria-hidden="true"></i> CLI Projects</p>
+                  <h3 class="work-title">Csnake</h3>
+                  <p class="work-text">
+                    A cross-code translator designed to map C language code into Python, facilitating
+                    seamless code migration and interoperability between these two popular programming
+                    languages.
+                  </p>
+                  <span class="work-more">Open case <ion-icon name="arrow-forward-outline"></ion-icon></span>
+                </div>
+              </a>
+            </li>
+
+            <li class="work-item reveal" data-filter-item data-category="packages/plugins">
+              <a class="card work-card brackets" href="./project.html?id=modifiable-progress-indicators">
+                <figure class="work-media">
+                  <img src="./assets/images/img.jpg" alt="Modifiable Progress Indicators" loading="lazy" />
+                  <span class="work-eye"><span><ion-icon name="eye-outline"></ion-icon></span></span>
+                </figure>
+                <div class="work-body">
+                  <p class="work-kicker"><i class="pulse-dot" aria-hidden="true"></i> Packages/Plugins</p>
+                  <h3 class="work-title">Modifiable Progress Indicators</h3>
+                  <p class="work-text">
+                    A Flutter package that let's you create beautiful modifiable progress indicators.
+                  </p>
+                  <span class="work-more">Open case <ion-icon name="arrow-forward-outline"></ion-icon></span>
+                </div>
+              </a>
+            </li>
+
+            <li class="work-item reveal" data-filter-item data-category="applications">
+              <a class="card work-card brackets" href="./project.html?id=maitri">
+                <figure class="work-media">
+                  <img src="./assets/images/maitri.png" alt="Maitri" loading="lazy" />
+                  <span class="work-eye"><span><ion-icon name="eye-outline"></ion-icon></span></span>
+                </figure>
+                <div class="work-body">
+                  <p class="work-kicker"><i class="pulse-dot" aria-hidden="true"></i> Applications</p>
+                  <h3 class="work-title">Maitri</h3>
+                  <p class="work-text">
+                    An assistance app for visually impaired people in their day-to-day life. "Maitrī"
+                    goes beyond conventional assistance apps for the visually impaired by incorporating
+                    real-time analysis into its array of capabilities.
+                  </p>
+                  <span class="work-more">Open case <ion-icon name="arrow-forward-outline"></ion-icon></span>
+                </div>
+              </a>
+            </li>
+
+            <li class="work-item reveal" data-filter-item data-category="web development">
+              <a class="card work-card brackets" href="./project.html?id=mindspace-web">
+                <figure class="work-media">
+                  <img src="./assets/images/mindspace.png" alt="MindSpace - Web" loading="lazy" />
+                  <span class="work-eye"><span><ion-icon name="eye-outline"></ion-icon></span></span>
+                </figure>
+                <div class="work-body">
+                  <p class="work-kicker"><i class="pulse-dot" aria-hidden="true"></i> Web development</p>
+                  <h3 class="work-title">MindSpace - Web</h3>
+                  <p class="work-text">
+                    MindSpace is a web app that aims to improve access to mental health resources and
+                    support, particularly for those who may not have the means or ability to attend
+                    in-person appointments.
+                  </p>
+                  <span class="work-more">Open case <ion-icon name="arrow-forward-outline"></ion-icon></span>
+                </div>
+              </a>
+            </li>
+
+            <li class="work-item reveal" data-filter-item data-category="applications">
+              <a class="card work-card brackets" href="./project.html?id=annapurna">
+                <figure class="work-media">
+                  <img src="./assets/images/meals app.png" alt="Annapurna" loading="lazy" />
+                  <span class="work-eye"><span><ion-icon name="eye-outline"></ion-icon></span></span>
+                </figure>
+                <div class="work-body">
+                  <p class="work-kicker"><i class="pulse-dot" aria-hidden="true"></i> Applications</p>
+                  <h3 class="work-title">Annapurna</h3>
+                  <p class="work-text">
+                    A simple meals app using Firebase for authentication and cloud storage to store
+                    user data
+                  </p>
+                  <span class="work-more">Open case <ion-icon name="arrow-forward-outline"></ion-icon></span>
+                </div>
+              </a>
+            </li>
+
+            <li class="work-item reveal" data-filter-item data-category="cli projects">
+              <a class="card work-card brackets" href="./project.html?id=cli-letter">
+                <figure class="work-media">
+                  <img src="./assets/images/cli logo.png" alt="CLI Letter" loading="lazy" />
+                  <span class="work-eye"><span><ion-icon name="eye-outline"></ion-icon></span></span>
+                </figure>
+                <div class="work-body">
+                  <p class="work-kicker"><i class="pulse-dot" aria-hidden="true"></i> CLI Projects</p>
+                  <h3 class="work-title">CLI Letter</h3>
+                  <p class="work-text">A cli letter for your siginificant one</p>
+                  <span class="work-more">Open case <ion-icon name="arrow-forward-outline"></ion-icon></span>
+                </div>
+              </a>
+            </li>
+
+            <li class="work-item reveal" data-filter-item data-category="cli projects">
+              <a
+                class="card work-card brackets"
+                href="./project.html?id=restaurant-basic-restaurant-management-and-billing-system"
+              >
+                <figure class="work-media">
+                  <img
+                    src="./assets/images/restaarant.jpg"
+                    alt="Restaurant Basic-Restaurant-Management-and-Billing-System"
+                    loading="lazy"
+                  />
+                  <span class="work-eye"><span><ion-icon name="eye-outline"></ion-icon></span></span>
+                </figure>
+                <div class="work-body">
+                  <p class="work-kicker"><i class="pulse-dot" aria-hidden="true"></i> CLI Projects</p>
+                  <h3 class="work-title">Restaurant Basic-Restaurant-Management-and-Billing-System</h3>
+                  <p class="work-text">
+                    This is a basic restaurant management and billing system in C programming language,
+                    this is our project for first semester in computer science
+                  </p>
+                  <span class="work-more">Open case <ion-icon name="arrow-forward-outline"></ion-icon></span>
+                </div>
+              </a>
+            </li>
+
+            <li class="work-item reveal" data-filter-item data-category="web development">
+              <a class="card work-card brackets" href="./project.html?id=angular-weather-app">
+                <figure class="work-media">
+                  <img src="./assets/images/weather.png" alt="Angular Weather App" loading="lazy" />
+                  <span class="work-eye"><span><ion-icon name="eye-outline"></ion-icon></span></span>
+                </figure>
+                <div class="work-body">
+                  <p class="work-kicker"><i class="pulse-dot" aria-hidden="true"></i> Web development</p>
+                  <h3 class="work-title">Angular Weather App</h3>
+                  <p class="work-text">
+                    A Weather application that gives you information about the weather of a city you
+                    enter. You can have info about current weather as well as forecast for five days
+                  </p>
+                  <span class="work-more">Open case <ion-icon name="arrow-forward-outline"></ion-icon></span>
+                </div>
+              </a>
+            </li>
+
+            <li class="work-item reveal" data-filter-item data-category="music">
+              <a class="card work-card brackets" href="./project.html?id=daastan-e-sach">
+                <figure class="work-media">
+                  <img src="./assets/images/song 1.png" alt="Daastan-e-sach" loading="lazy" />
+                  <span class="work-eye"><span><ion-icon name="eye-outline"></ion-icon></span></span>
+                </figure>
+                <div class="work-body">
+                  <p class="work-kicker"><i class="pulse-dot" aria-hidden="true"></i> Music</p>
+                  <h3 class="work-title">Daastan-e-sach</h3>
+                  <p class="work-text">Conscious Rap Song</p>
+                  <span class="work-more">Open case <ion-icon name="arrow-forward-outline"></ion-icon></span>
+                </div>
+              </a>
+            </li>
+
+            <li class="work-item reveal" data-filter-item data-category="music">
+              <a class="card work-card brackets" href="./project.html?id=billi">
+                <figure class="work-media">
+                  <img src="./assets/images/song 2.png" alt="Billi" loading="lazy" />
+                  <span class="work-eye"><span><ion-icon name="eye-outline"></ion-icon></span></span>
+                </figure>
+                <div class="work-body">
+                  <p class="work-kicker"><i class="pulse-dot" aria-hidden="true"></i> Music</p>
+                  <h3 class="work-title">Billi</h3>
+                  <p class="work-text">Satiric Rap Song</p>
+                  <span class="work-more">Open case <ion-icon name="arrow-forward-outline"></ion-icon></span>
+                </div>
+              </a>
+            </li>
+
+            <li class="work-item reveal" data-filter-item data-category="music">
+              <a class="card work-card brackets" href="./project.html?id=spring-freestyle">
+                <figure class="work-media">
+                  <img
+                    src="./assets/images/spring freestyle thumbnail.png"
+                    alt="Spring Freestyle"
+                    loading="lazy"
+                  />
+                  <span class="work-eye"><span><ion-icon name="eye-outline"></ion-icon></span></span>
+                </figure>
+                <div class="work-body">
+                  <p class="work-kicker"><i class="pulse-dot" aria-hidden="true"></i> Music</p>
+                  <h3 class="work-title">Spring Freestyle</h3>
+                  <p class="work-text">Freestyle Rap Song</p>
+                  <span class="work-more">Open case <ion-icon name="arrow-forward-outline"></ion-icon></span>
+                </div>
+              </a>
+            </li>
+          </ul>
+        </div>
+      </section>
+
+      <!-- ============================= TALKS / SESSIONS ============================= -->
+      <section class="section" id="sessions" data-section>
+        <div class="shell">
+          <header class="sec-head reveal">
+            <p class="sec-index"><b>04</b> — Sessions</p>
+            <h2 class="sec-title" data-scramble>Talks</h2>
+          </header>
+
+          <ul class="work-grid" data-sessions-list>
+            <li class="state-line">Loading…</li>
+          </ul>
+        </div>
+      </section>
+
+      <!-- ============================= BLOG ============================= -->
+      <section class="section" id="blog" data-section>
+        <div class="shell">
+          <header class="sec-head reveal">
+            <p class="sec-index"><b>05</b> — Blog</p>
+            <h2 class="sec-title" data-scramble>Blog</h2>
+          </header>
+
+          <div class="filter-bar reveal" role="tablist">
+            <button class="filter-btn active" data-blog-filter="all" type="button">All</button>
+            <button class="filter-btn" data-blog-filter="self" type="button">Mine</button>
+            <button class="filter-btn" data-blog-filter="external" type="button">External</button>
+          </div>
+
+          <ul class="blog-list" data-blog-list>
+            <li class="state-line" data-blog-loading>Loading posts…</li>
+          </ul>
+        </div>
+      </section>
+
+      <!-- ============================= CONTACT ============================= -->
+      <section class="section" id="contact" data-section>
+        <div class="shell">
+          <header class="sec-head reveal">
+            <p class="sec-index"><b>06</b> — Contact</p>
+            <h2 class="sec-title" data-scramble>Contact</h2>
+          </header>
+
+          <div class="contact-grid">
+            <div class="card form-card reveal">
+              <h3 class="form-title">Let's build something</h3>
+              <p class="form-hint">Response within 24 hours</p>
+
+              <form
+                action="https://formsubmit.co/subroto.2003@gmail.com"
+                method="POST"
+                class="form ec-form"
+                data-form
+              >
+                <input type="hidden" name="_subject" value="New message from portfolio" />
+                <input type="hidden" name="_captcha" value="false" />
+                <input type="text" name="_honey" style="display: none" />
+
+                <div class="ec-intent">
+                  <input type="radio" id="intent-collab" name="intent" value="Collaboration" checked />
+                  <label for="intent-collab">Collaborate</label>
+
+                  <input type="radio" id="intent-project" name="intent" value="Project / Freelance" />
+                  <label for="intent-project">Project / Freelance</label>
+
+                  <input type="radio" id="intent-call" name="intent" value="Book a call" />
+                  <label for="intent-call">Book a call</label>
+                </div>
+
+                <div class="field-row">
+                  <input
+                    type="text"
+                    name="fullname"
+                    class="form-input"
+                    placeholder="Full name"
+                    required
+                    data-form-input
+                  />
+
+                  <input
+                    type="email"
+                    name="email"
+                    class="form-input"
+                    placeholder="Email address"
+                    required
+                    data-form-input
+                  />
+                </div>
+
+                <textarea
+                  name="message"
+                  class="form-input"
+                  placeholder="Tell me about your idea, project or collab…"
+                  required
+                  data-form-input
+                ></textarea>
+
+                <button class="btn btn-primary btn-sheen form-btn" type="submit" disabled data-form-btn>
+                  <ion-icon name="paper-plane"></ion-icon>
+                  <span>Send Message</span>
+                </button>
+              </form>
+            </div>
+
+            <div class="card ch-card reveal">
+              <div class="ch-head">
+                <h3>Or reach out to me through</h3>
+                <p>Direct channels — pick whichever you actually use.</p>
+              </div>
+
+              <div class="ch-primary">
+                <a class="btn" href="mailto:subroto.2003@gmail.com">
+                  <ion-icon name="mail-outline"></ion-icon>
+                  <span>subroto.2003@gmail.com</span>
+                </a>
                 <a
-                  class="contact-link resume-trigger"
+                  class="btn"
                   href="https://drive.google.com/drive/folders/1ex4i0-DQcms5r-k4Vz_VuVopnX_t4C9b?usp=sharing"
                   target="_blank"
                   rel="noopener"
                 >
-                  View Résumé
+                  <ion-icon name="newspaper-outline"></ion-icon>
+                  <span>View Résumé</span>
                 </a>
               </div>
-            </li>
 
-            <li class="contact-item">
-              <div class="icon-box">
-                <ion-icon name="mail-outline"></ion-icon>
-              </div>
-
-              <div class="contact-info">
-                <p class="contact-title">Email</p>
-
-                <a href="mailto:subroto.2003@gmail.com" class="contact-link"
-                  >subroto.2003@gmail.com</a
-                >
-              </div>
-            </li>
-
-            <!-- <li class="contact-item">
-              <div class="icon-box">
-                <ion-icon name="phone-portrait-outline"></ion-icon>
-              </div>
-
-              <div class="contact-info">
-                <p class="contact-title">Phone</p>
-
-                <a href="tel:+918954402360" class="contact-link"
-                  >+91 8954402360</a
-                >
-              </div>
-            </li> -->
-
-            <!-- <li class="contact-item">
-
-            <div class="icon-box">
-              <ion-icon name="calendar-outline"></ion-icon>
-            </div>
-
-            <div class="contact-info">
-              <p class="contact-title">Birthday</p>
-
-              <time datetime="1982-06-23">June 23, 1982</time>
-            </div>
-
-          </li> -->
-
-            <li class="contact-item">
-              <div class="icon-box">
-                <ion-icon name="location-outline"></ion-icon>
-              </div>
-
-              <div class="contact-info">
-                <p class="contact-title">Location</p>
-
-                <address>Agra, Uttar Pradesh, India</address>
-              </div>
-            </li>
-          </ul>
-
-          <div class="separator"></div>
-
-          <ul class="social-list">
-            <li class="social-item">
-              <a
-                target="_blank"
-                href="https://bio.link/teewrath"
-                class="social-link"
-              >
-                <ion-icon name="link-outline"></ion-icon>
-              </a>
-            </li>
-
-            <!-- <li class="social-item">
-              <a
-                target="_blank"
-                href="https://www.facebook.com/subroto.banerjee.56"
-                class="social-link"
-              >
-                <ion-icon name="logo-facebook"></ion-icon>
-              </a>
-            </li> -->
-
-            <li class="social-item">
-              <a
-                target="_blank"
-                href="https://github.com/TeeWrath"
-                class="social-link"
-              >
-                <ion-icon name="logo-github"></ion-icon>
-              </a>
-            </li>
-
-            <li class="social-item">
-              <a
-                target="_blank"
-                href="https://www.linkedin.com/in/subroto-banerjee-70983b214/"
-                class="social-link"
-              >
-                <ion-icon name="logo-linkedin"></ion-icon>
-              </a>
-            </li>
-
-            <!-- <li class="social-item">
-              <a
-                target="_blank"
-                href="https://medium.com/@subroto.2003"
-                class="social-link"
-              >
-                <ion-icon name="logo-medium"></ion-icon>
-              </a>
-            </li> -->
-
-            <li class="social-item">
-              <a
-                target="_blank"
-                href="https://reddit.com/u/TeeWrath"
-                class="social-link"
-              >
-                <ion-icon name="logo-reddit"></ion-icon>
-              </a>
-            </li>
-
-            <li class="social-item">
-              <a
-                target="_blank"
-                href="https://twitter.com/Subroto0108"
-                class="social-link"
-              >
-                <ion-icon name="logo-twitter"></ion-icon>
-              </a>
-            </li>
-
-            <li class="social-item">
-              <a
-                target="_blank"
-                href="https://instagram.com/subroto._banerjee"
-                class="social-link"
-              >
-                <ion-icon name="logo-instagram"></ion-icon>
-              </a>
-            </li>
-          </ul>
-        </div>
-      </aside>
-
-      <!--
-      - #main-content
-    -->
-
-      <div class="main-content">
-        <!--
-        - #NAVBAR
-      -->
-
-        <nav class="navbar">
-          <ul class="navbar-list">
-            <li class="navbar-item">
-              <button class="navbar-link active" data-nav-link>About</button>
-            </li>
-
-            <li class="navbar-item">
-              <button class="navbar-link" data-nav-link>Experience</button>
-            </li>
-
-            <li class="navbar-item">
-              <button class="navbar-link" data-nav-link>Projects</button>
-            </li>
-
-            <li class="navbar-item">
-              <button class="navbar-link" data-nav-link>Sessions</button>
-            </li>
-
-            <li class="navbar-item">
-              <button class="navbar-link" data-nav-link>Blog</button>
-            </li>
-
-            <li class="navbar-item">
-              <button class="navbar-link" data-nav-link>Contact</button>
-            </li>
-          </ul>
-        </nav>
-
-        <!--
-        - #ABOUT
-      -->
-
-        <article class="about active" data-page="about">
-          <header>
-            <h2 class="h2 article-title">About me</h2>
-          </header>
-
-         <section class="about-text">
-  <p>I am a Software Development Engineer and product founder who builds tools to solve real-world inefficiencies.</p>
-  
-  <p>I currently operate Wrath Labs, a sandbox for technical innovation where I build and iterate on experimental product ideas. My focus right now is directed toward a major, unannounced project that is currently in the early stages of development.</p>
-
-  <p>Previously, I founded <a href="https://cookethorg.github.io/CookethOrg/" target="_blank" style="color: inherit; text-decoration: none; font-weight: bold; display: inline;">Cooketh Company</a>, a development studio where I shipped B2B and B2C platforms spanning immigration, employment, and writing industries. During this time, I also built and released <a href="https://cookethflow.framer.website" target="_blank" style="color: inherit; text-decoration: none; font-weight: bold; display: inline;">Cooketh Flow</a>, an open-source visual thinking application.</p>
-
-  <p>I strongly believe in the power of developer communities. What started as organizing campus-level events evolved into leading city-wide initiatives, including organizing official FOSS Meetups in Kolkata to champion open-source software.</p>
-  
-  <p>When I am not building products or communities, I spend my time reading about self help, psychology, finance, and history, or exploring new music.</p>
-</section>
-
-          <!--
-          - service
-        -->
-
-          <section class="service">
-  <h3 class="h3 service-title">What I'm doing</h3>
-
-  <ul class="service-list">
-    
-    <li class="service-item">
-      <div class="service-content-box">
-        <h4 class="h4 service-item-title">SaaS & Product Development</h4>
-        <p class="service-item-text">
-          Architecting and engineering scalable, cross-platform applications from 0 to 1. Focused on delivering high-performance, end-to-end solutions that drive real business value.
-        </p>
-      </div>
-    </li>
-
-    <li class="service-item">
-      <div class="service-content-box">
-        <h4 class="h4 service-item-title">Tools & Open Source</h4>
-        <p class="service-item-text">
-          Building intuitive developer tools and open-source software designed to optimize creative workflows and solve complex technical inefficiencies.
-        </p>
-      </div>
-    </li>
-
-    <li class="service-item">
-      <div class="service-content-box">
-        <h4 class="h4 service-item-title">Technical Writing</h4>
-        <p class="service-item-text">
-          Crafting clear, comprehensive technical documentation, architecture guides, and engineering articles that bridge the gap between complex code and user understanding.
-        </p>
-      </div>
-    </li>
-
-    <li class="service-item">
-      <div class="service-content-box">
-        <h4 class="h4 service-item-title">Community Building</h4>
-        <p class="service-item-text">
-          Fostering vibrant developer ecosystems through tech evangelism, organizing city-wide open-source meetups, and championing collaborative engineering cultures.
-        </p>
-      </div>
-    </li>
-
-    <li class="service-item">
-      <div class="service-content-box">
-        <h4 class="h4 service-item-title">Music & Audio</h4>
-        <p class="service-item-text">
-          Exploring the creative process through music. Always open to connecting over audio production, lyrical breakdowns, or collaborative creative projects.
-        </p>
-      </div>
-    </li>
-
-  </ul>
-</section>
-
-          <!--
-          - testimonials
-        -->
-
-          <!-- <section class="testimonials">
-
-          <h3 class="h3 testimonials-title">Testimonials</h3>
-
-          <ul class="testimonials-list has-scrollbar">
-
-            <li class="testimonials-item">
-              <div class="content-card" data-testimonials-item>
-
-                <figure class="testimonials-avatar-box">
-                  <img src="./assets/images/avatar-1.png" alt="Daniel lewis" width="60" data-testimonials-avatar>
-                </figure>
-
-                <h4 class="h4 testimonials-item-title" data-testimonials-title>Daniel lewis</h4>
-
-                <div class="testimonials-text" data-testimonials-text>
-                  <p>
-                    Richard was hired to create a corporate identity. We were very pleased with the work done. She has a
-                    lot of experience
-                    and is very concerned about the needs of client. Lorem ipsum dolor sit amet, ullamcous cididt
-                    consectetur adipiscing
-                    elit, seds do et eiusmod tempor incididunt ut laborels dolore magnarels alia.
-                  </p>
-                </div>
-
-              </div>
-            </li>
-
-            <li class="testimonials-item">
-              <div class="content-card" data-testimonials-item>
-
-                <figure class="testimonials-avatar-box">
-                  <img src="./assets/images/avatar-2.png" alt="Jessica miller" width="60" data-testimonials-avatar>
-                </figure>
-
-                <h4 class="h4 testimonials-item-title" data-testimonials-title>Jessica miller</h4>
-
-                <div class="testimonials-text" data-testimonials-text>
-                  <p>
-                    Richard was hired to create a corporate identity. We were very pleased with the work done. She has a
-                    lot of experience
-                    and is very concerned about the needs of client. Lorem ipsum dolor sit amet, ullamcous cididt
-                    consectetur adipiscing
-                    elit, seds do et eiusmod tempor incididunt ut laborels dolore magnarels alia.
-                  </p>
-                </div>
-
-              </div>
-            </li>
-
-            <li class="testimonials-item">
-              <div class="content-card" data-testimonials-item>
-
-                <figure class="testimonials-avatar-box">
-                  <img src="./assets/images/avatar-3.png" alt="Emily evans" width="60" data-testimonials-avatar>
-                </figure>
-
-                <h4 class="h4 testimonials-item-title" data-testimonials-title>Emily evans</h4>
-
-                <div class="testimonials-text" data-testimonials-text>
-                  <p>
-                    Richard was hired to create a corporate identity. We were very pleased with the work done. She has a
-                    lot of experience
-                    and is very concerned about the needs of client. Lorem ipsum dolor sit amet, ullamcous cididt
-                    consectetur adipiscing
-                    elit, seds do et eiusmod tempor incididunt ut laborels dolore magnarels alia.
-                  </p>
-                </div>
-
-              </div>
-            </li>
-
-            <li class="testimonials-item">
-              <div class="content-card" data-testimonials-item>
-
-                <figure class="testimonials-avatar-box">
-                  <img src="./assets/images/avatar-4.png" alt="Henry william" width="60" data-testimonials-avatar>
-                </figure>
-
-                <h4 class="h4 testimonials-item-title" data-testimonials-title>Henry william</h4>
-
-                <div class="testimonials-text" data-testimonials-text>
-                  <p>
-                    Richard was hired to create a corporate identity. We were very pleased with the work done. She has a
-                    lot of experience
-                    and is very concerned about the needs of client. Lorem ipsum dolor sit amet, ullamcous cididt
-                    consectetur adipiscing
-                    elit, seds do et eiusmod tempor incididunt ut laborels dolore magnarels alia.
-                  </p>
-                </div>
-
-              </div>
-            </li>
-
-          </ul>
-
-        </section> -->
-
-          <!--
-          - testimonials modal
-        -->
-
-          <div class="modal-container" data-modal-container>
-            <div class="overlay" data-overlay></div>
-
-            <section class="testimonials-modal">
-              <button class="modal-close-btn" data-modal-close-btn>
-                <ion-icon name="close-outline"></ion-icon>
-              </button>
-
-              <div class="modal-img-wrapper">
-                <figure class="modal-avatar-box">
-                  <img
-                    src="./assets/images/avatar-1.png"
-                    alt="Daniel lewis"
-                    width="80"
-                    data-modal-img
-                  />
-                </figure>
-
-                <img src="./assets/images/icon-quote.svg" alt="quote icon" />
-              </div>
-
-              <div class="modal-content">
-                <h4 class="h3 modal-title" data-modal-title>Daniel lewis</h4>
-
-                <time datetime="2021-06-14">14 June, 2021</time>
-
-                <div data-modal-text>
-                  <p>
-                    Richard was hired to create a corporate identity. We were
-                    very pleased with the work done. She has a lot of experience
-                    and is very concerned about the needs of client. Lorem ipsum
-                    dolor sit amet, ullamcous cididt consectetur adipiscing
-                    elit, seds do et eiusmod tempor incididunt ut laborels
-                    dolore magnarels alia.
-                  </p>
-                </div>
-              </div>
-            </section>
-          </div>
-
-          <!--
-          - clients
-        -->
-
-          <!-- <section class="clients">
-
-          <h3 class="h3 clients-title">Clients</h3>
-
-          <ul class="clients-list has-scrollbar">
-
-            <li class="clients-item">
-              <a href="#">
-                <img src="./assets/images/logo-1-color.png" alt="client logo">
-              </a>
-            </li>
-
-            <li class="clients-item">
-              <a href="#">
-                <img src="./assets/images/logo-2-color.png" alt="client logo">
-              </a>
-            </li>
-
-            <li class="clients-item">
-              <a href="#">
-                <img src="./assets/images/logo-3-color.png" alt="client logo">
-              </a>
-            </li>
-
-            <li class="clients-item">
-              <a href="#">
-                <img src="./assets/images/logo-4-color.png" alt="client logo">
-              </a>
-            </li>
-
-            <li class="clients-item">
-              <a href="#">
-                <img src="./assets/images/logo-5-color.png" alt="client logo">
-              </a>
-            </li>
-
-            <li class="clients-item">
-              <a href="#">
-                <img src="./assets/images/logo-6-color.png" alt="client logo">
-              </a>
-            </li>
-
-          </ul>
-
-        </section> -->
-        </article>
-
-        <!--
-        - #RESUME
-      -->
-
-<article class="resume" data-page="experience">
-  <header>
-    <h2 class="h2 article-title">Experience</h2>
-  </header>
-
-  <!-- 1. Professional Experience -->
-  <section class="timeline">
-    <div class="title-wrapper">
-      <div class="icon-box">
-        <ion-icon name="briefcase-outline"></ion-icon>
-      </div>
-
-      <h3 class="h3">Professional Experience</h3>
-    </div>
-
-    <ol class="xp-list" data-xp-list>
-      <li class="xp-empty">Loading experience…</li>
-    </ol>
-  </section>
-
-  <!-- 2. Freelance & Clients -->
-  <section class="freelance">
-    <div class="title-wrapper">
-      <div class="icon-box">
-        <ion-icon name="briefcase-outline"></ion-icon>
-      </div>
-
-      <h3 class="h3">Freelance &amp; Clients</h3>
-    </div>
-
-    <!-- Added Note for NDA / Rights -->
-    <p data-freelance-note style="margin-bottom: 25px; font-size: 15px; color: var(--light-gray, #a3a3a3); font-style: italic;"></p>
-
-    <ul class="freelance-list" data-freelance-list>
-      <li class="freelance-card">Loading…</li>
-    </ul>
-
-    <button class="freelance-cta" data-nav-to="contact" data-freelance-cta type="button">
-      <span></span>
-      <ion-icon name="arrow-forward-outline"></ion-icon>
-    </button>
-  </section>
-
-  <!-- 3. Testimonials -->
-  <section class="testimonials-v2">
-    <div class="title-wrapper">
-      <div class="icon-box">
-        <ion-icon name="chatbubbles-outline"></ion-icon>
-      </div>
-
-      <h3 class="h3">Testimonials</h3>
-    </div>
-
-    <ul class="tm-list" data-tm-list>
-      <li class="tm-card">Loading testimonials…</li>
-    </ul>
-  </section>
-
-  <!-- 4. Community Efforts and Positions of Responsibility -->
-  <section class="timeline">
-    <div class="title-wrapper">
-      <div class="icon-box">
-        <ion-icon name="people-outline"></ion-icon>
-      </div>
-
-      <h3 class="h3">Community Efforts and Positions of Responsibility</h3>
-    </div>
-
-    <ol class="timeline-list" data-community-list>
-      <li class="timeline-item">Loading…</li>
-    </ol>
-  </section>
-
-  <!-- 5. Tools & Tech -->
-  <section class="tech">
-    <div class="title-wrapper">
-      <div class="icon-box">
-        <ion-icon name="layers-outline"></ion-icon>
-      </div>
-
-      <h3 class="h3">Tools &amp; Tech</h3>
-    </div>
-
-    <div class="tech-cloud" data-tech-cloud>
-      <div class="tech-group">Loading…</div>
-    </div>
-  </section>
-
-  <!-- <section class="skill">
-
-  <h3 class="h3 skills-title">My skills</h3>
-
-  <ul class="skills-list content-card">
-
-    <li class="skills-item">
-
-      <div class="title-wrapper">
-        <h5 class="h5">Web Development</h5>
-        <data value="50">50%</data>
-      </div>
-
-      <div class="skill-progress-bg">
-        <div class="skill-progress-fill" style="width: 50%;"></div>
-      </div>
-
-    </li>
-
-    <li class="skills-item">
-
-      <div class="title-wrapper">
-        <h5 class="h5">Graphic design</h5>
-        <data value="70">70%</data>
-      </div>
-
-      <div class="skill-progress-bg">
-        <div class="skill-progress-fill" style="width: 70%;"></div>
-      </div>
-
-    </li>
-
-    <li class="skills-item">
-
-      <div class="title-wrapper">
-        <h5 class="h5">Branding</h5>
-        <data value="90">90%</data>
-      </div>
-
-      <div class="skill-progress-bg">
-        <div class="skill-progress-fill" style="width: 90%;"></div>
-      </div>
-
-    </li>
-
-    <li class="skills-item">
-
-      <div class="title-wrapper">
-        <h5 class="h5">WordPress</h5>
-        <data value="50">50%</data>
-      </div>
-
-      <div class="skill-progress-bg">
-        <div class="skill-progress-fill" style="width: 50%;"></div>
-      </div>
-
-    </li>
-
-  </ul>
-
-</section> -->
-</article>
-        <!--
-        - #PORTFOLIO
-      -->
-
-        <article class="portfolio" data-page="projects">
-          <header>
-            <h2 class="h2 article-title">Projects</h2>
-          </header>
-
-          <section class="projects">
-            <ul class="filter-list">
-              <li class="filter-item">
-                <button class="active" data-filter-btn>All</button>
-              </li>
-
-              <li class="filter-item">
-                <button data-filter-btn>Applications</button>
-              </li>
-
-              <li class="filter-item">
-                <button data-filter-btn>Packages/Plugins</button>
-              </li>
-
-              <li class="filter-item">
-                <button data-filter-btn>Web development</button>
-              </li>
-
-              <li class="filter-item">
-                <button data-filter-btn>CLI Projects</button>
-              </li>
-              <li class="filter-item">
-                <button data-filter-btn>Music</button>
-              </li>
-            </ul>
-
-            <div class="filter-select-box">
-              <button class="filter-select" data-select>
-                <div class="select-value" data-selecct-value>
-                  Select category
-                </div>
-
-                <div class="select-icon">
-                  <ion-icon name="chevron-down"></ion-icon>
-                </div>
-              </button>
-
-              <ul class="select-list">
-                <li class="select-item">
-                  <button data-select-item>All</button>
+              <p class="ch-soc-label">Social</p>
+              <ul class="ch-socials">
+                <li>
+                  <a class="soc-btn" href="https://bio.link/teewrath" target="_blank" rel="noopener" aria-label="bio.link">
+                    <ion-icon name="link-outline"></ion-icon>
+                  </a>
                 </li>
-
-                <li class="select-item">
-                  <button data-select-item>CLI Projects</button>
+                <li>
+                  <a
+                    class="soc-btn"
+                    href="https://www.facebook.com/subroto.banerjee.56"
+                    target="_blank"
+                    rel="noopener"
+                    aria-label="Facebook"
+                  >
+                    <ion-icon name="logo-facebook"></ion-icon>
+                  </a>
                 </li>
-
-                <li class="select-item">
-                  <button data-select-item>Packages/Plugins</button>
+                <li>
+                  <a class="soc-btn" href="https://github.com/TeeWrath" target="_blank" rel="noopener" aria-label="GitHub">
+                    <ion-icon name="logo-github"></ion-icon>
+                  </a>
                 </li>
-
-                <li class="select-item">
-                  <button data-select-item>Applications</button>
+                <li>
+                  <a
+                    class="soc-btn"
+                    href="https://www.linkedin.com/in/subroto-banerjee-70983b214/"
+                    target="_blank"
+                    rel="noopener"
+                    aria-label="LinkedIn"
+                  >
+                    <ion-icon name="logo-linkedin"></ion-icon>
+                  </a>
                 </li>
-
-                <li class="select-item">
-                  <button data-select-item>Web development</button>
+                <li>
+                  <a
+                    class="soc-btn"
+                    href="https://medium.com/@subroto.2003"
+                    target="_blank"
+                    rel="noopener"
+                    aria-label="Medium"
+                  >
+                    <ion-icon name="logo-medium"></ion-icon>
+                  </a>
                 </li>
-                <li class="select-item">
-                  <button data-select-item>Music</button>
+                <li>
+                  <a class="soc-btn" href="https://reddit.com/u/TeeWrath" target="_blank" rel="noopener" aria-label="Reddit">
+                    <ion-icon name="logo-reddit"></ion-icon>
+                  </a>
+                </li>
+                <li>
+                  <a class="soc-btn" href="https://twitter.com/Subroto0108" target="_blank" rel="noopener" aria-label="Twitter">
+                    <ion-icon name="logo-twitter"></ion-icon>
+                  </a>
+                </li>
+                <li>
+                  <a
+                    class="soc-btn"
+                    href="https://instagram.com/subroto._banerjee"
+                    target="_blank"
+                    rel="noopener"
+                    aria-label="Instagram"
+                  >
+                    <ion-icon name="logo-instagram"></ion-icon>
+                  </a>
+                </li>
+                <li>
+                  <a
+                    class="soc-btn"
+                    href="https://www.snapchat.com/add/i_subbu01"
+                    target="_blank"
+                    rel="noopener"
+                    aria-label="Snapchat"
+                  >
+                    <ion-icon name="logo-snapchat"></ion-icon>
+                  </a>
+                </li>
+                <li>
+                  <a class="soc-btn" href="https://wa.me/+8954402360" target="_blank" rel="noopener" aria-label="WhatsApp">
+                    <ion-icon name="logo-whatsapp"></ion-icon>
+                  </a>
+                </li>
+                <li>
+                  <a
+                    class="soc-btn"
+                    href="https://www.youtube.com/channel/UCoa6CBkSNICu_TjKf5xOZ_A"
+                    target="_blank"
+                    rel="noopener"
+                    aria-label="YouTube"
+                  >
+                    <ion-icon name="logo-youtube"></ion-icon>
+                  </a>
+                </li>
+                <li>
+                  <a class="soc-btn" rel="me noopener" href="https://mastodon.social/@TeeWrath" target="_blank" aria-label="Mastodon">
+                    <ion-icon name="logo-mastodon"></ion-icon>
+                  </a>
                 </li>
               </ul>
             </div>
-
-            <ul class="project-list">
-              <li
-                class="project-item active"
-                data-filter-item
-                data-category="applications"
-              >
-                <a href="./project.html?id=cooketh-flow">
-                  <figure class="project-img">
-                    <div class="project-item-icon-box">
-                      <ion-icon name="eye-outline"></ion-icon>
-                    </div>
-
-                    <img
-                      src="./assets/images/cooketh.png"
-                      alt="orizon"
-                      loading="lazy"
-                    />
-                  </figure>
-
-                  <h3 class="project-title">Cooketh Flow</h3>
-
-                  <p class="project-category">
-                    Cooketh Flow is an open source, powerful visual thinking, and unified productivity tool. designed for teams and
-individuals to brainstorm, sketch, and organize ideas effortlessly.
-                  </p>
-                </a>
-              </li>
-
-              <li
-                class="project-item active"
-                data-filter-item
-                data-category="applications"
-              >
-                <a href="./project.html?id=jotit">
-                  <figure class="project-img">
-                    <div class="project-item-icon-box">
-                      <ion-icon name="eye-outline"></ion-icon>
-                    </div>
-
-                    <img
-                      src="./assets/images/jotit.png"
-                      alt="orizon"
-                      loading="lazy"
-                    />
-                  </figure>
-
-                  <h3 class="project-title">Jotit</h3>
-
-                  <p class="project-category">
-                   Jotit is a sleek and efficient full-stack web application designed for seamless note-taking. Built with a powerful and modern technology stack, it allows users to effortlessly create, update, and delete notes. This project demonstrates robust backend development and a dynamic frontend, all while ensuring security through features like rate limiting 
-                  </p>
-                </a>
-              </li>
-
-              <li
-                class="project-item active"
-                data-filter-item
-                data-category="applications"
-              >
-                <a href="./project.html?id=store-api">
-                  <figure class="project-img">
-                    <div class="project-item-icon-box">
-                      <ion-icon name="eye-outline"></ion-icon>
-                    </div>
-
-                    <img
-                      src="./assets/images/store.png"
-                      alt="dsm."
-                      loading="lazy"
-                    />
-                  </figure>
-
-                  <h3 class="project-title">Store API</h3>
-
-                  <p class="project-category">
-                    A simple store api enabling all kinds of request to add stores, items, fetch, delete and update them.
-                  </p>
-                </a>
-              </li>
-
-              <li
-                class="project-item active"
-                data-filter-item
-                data-category="applications"
-              >
-                <a href="./project.html?id=votely">
-                  <figure class="project-img">
-                    <div class="project-item-icon-box">
-                      <ion-icon name="eye-outline"></ion-icon>
-                    </div>
-
-                    <img
-                      src="./assets/images/votely-logo.png"
-                      alt="dsm."
-                      loading="lazy"
-                    />
-                  </figure>
-
-                  <h3 class="project-title">Votely</h3>
-
-                  <p class="project-category">Votely is an open-source voting application designed for small-scale elections or demos. With a responsive Flutter web frontend and a robust Python backend, Votely offers a seamless experience for adding candidates, casting votes, and viewing live results. </p>
-                </a>
-              </li>
-
-              <li
-                class="project-item active"
-                data-filter-item
-                data-category="cli projects"
-              >
-                <a href="./project.html?id=csnake">
-                  <figure class="project-img">
-                    <div class="project-item-icon-box">
-                      <ion-icon name="eye-outline"></ion-icon>
-                    </div>
-
-                    <img
-                      src="./assets/images/store.png"
-                      alt="dsm."
-                      loading="lazy"
-                    />
-                  </figure>
-
-                  <h3 class="project-title">Csnake</h3>
-
-                  <p class="project-category">A cross-code translator designed to map C language code into Python, facilitating seamless code migration and interoperability between these two popular programming languages.</p>
-                </a>
-              </li>
-
-              <li
-                class="project-item active"
-                data-filter-item
-                data-category="packages/plugins"
-              >
-                <a href="./project.html?id=modifiable-progress-indicators">
-                  <figure class="project-img">
-                    <div class="project-item-icon-box">
-                      <ion-icon name="eye-outline"></ion-icon>
-                    </div>
-
-                    <img
-                      src="./assets/images/img.jpg"
-                      alt="orizon"
-                      loading="lazy"
-                    />
-                  </figure>
-
-                  <h3 class="project-title">Modifiable Progress Indicators</h3>
-
-                  <p class="project-category">
-                    A Flutter package that let's you create beautiful modifiable
-                    progress indicators.
-                  </p>
-                </a>
-              </li>
-
-              <!-- <li
-                class="project-item active"
-                data-filter-item
-                data-category="applications"
-              >
-                <a href="./project.html?id=notex">
-                  <figure class="project-img">
-                    <div class="project-item-icon-box">
-                      <ion-icon name="eye-outline"></ion-icon>
-                    </div>
-
-                    <img
-                      src="./assets/images/Notex.png"
-                      alt="finance"
-                      loading="lazy"
-                    />
-                  </figure>
-
-                  <h3 class="project-title">NoteX</h3>
-
-                  <p class="project-category">
-                    An open source easy-to-use social media application to
-                    study, share resources, connect with each other, find
-                    opportunities and grow. A single platform to cater to all
-                    the needs of a student.
-                  </p>
-                </a>
-              </li> -->
-
-              <li
-                class="project-item active"
-                data-filter-item
-                data-category="applications"
-              >
-                <a href="./project.html?id=maitri">
-                  <figure class="project-img">
-                    <div class="project-item-icon-box">
-                      <ion-icon name="eye-outline"></ion-icon>
-                    </div>
-
-                    <img
-                      src="./assets/images/maitri.png"
-                      alt="orizon"
-                      loading="lazy"
-                    />
-                  </figure>
-
-                  <h3 class="project-title">Maitri</h3>
-
-                  <p class="project-category">
-                    An assistance app for visually impaired people in their
-                    day-to-day life. "Maitrī" goes beyond conventional
-                    assistance apps for the visually impaired by incorporating
-                    real-time analysis into its array of capabilities.
-                  </p>
-                </a>
-              </li>
-
-              <!-- <li
-                class="project-item active"
-                data-filter-item
-                data-category="applications"
-              >
-                <a href="./project.html?id=solana-social-verse">
-                  <figure class="project-img">
-                    <div class="project-item-icon-box">
-                      <ion-icon name="eye-outline"></ion-icon>
-                    </div>
-
-                    <img
-                      src="./assets/images/solanaLogoMark.png"
-                      alt="orizon"
-                      loading="lazy"
-                    />
-                  </figure>
-
-                  <h3 class="project-title">Solana Social Verse</h3>
-
-                  <p class="project-category">Crypto Wallet</p>
-                </a>
-              </li> -->
-
-              <li
-                class="project-item active"
-                data-filter-item
-                data-category="web development"
-              >
-                <a href="./project.html?id=mindspace-web">
-                  <figure class="project-img">
-                    <div class="project-item-icon-box">
-                      <ion-icon name="eye-outline"></ion-icon>
-                    </div>
-
-                    <img
-                      src="./assets/images/mindspace.png"
-                      alt="fundo"
-                      loading="lazy"
-                    />
-                  </figure>
-
-                  <h3 class="project-title">MindSpace - Web</h3>
-
-                  <p class="project-category">
-                    MindSpace is a web app that aims to improve access to mental
-                    health resources and support, particularly for those who may
-                    not have the means or ability to attend in-person
-                    appointments.
-                  </p>
-                </a>
-              </li>
-
-              <li
-                class="project-item active"
-                data-filter-item
-                data-category="applications"
-              >
-                <a href="./project.html?id=annapurna">
-                  <figure class="project-img">
-                    <div class="project-item-icon-box">
-                      <ion-icon name="eye-outline"></ion-icon>
-                    </div>
-
-                    <img
-                      src="./assets/images/meals app.png"
-                      alt="brawlhalla"
-                      loading="lazy"
-                    />
-                  </figure>
-
-                  <h3 class="project-title">Annapurna</h3>
-
-                  <p class="project-category">
-                    A simple meals app using Firebase for authentication and
-                    cloud storage to store user data
-                  </p>
-                </a>
-              </li>
-
-              <li
-                class="project-item active"
-                data-filter-item
-                data-category="cli projects"
-              >
-                <a href="./project.html?id=cli-letter">
-                  <figure class="project-img">
-                    <div class="project-item-icon-box">
-                      <ion-icon name="eye-outline"></ion-icon>
-                    </div>
-
-                    <img
-                      src="./assets/images/cli logo.png"
-                      alt="dsm."
-                      loading="lazy"
-                    />
-                  </figure>
-
-                  <h3 class="project-title">CLI Letter</h3>
-
-                  <p class="project-category">
-                    A cli letter for your siginificant one
-                  </p>
-                </a>
-              </li>
-
-              <li
-                class="project-item active"
-                data-filter-item
-                data-category="cli projects"
-              >
-                <a href="./project.html?id=restaurant-basic-restaurant-management-and-billing-system">
-                  <figure class="project-img">
-                    <div class="project-item-icon-box">
-                      <ion-icon name="eye-outline"></ion-icon>
-                    </div>
-
-                    <img
-                      src="./assets/images/restaarant.jpg"
-                      alt="metaspark"
-                      loading="lazy"
-                    />
-                  </figure>
-
-                  <h3 class="project-title">
-                    Restaurant Basic-Restaurant-Management-and-Billing-System
-                  </h3>
-
-                  <p class="project-category">
-                    This is a basic restaurant management and billing system in
-                    C programming language, this is our project for first
-                    semester in computer science
-                  </p>
-                </a>
-              </li>
-
-              <!-- <li
-                class="project-item active"
-                data-filter-item
-                data-category="web development"
-              >
-                <a href="./project.html?id=notexplorer-api">
-                  <figure class="project-img">
-                    <div class="project-item-icon-box">
-                      <ion-icon name="eye-outline"></ion-icon>
-                    </div>
-
-                    <img
-                      src="./assets/images/notexplorer.webp"
-                      alt="summary"
-                      loading="lazy"
-                    />
-                  </figure>
-
-                  <h3 class="project-title">NoteXplorer-API</h3>
-
-                  <p class="project-category">custom built API</p>
-                </a>
-              </li> -->
-
-              <li
-                class="project-item active"
-                data-filter-item
-                data-category="web development"
-              >
-                <a href="./project.html?id=angular-weather-app">
-                  <figure class="project-img">
-                    <div class="project-item-icon-box">
-                      <ion-icon name="eye-outline"></ion-icon>
-                    </div>
-
-                    <img
-                      src="./assets/images/weather.png"
-                      alt="task manager"
-                      loading="lazy"
-                    />
-                  </figure>
-
-                  <h3 class="project-title">Angular Weather App</h3>
-
-                  <p class="project-category">
-                    A Weather application that gives you information about the
-                    weather of a city you enter. You can have info about current
-                    weather as well as forecast for five days
-                  </p>
-                </a>
-              </li>
-
-              <!-- <li
-                class="project-item active"
-                data-filter-item
-                data-category="web development"
-              >
-                <a href="./project.html?id=pyscript-todo-app">
-                  <figure class="project-img">
-                    <div class="project-item-icon-box">
-                      <ion-icon name="eye-outline"></ion-icon>
-                    </div>
-
-                    <img
-                      src="./assets/images/todo.png"
-                      alt="arrival"
-                      loading="lazy"
-                    />
-                  </figure>
-
-                  <h3 class="project-title">Pyscript - Todo app</h3>
-
-                  <p class="project-category">Web development</p>
-                </a>
-              </li> -->
-
-              <li
-                class="project-item active"
-                data-filter-item
-                data-category="music"
-              >
-                <a href="./project.html?id=daastan-e-sach">
-                  <figure class="project-img">
-                    <div class="project-item-icon-box">
-                      <ion-icon name="eye-outline"></ion-icon>
-                    </div>
-
-                    <img
-                      src="./assets/images/song 1.png"
-                      alt="arrival"
-                      loading="lazy"
-                    />
-                  </figure>
-
-                  <h3 class="project-title">Daastan-e-sach</h3>
-
-                  <p class="project-category">Conscious Rap Song</p>
-                </a>
-              </li>
-
-              <li
-                class="project-item active"
-                data-filter-item
-                data-category="music"
-              >
-                <a href="./project.html?id=billi">
-                  <figure class="project-img">
-                    <div class="project-item-icon-box">
-                      <ion-icon name="eye-outline"></ion-icon>
-                    </div>
-
-                    <img
-                      src="./assets/images/song 2.png"
-                      alt="arrival"
-                      loading="lazy"
-                    />
-                  </figure>
-
-                  <h3 class="project-title">Billi</h3>
-
-                  <p class="project-category">Satiric Rap Song</p>
-                </a>
-              </li>
-
-              <li
-                class="project-item active"
-                data-filter-item
-                data-category="music"
-              >
-                <a href="./project.html?id=spring-freestyle">
-                  <figure class="project-img">
-                    <div class="project-item-icon-box">
-                      <ion-icon name="eye-outline"></ion-icon>
-                    </div>
-
-                    <img
-                      src="./assets/images/spring freestyle thumbnail.png"
-                      alt="arrival"
-                      loading="lazy"
-                    />
-                  </figure>
-
-                  <h3 class="project-title">Spring Freestyle</h3>
-
-                  <p class="project-category">Freestyle Rap Song</p>
-                </a>
-              </li>
-            </ul>
-          </section>
-        </article>
-
-        <!-- # Sessions -->
-        <article class="portfolio" data-page="sessions">
-          <header>
-            <h2 class="h2 article-title">Talks</h2>
-          </header>
-
-          <section class="projects">
-            <!-- <ul class="filter-list">
-
-            <li class="filter-item">
-              <button class="active" data-filter-btn>All</button>
-            </li>
-
-            <li class="filter-item">
-              <button data-filter-btn>Applications</button>
-            </li>
-
-            <li class="filter-item">
-              <button data-filter-btn>Web development</button>
-            </li>
-
-            <li class="filter-item">
-              <button data-filter-btn>CLI Projects</button>
-            </li>
-            <li class="filter-item">
-              <button data-filter-btn>Music</button>
-            </li>
-
-          </ul> -->
-
-            <!-- <div class="filter-select-box">
-
-            <button class="filter-select" data-select>
-
-              <div class="select-value" data-selecct-value>Select category</div>
-
-              <div class="select-icon">
-                <ion-icon name="chevron-down"></ion-icon>
-              </div>
-
-            </button>
-
-            <ul class="select-list">
-
-              <li class="select-item">
-                <button data-select-item>All</button>
-              </li>
-
-              <li class="select-item">
-                <button data-select-item>CLI Projects</button>
-              </li>
-
-              <li class="select-item">
-                <button data-select-item>Applications</button>
-              </li>
-
-              <li class="select-item">
-                <button data-select-item>Web development</button>
-              </li>
-              <li class="select-item">
-                <button data-select-item>Music</button>
-              </li>
-
-            </ul>
-
-          </div> -->
-
-            <ul class="project-list" data-sessions-list>
-              <li class="project-item active">Loading…</li>
-            </ul>
-          </section>
-        </article>
-
-        <!--
-        - #BLOG
-      -->
-
-        <article class="blog" data-page="blog">
-          <header>
-            <h2 class="h2 article-title">Blog</h2>
-          </header>
-
-          <section class="blog-posts">
-            <ul class="blog-filter" role="tablist">
-              <li><button class="active" data-blog-filter="all" type="button">All</button></li>
-              <li><button data-blog-filter="self" type="button">Mine</button></li>
-              <li><button data-blog-filter="external" type="button">External</button></li>
-            </ul>
-
-            <ul class="blog-posts-list" data-blog-list>
-              <li class="blog-empty" data-blog-loading>Loading posts…</li>
-            </ul>
-          </section>
-        </article>
-
-        <!--
-        - #CONTACT
-      -->
-
-        <article class="contact" data-page="contact">
-          <header>
-            <h2 class="h2 article-title">Contact</h2>
-          </header>
-
-          <!-- <section class="mapbox" data-mapbox>
-          <figure>
-            <iframe
-              src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d199666.5651251294!2d-121.58334177520186!3d38.56165006739519!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x809ac672b28397f9%3A0x921f6aaa74197fdb!2sSacramento%2C%20CA%2C%20USA!5e0!3m2!1sen!2sbd!4v1647608789441!5m2!1sen!2sbd"
-              width="400" height="300" loading="lazy"></iframe>
-          </figure>
-        </section> -->
-
-          <section class="contact-form">
-            <h3 class="h3 form-title">Let's build something</h3>
-
-            <form
-              action="https://formsubmit.co/subroto.2003@gmail.com"
-              method="POST"
-              class="form ec-form"
-              data-form
-            >
-              <input type="hidden" name="_subject" value="New message from portfolio" />
-              <input type="hidden" name="_captcha" value="false" />
-              <input type="text" name="_honey" style="display:none" />
-
-              <div class="ec-intent">
-                <input type="radio" id="intent-collab" name="intent" value="Collaboration" checked />
-                <label for="intent-collab">Collaborate</label>
-
-                <input type="radio" id="intent-project" name="intent" value="Project / Freelance" />
-                <label for="intent-project">Project / Freelance</label>
-
-                <input type="radio" id="intent-call" name="intent" value="Book a call" />
-                <label for="intent-call">Book a call</label>
-              </div>
-
-              <div class="input-wrapper">
-                <input
-                  type="text"
-                  name="fullname"
-                  class="form-input"
-                  placeholder="Full name"
-                  required
-                  data-form-input
-                />
-
-                <input
-                  type="email"
-                  name="email"
-                  class="form-input"
-                  placeholder="Email address"
-                  required
-                  data-form-input
-                />
-              </div>
-
-              <textarea
-                name="message"
-                class="form-input"
-                placeholder="Tell me about your idea, project or collab…"
-                required
-                data-form-input
-              ></textarea>
-
-              <button class="form-btn" type="submit" disabled data-form-btn>
-                <ion-icon name="paper-plane"></ion-icon>
-                <span>Send Message</span>
-              </button>
-            </form>
-
-            <h3 class="h3 form-title" style="margin-top: 30px;">Or book a call directly</h3>
+          </div>
+
+          <!-- book a call -->
+          <div class="cal-wrap reveal">
+            <div class="cal-head">
+              <ion-icon name="calendar-outline" style="color: var(--accent); font-size: 16px"></ion-icon>
+              <h3>Or book a call directly</h3>
+            </div>
 
             <!-- Cal inline embed code begins -->
-            <div
-              style="width: 100%; height: 100%; overflow: scroll"
-              id="my-cal-inline"
-            ></div>
+            <div id="my-cal-inline"></div>
             <script type="text/javascript">
               (function (C, A, L) {
                 let p = function (a, ar) {
@@ -1531,143 +1117,57 @@ individuals to brainstorm, sketch, and organize ideas effortlessly.
               });
             </script>
             <!-- Cal inline embed code ends -->
-
-            <h3 class="h3 form-title">Or reach out to me through</h3>
-            <ul class="social-list">
-              <li class="social-item-contact">
-                <a
-                  target="_blank"
-                  href="https://bio.link/teewrath"
-                  class="social-link"
-                >
-                  <ion-icon name="link-outline"></ion-icon>
-                </a>
-              </li>
-
-              <li class="social-item-contact">
-                <a
-                  target="_blank"
-                  href="https://www.facebook.com/subroto.banerjee.56"
-                  class="social-link"
-                >
-                  <ion-icon name="logo-facebook"></ion-icon>
-                </a>
-              </li>
-
-              <li class="social-item-contact">
-                <a
-                  target="_blank"
-                  href="https://github.com/TeeWrath"
-                  class="social-link"
-                >
-                  <ion-icon name="logo-github"></ion-icon>
-                </a>
-              </li>
-
-              <li class="social-item-contact">
-                <a
-                  target="_blank"
-                  href="https://www.linkedin.com/in/subroto-banerjee-70983b214/"
-                  class="social-link"
-                >
-                  <ion-icon name="logo-linkedin"></ion-icon>
-                </a>
-              </li>
-
-              <li class="social-item-contact">
-                <a
-                  target="_blank"
-                  href="https://medium.com/@subroto.2003"
-                  class="social-link"
-                >
-                  <ion-icon name="logo-medium"></ion-icon>
-                </a>
-              </li>
-
-              <li class="social-item-contact">
-                <a
-                  target="_blank"
-                  href="https://reddit.com/u/TeeWrath"
-                  class="social-link"
-                >
-                  <ion-icon name="logo-reddit"></ion-icon>
-                </a>
-              </li>
-
-              <li class="social-item-contact">
-                <a
-                  target="_blank"
-                  href="https://twitter.com/Subroto0108"
-                  class="social-link"
-                >
-                  <ion-icon name="logo-twitter"></ion-icon>
-                </a>
-              </li>
-
-              <li class="social-item-contact">
-                <a
-                  target="_blank"
-                  href="https://instagram.com/subroto._banerjee"
-                  class="social-link"
-                >
-                  <ion-icon name="logo-instagram"></ion-icon>
-                </a>
-              </li>
-
-              <li class="social-item-contact">
-                <a
-                  target="_blank"
-                  href="https://www.snapchat.com/add/i_subbu01"
-                  class="social-link"
-                >
-                  <ion-icon name="logo-snapchat"></ion-icon>
-                </a>
-              </li>
-
-              <li class="social-item-contact">
-                <a
-                  target="_blank"
-                  href="https://wa.me/+8954402360"
-                  class="social-link"
-                >
-                  <ion-icon name="logo-whatsapp"></ion-icon>
-                </a>
-              </li>
-
-              <li class="social-item-contact">
-                <a
-                  target="_blank"
-                  href="https://www.youtube.com/channel/UCoa6CBkSNICu_TjKf5xOZ_A"
-                  class="social-link"
-                >
-                  <ion-icon name="logo-youtube"></ion-icon>
-                </a>
-              </li>
-            </ul>
-            <a rel="me" href="https://mastodon.social/@TeeWrath">Mastodon</a>
-          </section>
-        </article>
-      </div>
+          </div>
+        </div>
+      </section>
     </main>
 
-    <!--
-    - custom js link
-  -->
-    <script src="./assets/js/script.js"></script>
-    <script src="./assets/js/blog.js"></script>
-    <script src="./assets/js/content.js"></script>
-    <script src="./assets/js/elite.js"></script>
+    <!-- ============================= FOOTER ============================= -->
+    <footer class="footer">
+      <div class="shell">
+        <div class="footer-grid">
+          <div>
+            <p class="footer-word">Subroto Banerjee</p>
+            <p class="footer-tag">Builder | Creator — Agra, Uttar Pradesh, India</p>
+          </div>
 
-    <!--
-    - ionicon link
-  -->
-    <script
-      type="module"
-      src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.esm.js"
-    ></script>
-    <script
-      nomodule
-      src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.js"
-    ></script>
+          <nav class="footer-nav" aria-label="Footer">
+            <a href="#about">About</a>
+            <a href="#experience">Experience</a>
+            <a href="#projects">Projects</a>
+            <a href="#sessions">Sessions</a>
+            <a href="#blog">Blog</a>
+            <a href="#contact">Contact</a>
+          </nav>
+        </div>
+
+        <div class="footer-base">
+          <span>© <span data-year>2026</span> Subroto Banerjee</span>
+          <a rel="me" href="https://mastodon.social/@TeeWrath" target="_blank">Mastodon</a>
+          <a class="up" href="#top">Back to top <ion-icon name="arrow-up-outline"></ion-icon></a>
+        </div>
+      </div>
+    </footer>
+
+    <!-- ============================= COMMAND PALETTE ============================= -->
+    <div class="cmdk" data-cmdk role="dialog" aria-modal="true" aria-label="Command palette">
+      <div class="cmdk-panel">
+        <div class="cmdk-field">
+          <ion-icon name="search-outline"></ion-icon>
+          <input type="text" placeholder="Jump to a section, or open a link…" data-cmdk-input aria-label="Search" />
+          <kbd>ESC</kbd>
+        </div>
+        <div class="cmdk-list" data-cmdk-list></div>
+      </div>
+    </div>
+
+    <!-- ============================= SCRIPTS ============================= -->
+    <script src="./assets/js/app.js"></script>
+    <script src="./assets/js/content.js"></script>
+    <script src="./assets/js/blog.js"></script>
+
+    <!-- ionicons -->
+    <script type="module" src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.esm.js"></script>
+    <script nomodule src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.js"></script>
   </body>
 </html>
