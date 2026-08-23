@@ -1,20 +1,39 @@
 [
   {
     "logo": "R",
-    "company": "RudraX Ltd.",
-    "meta": "Internship · Oct 2025 — Present",
+    "company": "RudraX Technologies Ltd.",
+    "meta": "Remote · Intern → Full-time · Oct 2025 — Present",
     "roles": [
       {
-        "title": "SDE Intern",
-        "date": "Oct 2025 — Present",
+        "title": "Software Development Engineer I",
+        "date": "Aug 2026 — Present",
         "current": true,
         "points": [
-          "Delivered 7+ production projects across mobile, web, and QA domains; sole mobile engineer on a client application, building cross-platform Flutter apps with BLoC state management and Dio for REST API integration. ",
-          "Built 4 web applications using Next.js, TypeScript, and Tailwind CSS with REST API integration; executed black-box QA testing across releases prior to client delivery."
+          "Promoted to full-time SDE I after two consecutive internship terms, having delivered 7+ production projects across mobile, web, and QA domains.",
+          "Continue to own feature delivery end-to-end across Flutter mobile and Next.js web products, from implementation through QA to client release."
+        ]
+      },
+      {
+        "title": "SDE Intern",
+        "date": "Apr 2026 — Jul 2026",
+        "current": false,
+        "points": [
+          "Elevated from a mobile-only scope to full-stack product work — built 4 web applications using Next.js, TypeScript, and Tailwind CSS with REST API integration.",
+          "Executed black-box QA testing across releases prior to client delivery; converted to a full-time SDE I offer in Aug 2026."
+        ]
+      },
+      {
+        "title": "Mobile Application Development Intern",
+        "date": "Oct 2025 — Apr 2026",
+        "current": false,
+        "points": [
+          "Sole mobile engineer on a client application, building cross-platform Flutter apps with BLoC state management and Dio for REST API integration.",
+          "Shipped the app through to client delivery and was promoted to SDE Intern in Apr 2026 on the strength of that ownership."
         ]
       }
     ]
-  },{
+  },
+  {
     "logo": "C",
     "company": "Cooketh Company",
     "meta": "Part Time · Feb — Oct 2025",
@@ -56,7 +75,7 @@
         "current": false,
         "points": [
           "Implemented end-to-end user flows for a travel application in Flutter using Provider for state management."
-                  ]
+        ]
       }
     ]
   },
