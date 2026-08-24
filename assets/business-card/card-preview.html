@@ -1,0 +1,275 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet" />
+<title>Business Card Preview — Subroto Banerjee</title>
+<style>
+  /* Tokens lifted from assets/css/core.css (dark theme) */
+  :root {
+    --void:            hsl(228, 16%, 3.2%);
+    --ink-800:         hsl(228, 14%, 6.4%);
+    --surface:         hsl(228, 14%, 5.8%);
+    --panel:           hsla(205, 70%, 92%, 0.022);
+    --panel-2:         hsla(205, 70%, 92%, 0.05);
+    --hairline:        hsla(200, 60%, 88%, 0.09);
+    --hairline-strong: hsla(200, 70%, 90%, 0.2);
+    --text-hi:  hsl(195, 30%, 97%);
+    --text-mid: hsl(208, 13%, 71%);
+    --text-low: hsl(212, 11%, 49%);
+    --accent:     hsl(184, 92%, 55%);
+    --accent-2:   hsl(256, 92%, 71%);
+    --accent-3:   hsl(152, 82%, 55%);
+    --accent-dim: hsla(184, 92%, 55%, 0.13);
+    --accent-ink: hsl(196, 70%, 5%);
+    --glow:       hsla(184, 95%, 55%, 0.32);
+    --grid-line: hsla(196, 70%, 82%, 0.045);
+    --aurora:    hsla(184, 95%, 50%, 0.11);
+    --aurora-2:  hsla(256, 92%, 62%, 0.10);
+    --ff-display: 'Space Grotesk', system-ui, sans-serif;
+    --ff-body:    'Inter', system-ui, sans-serif;
+    --ff-mono:    'JetBrains Mono', ui-monospace, monospace;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  s { text-decoration: none; }
+  body {
+    background: transparent;
+    font-family: var(--ff-body);
+    -webkit-font-smoothing: antialiased;
+  }
+
+  /* 3.5in x 2in at 200px/in --> 700 x 400 CSS px; rendered at DSF 3 = 600 DPI */
+  .card {
+    position: relative;
+    width: 700px;
+    height: 400px;
+    overflow: hidden;
+    background: var(--void);
+    border-radius: 20px;
+    box-shadow: inset 0 0 0 1px var(--hairline);
+    color: var(--text-mid);
+    isolation: isolate;
+  }
+
+  /* atmosphere: aurora wash + hairline grid, same recipe as the site background */
+  .card::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background:
+      radial-gradient(58% 78% at 92% 4%, var(--aurora), transparent 62%),
+      radial-gradient(52% 70% at 2% 100%, var(--aurora-2), transparent 64%);
+    z-index: 0;
+  }
+  .card::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background:
+      linear-gradient(to right, var(--grid-line) 1px, transparent 1px) 0 0 / 28px 100%,
+      linear-gradient(to bottom, var(--grid-line) 1px, transparent 1px) 0 0 / 100% 28px;
+    mask-image: radial-gradient(120% 120% at 50% 0%, #000 30%, transparent 82%);
+    z-index: 0;
+  }
+  .inner { position: relative; z-index: 2; height: 100%; padding: 34px 38px; display: flex; flex-direction: column; }
+
+  /* top hairline rule with an accent segment, echoing the site's section heads */
+  .rule { position: absolute; left: 0; right: 0; top: 0; height: 2px; background: var(--hairline); z-index: 3; }
+  .rule i { position: absolute; left: 0; top: 0; height: 2px; width: 132px;
+            background: linear-gradient(90deg, var(--accent), var(--accent-2)); }
+
+  /* ---------------- shared bits ---------------- */
+  .mono { font-family: var(--ff-mono); }
+  .kicker {
+    font-family: var(--ff-mono);
+    font-size: 9.5px; font-weight: 500;
+    letter-spacing: 0.19em; text-transform: uppercase;
+    color: var(--text-low);
+  }
+  .mark {
+    width: 46px; height: 46px; flex: none;
+    display: grid; place-items: center;
+    border-radius: 13px;
+    background: linear-gradient(150deg, var(--panel-2), transparent 70%);
+    box-shadow: inset 0 0 0 1px var(--hairline-strong), 0 0 22px -8px var(--glow);
+    font-family: var(--ff-display); font-weight: 700; font-size: 18px;
+    letter-spacing: -0.03em; color: var(--text-hi);
+  }
+  .mark span { background: linear-gradient(180deg, var(--text-hi), var(--accent));
+               -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+
+  .status {
+    display: inline-flex; align-items: center; gap: 7px;
+    padding: 5px 11px 5px 9px; border-radius: 999px;
+    background: hsla(152, 82%, 55%, 0.07);
+    box-shadow: inset 0 0 0 1px hsla(152, 82%, 55%, 0.26);
+    font-family: var(--ff-mono); font-size: 8.5px; font-weight: 500;
+    letter-spacing: 0.15em; text-transform: uppercase; color: var(--accent-3);
+  }
+  .status b { width: 5px; height: 5px; border-radius: 50%; background: var(--accent-3);
+              box-shadow: 0 0 8px 1px hsla(152, 82%, 55%, 0.7); }
+
+  .top { display: flex; align-items: center; justify-content: space-between; gap: 16px; }
+
+  /* ---------------- FRONT ---------------- */
+  .name {
+    font-family: var(--ff-display); font-weight: 600;
+    font-size: 47px; line-height: 1.02; letter-spacing: -0.035em;
+    color: var(--text-hi);
+  }
+  .name em { font-style: normal; color: var(--accent); }
+  .role {
+    margin-top: 11px;
+    font-family: var(--ff-mono); font-size: 11px; font-weight: 500;
+    letter-spacing: 0.055em; color: var(--text-mid);
+  }
+  .role s { text-decoration: none; color: var(--accent); }
+
+  .hats { margin-top: auto; display: flex; gap: 9px; }
+  .hat {
+    flex: 1;
+    padding: 11px 13px 12px;
+    border-radius: 12px;
+    background: var(--panel);
+    box-shadow: inset 0 0 0 1px var(--hairline);
+  }
+  .hat p { font-family: var(--ff-mono); font-size: 8px; font-weight: 500;
+           letter-spacing: 0.17em; text-transform: uppercase; color: var(--text-low); }
+  .hat b { display: block; margin-top: 5px;
+           font-family: var(--ff-display); font-weight: 600; font-size: 14.5px;
+           letter-spacing: -0.02em; color: var(--text-hi); }
+  .hat i { display: block; margin-top: 5px; font-style: normal;
+           font-family: var(--ff-mono); font-size: 9.5px; font-weight: 500;
+           letter-spacing: 0.02em; color: var(--text-low); }
+  .hat i { display: block; margin-top: 5px; font-style: normal;
+           font-family: var(--ff-mono); font-size: 9.5px; font-weight: 500;
+           letter-spacing: 0.02em; color: var(--text-low); }
+  .hat.a { box-shadow: inset 0 0 0 1px var(--accent-dim); }
+  .hat.a b { color: var(--accent); }
+
+  .foot { margin-top: 16px; display: flex; align-items: center; justify-content: space-between;
+          padding-top: 14px; border-top: 1px solid var(--hairline); }
+  .foot .site { font-family: var(--ff-mono); font-size: 11px; font-weight: 500;
+                letter-spacing: 0.03em; color: var(--text-hi); }
+  .foot .site s { text-decoration: none; color: var(--text-low); }
+  .foot .site.alt { color: var(--text-mid); }
+  .foot .site.alt { color: var(--text-mid); }
+  .foot .site.alt { color: var(--text-mid); }
+  .foot .site.alt { color: var(--text-mid); }
+  .foot .site.alt { color: var(--text-mid); }
+  .foot .site.alt { color: var(--text-mid); }
+
+  /* ---------------- BACK ---------------- */
+  .back .inner { padding: 32px 36px; }
+  .bhead { display: flex; align-items: flex-start; justify-content: space-between; gap: 20px; }
+  .bhead h3 { font-family: var(--ff-display); font-weight: 600; font-size: 19px;
+              letter-spacing: -0.025em; color: var(--text-hi); margin-top: 3px; }
+  .bhead .kicker { display: block; margin-bottom: 0; }
+
+  .cols { flex: 1; align-content: center; display: grid; grid-template-columns: 1fr 1fr; column-gap: 26px; row-gap: 30px; padding: 4px 0; }
+  .row { display: flex; flex-direction: column; align-items: flex-start; gap: 7px; min-width: 0; }
+  .row .k {
+    flex: none;
+    font-family: var(--ff-mono); font-size: 8px; font-weight: 600;
+    letter-spacing: 0.13em; text-transform: uppercase; color: var(--accent);
+  }
+  .row .v {
+    font-family: var(--ff-mono); font-size: 11.5px; letter-spacing: 0.01em;
+    color: var(--text-hi); max-width: 100%; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+  }
+  .row .v s { text-decoration: none; color: var(--text-low); }
+
+  .qrwrap { display: flex; align-items: center; gap: 13px; }
+  .qr {
+    width: 96px; height: 96px; flex: none; padding: 3px;
+    border-radius: 11px; background: var(--text-hi);
+    box-shadow: 0 0 0 1px var(--hairline-strong), 0 10px 26px -14px hsla(228, 40%, 1%, 0.8);
+  }
+  .qr svg { display: block; width: 100%; height: 100%; }
+  .qrnote { font-family: var(--ff-mono); font-size: 8.5px; line-height: 1.7;
+            letter-spacing: 0.11em; text-transform: uppercase; color: var(--text-low); }
+  .qrnote b { display: block; color: var(--text-mid); }
+
+  .bfoot { margin-top: auto; padding-top: 13px; border-top: 1px solid var(--hairline);
+           display: flex; flex-direction: column; align-items: flex-start; gap: 9px; }
+  .stack { display: flex; gap: 6px; }
+  .stack span {
+    font-family: var(--ff-mono); font-size: 8px; font-weight: 500;
+    letter-spacing: 0.1em; text-transform: uppercase; color: var(--text-low);
+    padding: 4px 8px; border-radius: 999px; box-shadow: inset 0 0 0 1px var(--hairline);
+  }
+
+  /* preview sheet */
+  .sheet { padding: 0; display: flex; flex-direction: column; gap: 34px; align-items: flex-start; }
+  .lbl { font-family: var(--ff-mono); font-size: 10px; letter-spacing: 0.2em;
+         text-transform: uppercase; color: hsl(212, 11%, 42%); margin-bottom: 11px; }
+  .shadowed { box-shadow: 0 30px 68px -30px hsla(228, 45%, 1%, 0.9), inset 0 0 0 1px var(--hairline); }
+</style>
+<style>body { background: #0a0c10; padding: 46px; }</style>
+</head>
+<body>
+<div class="sheet"><div><p class="lbl">Front</p>
+<div class="card front shadowed" id="front">
+  <span class="rule"><i></i></span>
+  <div class="inner">
+    <div class="top">
+      <span class="mark"><span>SB</span></span>
+      <span class="status"><b></b>Open to collaborations</span>
+    </div>
+
+    <h1 class="name" style="margin-top:32px">Subroto<br /><em>Banerjee</em></h1>
+    <p class="role">SDE <s>&nbsp;·&nbsp;</s> Builder <s>&nbsp;·&nbsp;</s> Creator</p>
+
+    <div class="hats">
+      <div class="hat a">
+        <p>Founder</p>
+        <b>Wrath Labs</b>
+        <i>wrathlabs.in</i>
+      </div>
+      <div class="hat">
+        <p>Creator</p>
+        <b>Cooketh Flow</b>
+      </div>
+    </div>
+
+    <div class="foot">
+      <span class="site">teewrath.github.io</span>
+      <span class="site alt"><s>bio.link/</s>teewrath</span>
+    </div>
+  </div>
+</div>
+</div><div><p class="lbl">Back</p>
+<div class="card back shadowed" id="back">
+  <span class="rule"><i></i></span>
+  <div class="inner">
+    <div class="bhead">
+      <div>
+        <span class="kicker">Get in touch</span>
+        <h3>Let&rsquo;s build something.</h3>
+      </div>
+      <div class="qrwrap">
+        <div class="qrnote"><b>Scan</b>All links</div>
+        <div class="qr"><svg viewBox="0 0 33 33" shape-rendering="crispEdges" xmlns="http://www.w3.org/2000/svg"><path stroke="hsl(196,70%,5%)" d="M4 4.5h7m4 0h2m2 0h1m2 0h7M4 5.5h1m5 0h1m1 0h2m3 0h4m1 0h1m5 0h1M4 6.5h1m1 0h3m1 0h1m4 0h1m2 0h2m2 0h1m1 0h3m1 0h1M4 7.5h1m1 0h3m1 0h1m4 0h2m1 0h1m3 0h1m1 0h3m1 0h1M4 8.5h1m1 0h3m1 0h1m1 0h2m1 0h1m2 0h3m1 0h1m1 0h3m1 0h1M4 9.5h1m5 0h1m2 0h2m2 0h4m1 0h1m5 0h1M4 10.5h7m1 0h1m1 0h1m1 0h1m1 0h1m1 0h1m1 0h7M16 11.5h3M4 12.5h1m1 0h1m1 0h1m1 0h1m5 0h2m1 0h2m3 0h1m2 0h1M5 13.5h1m5 0h1m1 0h3m1 0h1m2 0h3m5 0h1M4 14.5h5m1 0h7m3 0h1m5 0h3M5 15.5h1m3 0h1m1 0h1m2 0h1m2 0h2m1 0h1m2 0h1m3 0h1M4 16.5h4m1 0h2m5 0h2m1 0h4m2 0h1m1 0h2M5 17.5h1m7 0h6m1 0h3m2 0h1m2 0h1M4 18.5h1m1 0h1m3 0h2m3 0h3m3 0h1m1 0h1m2 0h3M5 19.5h1m1 0h2m2 0h4m1 0h4m2 0h1m1 0h1m2 0h1M4 20.5h1m1 0h1m1 0h1m1 0h1m1 0h6m1 0h7M12 21.5h1m2 0h1m1 0h4m3 0h2m1 0h2M4 22.5h7m3 0h1m1 0h5m1 0h1m1 0h2m1 0h2M4 23.5h1m5 0h1m4 0h1m1 0h1m2 0h1m3 0h2M4 24.5h1m1 0h3m1 0h1m1 0h6m2 0h6M4 25.5h1m1 0h3m1 0h1m3 0h1m1 0h2m1 0h1m1 0h1m1 0h4M4 26.5h1m1 0h3m1 0h1m1 0h1m3 0h1m1 0h2m4 0h1m3 0h1M4 27.5h1m5 0h1m2 0h8m1 0h1m1 0h2m1 0h1M4 28.5h7m1 0h1m1 0h1m2 0h1m1 0h2m2 0h1m3 0h2"/></svg></div>
+      </div>
+    </div>
+
+    <div class="cols">
+      <div class="row"><span class="k">Mail</span><span class="v">subroto.2003@gmail.com</span></div>
+      <div class="row"><span class="k">Tel</span><span class="v">+91 89544 02360</span></div>
+      <div class="row"><span class="k">In</span><span class="v"><s>linkedin.com/in/</s>subroto-banerjee</span></div>
+      <div class="row"><span class="k">X</span><span class="v"><s>x.com/</s>Subroto0108</span></div>
+    </div>
+
+    <div class="bfoot">
+      <span class="kicker">Services</span>
+      <div class="stack">
+        <span>Web Development</span><span>iOS &amp; Android Apps</span><span>AI Integration</span><span>Tech Strategy &amp; Consultation</span>
+      </div>
+    </div>
+  </div>
+</div>
+</div></div>
+</body></html>
