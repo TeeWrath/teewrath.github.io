@@ -74,7 +74,7 @@
     mask-image: radial-gradient(120% 120% at 50% 0%, #000 30%, transparent 82%);
     z-index: 0;
   }
-  .inner { position: relative; z-index: 2; height: 100%; padding: 34px 38px; display: flex; flex-direction: column; }
+  .inner { position: relative; z-index: 2; height: 100%; padding: 29px 38px 30px; display: flex; flex-direction: column; }
 
   /* top hairline rule with an accent segment, echoing the site's section heads */
   .rule { position: absolute; left: 0; right: 0; top: 0; height: 2px; background: var(--hairline); z-index: 3; }
@@ -117,36 +117,39 @@
   /* ---------------- FRONT ---------------- */
   .name {
     font-family: var(--ff-display); font-weight: 600;
-    font-size: 47px; line-height: 1.02; letter-spacing: -0.035em;
+    font-size: 54px; line-height: 1.02; letter-spacing: -0.035em;
     color: var(--text-hi);
   }
   .name em { font-style: normal; color: var(--accent); }
+  .body { flex: 1; margin-top: 24px; display: flex; align-items: stretch; gap: 26px; }
+  .idcol { flex: 1 1 auto; min-width: 0; display: flex; flex-direction: column; justify-content: center; }
   .role {
-    margin-top: 11px;
-    font-family: var(--ff-mono); font-size: 11px; font-weight: 500;
-    letter-spacing: 0.055em; color: var(--text-mid);
+    margin-top: 14px; white-space: nowrap;
+    font-family: var(--ff-mono); font-size: 15px; font-weight: 500;
+    letter-spacing: 0.05em; color: var(--text-mid);
   }
   .role s { text-decoration: none; color: var(--accent); }
 
-  .hats { margin-top: auto; display: flex; gap: 9px; }
+  .hats { flex: none; width: 318px; display: flex; flex-direction: column; gap: 10px; }
   .hat {
     flex: 1;
-    padding: 11px 13px 12px;
-    border-radius: 12px;
+    display: flex; flex-direction: column; justify-content: center;
+    padding: 13px 18px;
+    border-radius: 14px;
     background: var(--panel);
     box-shadow: inset 0 0 0 1px var(--hairline);
   }
-  .hat p { font-family: var(--ff-mono); font-size: 8px; font-weight: 500;
-           letter-spacing: 0.17em; text-transform: uppercase; color: var(--text-low); }
+  .hat p { font-family: var(--ff-mono); font-size: 12px; font-weight: 500;
+           letter-spacing: 0.15em; text-transform: uppercase; color: var(--text-low); }
   .hat b { display: block; margin-top: 5px;
-           font-family: var(--ff-display); font-weight: 600; font-size: 14.5px;
+           font-family: var(--ff-display); font-weight: 600; font-size: 21px;
            letter-spacing: -0.02em; color: var(--text-hi); }
   .hat i { display: block; margin-top: 5px; font-style: normal;
-           font-family: var(--ff-mono); font-size: 9.5px; font-weight: 500;
-           letter-spacing: 0.02em; color: var(--text-low); }
+           font-family: var(--ff-mono); font-size: 14px; font-weight: 500;
+           letter-spacing: 0.02em; color: var(--text-mid); }
   .hat i { display: block; margin-top: 5px; font-style: normal;
-           font-family: var(--ff-mono); font-size: 9.5px; font-weight: 500;
-           letter-spacing: 0.02em; color: var(--text-low); }
+           font-family: var(--ff-mono); font-size: 14px; font-weight: 500;
+           letter-spacing: 0.02em; color: var(--text-mid); }
   .hat.a { box-shadow: inset 0 0 0 1px var(--accent-dim); }
   .hat.a b { color: var(--accent); }
 
@@ -165,41 +168,31 @@
   /* ---------------- BACK ---------------- */
   .back .inner { padding: 32px 36px; }
   .bhead { display: flex; align-items: flex-start; justify-content: space-between; gap: 20px; }
-  .bhead h3 { font-family: var(--ff-display); font-weight: 600; font-size: 19px;
+  .bhead h3 { font-family: var(--ff-display); font-weight: 600; font-size: 27px;
               letter-spacing: -0.025em; color: var(--text-hi); margin-top: 3px; }
-  .bhead .kicker { display: block; margin-bottom: 0; }
+  .bhead .kicker { display: block; margin-bottom: 4px; }
+  .back .kicker { font-size: 13px; letter-spacing: 0.17em; }
 
-  .cols { flex: 1; align-content: center; display: grid; grid-template-columns: 1fr 1fr; column-gap: 26px; row-gap: 30px; padding: 4px 0; }
-  .row { display: flex; flex-direction: column; align-items: flex-start; gap: 7px; min-width: 0; }
+  .cols { flex: 1; align-content: center; display: grid; grid-template-columns: 386px 1fr; column-gap: 20px; row-gap: 26px; padding: 4px 0; }
+  .row { display: flex; flex-direction: column; align-items: flex-start; gap: 8px; min-width: 0; }
   .row .k {
     flex: none;
-    font-family: var(--ff-mono); font-size: 8px; font-weight: 600;
+    font-family: var(--ff-mono); font-size: 12px; font-weight: 600;
     letter-spacing: 0.13em; text-transform: uppercase; color: var(--accent);
   }
   .row .v {
-    font-family: var(--ff-mono); font-size: 11.5px; letter-spacing: 0.01em;
+    font-family: var(--ff-mono); font-size: 19px; letter-spacing: 0.01em;
     color: var(--text-hi); max-width: 100%; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
   }
   .row .v s { text-decoration: none; color: var(--text-low); }
 
-  .qrwrap { display: flex; align-items: center; gap: 13px; }
-  .qr {
-    width: 96px; height: 96px; flex: none; padding: 3px;
-    border-radius: 11px; background: var(--text-hi);
-    box-shadow: 0 0 0 1px var(--hairline-strong), 0 10px 26px -14px hsla(228, 40%, 1%, 0.8);
-  }
-  .qr svg { display: block; width: 100%; height: 100%; }
-  .qrnote { font-family: var(--ff-mono); font-size: 8.5px; line-height: 1.7;
-            letter-spacing: 0.11em; text-transform: uppercase; color: var(--text-low); }
-  .qrnote b { display: block; color: var(--text-mid); }
-
   .bfoot { margin-top: auto; padding-top: 13px; border-top: 1px solid var(--hairline);
            display: flex; flex-direction: column; align-items: flex-start; gap: 9px; }
-  .stack { display: flex; gap: 6px; }
+  .stack { display: flex; flex-wrap: wrap; gap: 7px; }
   .stack span {
-    font-family: var(--ff-mono); font-size: 8px; font-weight: 500;
-    letter-spacing: 0.1em; text-transform: uppercase; color: var(--text-low);
-    padding: 4px 8px; border-radius: 999px; box-shadow: inset 0 0 0 1px var(--hairline);
+    font-family: var(--ff-mono); font-size: 12px; font-weight: 500;
+    letter-spacing: 0.08em; text-transform: uppercase; color: var(--text-mid);
+    padding: 5px 10px; border-radius: 999px; box-shadow: inset 0 0 0 1px var(--hairline);
   }
 
   /* preview sheet */
@@ -220,18 +213,22 @@
       <span class="status"><b></b>Open to collaborations</span>
     </div>
 
-    <h1 class="name" style="margin-top:32px">Subroto<br /><em>Banerjee</em></h1>
-    <p class="role">SDE <s>&nbsp;·&nbsp;</s> Builder <s>&nbsp;·&nbsp;</s> Creator</p>
-
-    <div class="hats">
-      <div class="hat a">
-        <p>Founder</p>
-        <b>Wrath Labs</b>
-        <i>wrathlabs.in</i>
+    <div class="body">
+      <div class="idcol">
+        <h1 class="name">Subroto<br /><em>Banerjee</em></h1>
+        <p class="role">SDE<s>&nbsp;&middot;&nbsp;</s>Builder<s>&nbsp;&middot;&nbsp;</s>Creator</p>
       </div>
-      <div class="hat">
-        <p>Creator</p>
-        <b>Cooketh Flow</b>
+
+      <div class="hats">
+        <div class="hat a">
+          <p>Founder</p>
+          <b>Wrath Labs</b>
+          <i>wrathlabs.in</i>
+        </div>
+        <div class="hat">
+          <p>Creator</p>
+          <b>Cooketh Flow</b>
+        </div>
       </div>
     </div>
 
@@ -249,10 +246,6 @@
       <div>
         <span class="kicker">Get in touch</span>
         <h3>Let&rsquo;s build something.</h3>
-      </div>
-      <div class="qrwrap">
-        <div class="qrnote"><b>Scan</b>All links</div>
-        <div class="qr"><svg viewBox="0 0 33 33" shape-rendering="crispEdges" xmlns="http://www.w3.org/2000/svg"><path stroke="hsl(196,70%,5%)" d="M4 4.5h7m4 0h2m2 0h1m2 0h7M4 5.5h1m5 0h1m1 0h2m3 0h4m1 0h1m5 0h1M4 6.5h1m1 0h3m1 0h1m4 0h1m2 0h2m2 0h1m1 0h3m1 0h1M4 7.5h1m1 0h3m1 0h1m4 0h2m1 0h1m3 0h1m1 0h3m1 0h1M4 8.5h1m1 0h3m1 0h1m1 0h2m1 0h1m2 0h3m1 0h1m1 0h3m1 0h1M4 9.5h1m5 0h1m2 0h2m2 0h4m1 0h1m5 0h1M4 10.5h7m1 0h1m1 0h1m1 0h1m1 0h1m1 0h1m1 0h7M16 11.5h3M4 12.5h1m1 0h1m1 0h1m1 0h1m5 0h2m1 0h2m3 0h1m2 0h1M5 13.5h1m5 0h1m1 0h3m1 0h1m2 0h3m5 0h1M4 14.5h5m1 0h7m3 0h1m5 0h3M5 15.5h1m3 0h1m1 0h1m2 0h1m2 0h2m1 0h1m2 0h1m3 0h1M4 16.5h4m1 0h2m5 0h2m1 0h4m2 0h1m1 0h2M5 17.5h1m7 0h6m1 0h3m2 0h1m2 0h1M4 18.5h1m1 0h1m3 0h2m3 0h3m3 0h1m1 0h1m2 0h3M5 19.5h1m1 0h2m2 0h4m1 0h4m2 0h1m1 0h1m2 0h1M4 20.5h1m1 0h1m1 0h1m1 0h1m1 0h6m1 0h7M12 21.5h1m2 0h1m1 0h4m3 0h2m1 0h2M4 22.5h7m3 0h1m1 0h5m1 0h1m1 0h2m1 0h2M4 23.5h1m5 0h1m4 0h1m1 0h1m2 0h1m3 0h2M4 24.5h1m1 0h3m1 0h1m1 0h6m2 0h6M4 25.5h1m1 0h3m1 0h1m3 0h1m1 0h2m1 0h1m1 0h1m1 0h4M4 26.5h1m1 0h3m1 0h1m1 0h1m3 0h1m1 0h2m4 0h1m3 0h1M4 27.5h1m5 0h1m2 0h8m1 0h1m1 0h2m1 0h1M4 28.5h7m1 0h1m1 0h1m2 0h1m1 0h2m2 0h1m3 0h2"/></svg></div>
       </div>
     </div>
 
