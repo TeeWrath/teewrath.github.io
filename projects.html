@@ -1,0 +1,383 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Projects — Subroto Banerjee</title>
+    <meta
+      name="description"
+      content="Applications, packages, web and CLI projects, and music by Subroto Banerjee."
+    />
+
+    <link
+      rel="shortcut icon"
+      href="./assets/images/newpic.jpg"
+      type="image/x-icon"
+    />
+
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600&family=Geist+Mono:wght@400;500&display=swap"
+      rel="stylesheet"
+    />
+
+    <link rel="stylesheet" href="./assets/css/core.css" />
+    <link rel="stylesheet" href="./assets/css/sections.css" />
+
+    <meta name="theme-color" content="#0a0a0a" />
+
+    <!-- set theme before paint to avoid flash -->
+    <script>
+      (function () {
+        // dark is the house style — only an explicit user choice overrides it
+        var t = "dark";
+        try {
+          t = localStorage.getItem("theme") || "dark";
+        } catch (e) {}
+        var d = document.documentElement;
+        d.setAttribute("data-theme", t);
+        d.classList.add("js");
+        if (t === "light")
+          document
+            .querySelector('meta[name="theme-color"]')
+            .setAttribute("content", "#fafafa");
+      })();
+    </script>
+  </head>
+
+  <body data-page="projects">
+    <!-- top bar, menu, footer and ⌘K are shared: assets/js/chrome.js -->
+    <script src="./assets/js/chrome.js"></script>
+
+    <main class="wrap" id="main">
+      <header class="page-head">
+        <h1 class="page-title enter" style="--i: 0">Projects</h1>
+        <p class="page-lede enter" style="--i: 1">
+          Applications, packages and plugins, web and CLI projects, and music.
+        </p>
+        <p class="page-meta enter" style="--i: 2">
+          <span data-count="projects">15</span> projects ·
+          <span data-count="project-categories">5</span> categories
+        </p>
+      </header>
+
+      <div class="page-body">
+        <div class="tabs" role="group" aria-label="Filter projects">
+          <button class="tab active" data-filter-btn type="button">All</button>
+          <button class="tab" data-filter-btn type="button">
+            Applications
+          </button>
+          <button class="tab" data-filter-btn type="button">
+            Packages/Plugins
+          </button>
+          <button class="tab" data-filter-btn type="button">
+            Web development
+          </button>
+          <button class="tab" data-filter-btn type="button">
+            CLI Projects
+          </button>
+          <button class="tab" data-filter-btn type="button">Music</button>
+        </div>
+
+        <ul class="rows" data-project-grid data-reveal>
+          <li data-filter-item data-category="applications">
+            <a class="row row--media" href="./project.html?id=cooketh-flow">
+              <figure class="row-thumb">
+                <img src="./assets/images/cooketh.png" alt="" loading="lazy" />
+              </figure>
+              <span class="row-main">
+                <p class="row-meta">Applications</p>
+                <h2 class="row-title">Cooketh Flow</h2>
+                <p class="row-text">
+                  Cooketh Flow is an open source, powerful visual thinking, and
+                  unified productivity tool. designed for teams and individuals
+                  to brainstorm, sketch, and organize ideas effortlessly.
+                </p>
+              </span>
+              <span class="row-arrow" aria-hidden="true">→</span>
+            </a>
+          </li>
+
+          <li data-filter-item data-category="applications">
+            <a class="row row--media" href="./project.html?id=jotit">
+              <figure class="row-thumb">
+                <img src="./assets/images/jotit.png" alt="" loading="lazy" />
+              </figure>
+              <span class="row-main">
+                <p class="row-meta">Applications</p>
+                <h2 class="row-title">Jotit</h2>
+                <p class="row-text">
+                  Jotit is a sleek and efficient full-stack web application
+                  designed for seamless note-taking. Built with a powerful and
+                  modern technology stack, it allows users to effortlessly
+                  create, update, and delete notes. This project demonstrates
+                  robust backend development and a dynamic frontend, all while
+                  ensuring security through features like rate limiting
+                </p>
+              </span>
+              <span class="row-arrow" aria-hidden="true">→</span>
+            </a>
+          </li>
+
+          <li data-filter-item data-category="applications">
+            <a class="row row--media" href="./project.html?id=store-api">
+              <figure class="row-thumb">
+                <img src="./assets/images/store.png" alt="" loading="lazy" />
+              </figure>
+              <span class="row-main">
+                <p class="row-meta">Applications</p>
+                <h2 class="row-title">Store API</h2>
+                <p class="row-text">
+                  A simple store api enabling all kinds of request to add
+                  stores, items, fetch, delete and update them.
+                </p>
+              </span>
+              <span class="row-arrow" aria-hidden="true">→</span>
+            </a>
+          </li>
+
+          <li data-filter-item data-category="applications">
+            <a class="row row--media" href="./project.html?id=votely">
+              <figure class="row-thumb">
+                <img
+                  src="./assets/images/votely-logo.png"
+                  alt=""
+                  loading="lazy"
+                />
+              </figure>
+              <span class="row-main">
+                <p class="row-meta">Applications</p>
+                <h2 class="row-title">Votely</h2>
+                <p class="row-text">
+                  Votely is an open-source voting application designed for
+                  small-scale elections or demos. With a responsive Flutter web
+                  frontend and a robust Python backend, Votely offers a seamless
+                  experience for adding candidates, casting votes, and viewing
+                  live results.
+                </p>
+              </span>
+              <span class="row-arrow" aria-hidden="true">→</span>
+            </a>
+          </li>
+
+          <li data-filter-item data-category="cli projects">
+            <a class="row row--media" href="./project.html?id=csnake">
+              <figure class="row-thumb">
+                <img src="./assets/images/store.png" alt="" loading="lazy" />
+              </figure>
+              <span class="row-main">
+                <p class="row-meta">CLI Projects</p>
+                <h2 class="row-title">Csnake</h2>
+                <p class="row-text">
+                  A cross-code translator designed to map C language code into
+                  Python, facilitating seamless code migration and
+                  interoperability between these two popular programming
+                  languages.
+                </p>
+              </span>
+              <span class="row-arrow" aria-hidden="true">→</span>
+            </a>
+          </li>
+
+          <li data-filter-item data-category="packages/plugins">
+            <a
+              class="row row--media"
+              href="./project.html?id=modifiable-progress-indicators"
+            >
+              <figure class="row-thumb">
+                <img src="./assets/images/img.jpg" alt="" loading="lazy" />
+              </figure>
+              <span class="row-main">
+                <p class="row-meta">Packages/Plugins</p>
+                <h2 class="row-title">Modifiable Progress Indicators</h2>
+                <p class="row-text">
+                  A Flutter package that let's you create beautiful modifiable
+                  progress indicators.
+                </p>
+              </span>
+              <span class="row-arrow" aria-hidden="true">→</span>
+            </a>
+          </li>
+
+          <li data-filter-item data-category="applications">
+            <a class="row row--media" href="./project.html?id=maitri">
+              <figure class="row-thumb">
+                <img src="./assets/images/maitri.png" alt="" loading="lazy" />
+              </figure>
+              <span class="row-main">
+                <p class="row-meta">Applications</p>
+                <h2 class="row-title">Maitri</h2>
+                <p class="row-text">
+                  An assistance app for visually impaired people in their
+                  day-to-day life. "Maitrī" goes beyond conventional assistance
+                  apps for the visually impaired by incorporating real-time
+                  analysis into its array of capabilities.
+                </p>
+              </span>
+              <span class="row-arrow" aria-hidden="true">→</span>
+            </a>
+          </li>
+
+          <li data-filter-item data-category="web development">
+            <a class="row row--media" href="./project.html?id=mindspace-web">
+              <figure class="row-thumb">
+                <img
+                  src="./assets/images/mindspace.png"
+                  alt=""
+                  loading="lazy"
+                />
+              </figure>
+              <span class="row-main">
+                <p class="row-meta">Web development</p>
+                <h2 class="row-title">MindSpace - Web</h2>
+                <p class="row-text">
+                  MindSpace is a web app that aims to improve access to mental
+                  health resources and support, particularly for those who may
+                  not have the means or ability to attend in-person
+                  appointments.
+                </p>
+              </span>
+              <span class="row-arrow" aria-hidden="true">→</span>
+            </a>
+          </li>
+
+          <li data-filter-item data-category="applications">
+            <a class="row row--media" href="./project.html?id=annapurna">
+              <figure class="row-thumb">
+                <img
+                  src="./assets/images/meals app.png"
+                  alt=""
+                  loading="lazy"
+                />
+              </figure>
+              <span class="row-main">
+                <p class="row-meta">Applications</p>
+                <h2 class="row-title">Annapurna</h2>
+                <p class="row-text">
+                  A simple meals app using Firebase for authentication and cloud
+                  storage to store user data
+                </p>
+              </span>
+              <span class="row-arrow" aria-hidden="true">→</span>
+            </a>
+          </li>
+
+          <li data-filter-item data-category="cli projects">
+            <a class="row row--media" href="./project.html?id=cli-letter">
+              <figure class="row-thumb">
+                <img src="./assets/images/cli logo.png" alt="" loading="lazy" />
+              </figure>
+              <span class="row-main">
+                <p class="row-meta">CLI Projects</p>
+                <h2 class="row-title">CLI Letter</h2>
+                <p class="row-text">A cli letter for your siginificant one</p>
+              </span>
+              <span class="row-arrow" aria-hidden="true">→</span>
+            </a>
+          </li>
+
+          <li data-filter-item data-category="cli projects">
+            <a
+              class="row row--media"
+              href="./project.html?id=restaurant-basic-restaurant-management-and-billing-system"
+            >
+              <figure class="row-thumb">
+                <img
+                  src="./assets/images/restaarant.jpg"
+                  alt=""
+                  loading="lazy"
+                />
+              </figure>
+              <span class="row-main">
+                <p class="row-meta">CLI Projects</p>
+                <h2 class="row-title">
+                  Restaurant Basic-Restaurant-Management-and-Billing-System
+                </h2>
+                <p class="row-text">
+                  This is a basic restaurant management and billing system in C
+                  programming language, this is our project for first semester
+                  in computer science
+                </p>
+              </span>
+              <span class="row-arrow" aria-hidden="true">→</span>
+            </a>
+          </li>
+
+          <li data-filter-item data-category="web development">
+            <a
+              class="row row--media"
+              href="./project.html?id=angular-weather-app"
+            >
+              <figure class="row-thumb">
+                <img src="./assets/images/weather.png" alt="" loading="lazy" />
+              </figure>
+              <span class="row-main">
+                <p class="row-meta">Web development</p>
+                <h2 class="row-title">Angular Weather App</h2>
+                <p class="row-text">
+                  A Weather application that gives you information about the
+                  weather of a city you enter. You can have info about current
+                  weather as well as forecast for five days
+                </p>
+              </span>
+              <span class="row-arrow" aria-hidden="true">→</span>
+            </a>
+          </li>
+
+          <li data-filter-item data-category="music">
+            <a class="row row--media" href="./project.html?id=daastan-e-sach">
+              <figure class="row-thumb">
+                <img src="./assets/images/song 1.png" alt="" loading="lazy" />
+              </figure>
+              <span class="row-main">
+                <p class="row-meta">Music</p>
+                <h2 class="row-title">Daastan-e-sach</h2>
+                <p class="row-text">Conscious Rap Song</p>
+              </span>
+              <span class="row-arrow" aria-hidden="true">→</span>
+            </a>
+          </li>
+
+          <li data-filter-item data-category="music">
+            <a class="row row--media" href="./project.html?id=billi">
+              <figure class="row-thumb">
+                <img src="./assets/images/song 2.png" alt="" loading="lazy" />
+              </figure>
+              <span class="row-main">
+                <p class="row-meta">Music</p>
+                <h2 class="row-title">Billi</h2>
+                <p class="row-text">Satiric Rap Song</p>
+              </span>
+              <span class="row-arrow" aria-hidden="true">→</span>
+            </a>
+          </li>
+
+          <li data-filter-item data-category="music">
+            <a class="row row--media" href="./project.html?id=spring-freestyle">
+              <figure class="row-thumb">
+                <img
+                  src="./assets/images/spring freestyle thumbnail.png"
+                  alt=""
+                  loading="lazy"
+                />
+              </figure>
+              <span class="row-main">
+                <p class="row-meta">Music</p>
+                <h2 class="row-title">Spring Freestyle</h2>
+                <p class="row-text">Freestyle Rap Song</p>
+              </span>
+              <span class="row-arrow" aria-hidden="true">→</span>
+            </a>
+          </li>
+        </ul>
+      </div>
+    </main>
+
+    <script>
+      Chrome.footer();
+    </script>
+    <script src="./assets/js/app.js"></script>
+  </body>
+</html>

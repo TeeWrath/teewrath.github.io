@@ -1,0 +1,146 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Experience — Subroto Banerjee</title>
+    <meta
+      name="description"
+      content="Professional experience, freelance clients, testimonials, community positions and tools of Subroto Banerjee."
+    />
+
+    <link
+      rel="shortcut icon"
+      href="./assets/images/newpic.jpg"
+      type="image/x-icon"
+    />
+
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600&family=Geist+Mono:wght@400;500&display=swap"
+      rel="stylesheet"
+    />
+
+    <link rel="stylesheet" href="./assets/css/core.css" />
+    <link rel="stylesheet" href="./assets/css/sections.css" />
+
+    <meta name="theme-color" content="#0a0a0a" />
+
+    <!-- set theme before paint to avoid flash -->
+    <script>
+      (function () {
+        // dark is the house style — only an explicit user choice overrides it
+        var t = "dark";
+        try {
+          t = localStorage.getItem("theme") || "dark";
+        } catch (e) {}
+        var d = document.documentElement;
+        d.setAttribute("data-theme", t);
+        d.classList.add("js");
+        if (t === "light")
+          document
+            .querySelector('meta[name="theme-color"]')
+            .setAttribute("content", "#fafafa");
+      })();
+    </script>
+  </head>
+
+  <body data-page="experience">
+    <!-- top bar, menu, footer and ⌘K are shared: assets/js/chrome.js -->
+    <script src="./assets/js/chrome.js"></script>
+
+    <main class="wrap" id="main">
+      <header class="page-head">
+        <h1 class="page-title enter" style="--i: 0">Experience</h1>
+        <p class="page-lede enter" style="--i: 1">
+          Roles, client work, testimonials, community positions and the tools I
+          use.
+        </p>
+      </header>
+
+      <nav
+        class="subnav enter"
+        style="--i: 2"
+        data-spy
+        aria-label="On this page"
+      >
+        <a href="#professional">Professional</a>
+        <a href="#freelance">Freelance</a>
+        <a href="#testimonials">Testimonials</a>
+        <a href="#community">Community</a>
+        <a href="#tools">Tools &amp; Tech</a>
+      </nav>
+
+      <div class="page-body">
+        <section class="block" id="professional">
+          <div class="block-head">
+            <h2>Professional Experience</h2>
+            <span class="block-count"
+              ><span data-count="companies">–</span> companies ·
+              <span data-count="roles">–</span> roles</span
+            >
+          </div>
+          <ol class="xp-list" data-xp-list data-reveal>
+            <li class="state-line">Loading experience…</li>
+          </ol>
+        </section>
+
+        <section class="block" id="freelance">
+          <div class="block-head">
+            <h2>Freelance &amp; Clients</h2>
+            <span class="block-count"
+              ><span data-count="clients">–</span> clients</span
+            >
+          </div>
+          <p class="fl-note" data-freelance-note></p>
+          <ul class="entries" data-freelance-list data-reveal>
+            <li class="state-line">Loading…</li>
+          </ul>
+          <p class="fl-cta offset">
+            <a class="link" href="./contact.html" data-freelance-cta
+              ><span></span> →</a
+            >
+          </p>
+        </section>
+
+        <section class="block" id="testimonials">
+          <div class="block-head">
+            <h2>Testimonials</h2>
+          </div>
+          <ul class="quotes" data-tm-list data-reveal>
+            <li class="state-line">Loading testimonials…</li>
+          </ul>
+        </section>
+
+        <section class="block" id="community">
+          <div class="block-head">
+            <h2>Community Efforts and Positions of Responsibility</h2>
+            <span class="block-count"
+              ><span data-count="community">–</span> positions</span
+            >
+          </div>
+          <ol class="entries" data-community-list data-reveal>
+            <li class="state-line">Loading…</li>
+          </ol>
+        </section>
+
+        <section class="block" id="tools">
+          <div class="block-head">
+            <h2>Tools &amp; Tech</h2>
+          </div>
+          <div class="entries" data-tech-cloud data-reveal>
+            <p class="state-line">Loading…</p>
+          </div>
+        </section>
+      </div>
+    </main>
+
+    <script>
+      Chrome.footer();
+    </script>
+    <script src="./assets/js/app.js"></script>
+    <script src="./assets/js/content.js"></script>
+  </body>
+</html>

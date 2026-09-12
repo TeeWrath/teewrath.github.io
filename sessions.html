@@ -4,7 +4,11 @@
     <meta charset="UTF-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Project — Subroto Banerjee</title>
+    <title>Talks — Subroto Banerjee</title>
+    <meta
+      name="description"
+      content="Talks and sessions given by Subroto Banerjee."
+    />
 
     <link
       rel="shortcut icon"
@@ -21,11 +25,13 @@
 
     <link rel="stylesheet" href="./assets/css/core.css" />
     <link rel="stylesheet" href="./assets/css/sections.css" />
-    <link rel="stylesheet" href="./assets/css/reader.css" />
 
     <meta name="theme-color" content="#0a0a0a" />
+
+    <!-- set theme before paint to avoid flash -->
     <script>
       (function () {
+        // dark is the house style — only an explicit user choice overrides it
         var t = "dark";
         try {
           t = localStorage.getItem("theme") || "dark";
@@ -41,30 +47,33 @@
     </script>
   </head>
 
-  <body data-page="projects" data-pager="off">
-    <div class="reader-progress" data-progress aria-hidden="true"></div>
+  <body data-page="sessions">
+    <!-- top bar, menu, footer and ⌘K are shared: assets/js/chrome.js -->
     <script src="./assets/js/chrome.js"></script>
 
-    <main class="wrap proj-wrap" id="main">
-      <a class="crumb enter" href="./projects.html">← All projects</a>
-      <div data-project><p class="proj-state">Loading…</p></div>
+    <main class="wrap" id="main">
+      <header class="page-head">
+        <h1 class="page-title enter" style="--i: 0">Talks</h1>
+        <p class="page-lede enter" style="--i: 1">
+          Sessions I&#39;ve given on open source, Git and GitHub, APIs and
+          community building.
+        </p>
+        <p class="page-meta enter" style="--i: 2">
+          <span data-count="sessions">–</span> sessions
+        </p>
+      </header>
+
+      <div class="page-body">
+        <ul class="talks" data-sessions-list data-reveal>
+          <li class="state-line">Loading…</li>
+        </ul>
+      </div>
     </main>
 
     <script>
       Chrome.footer();
     </script>
     <script src="./assets/js/app.js"></script>
-
-    <!-- GISCUS config is shared with the blog; edit it in post.html or here -->
-    <script>
-      window.GISCUS = {
-        repo: "TeeWrath/teewrath.github.io",
-        repoId: "R_kgDOMJhweA",
-        category: "Announcements",
-        categoryId: "DIC_kwDOMJhweM4C-v9X",
-      };
-    </script>
-    <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
-    <script src="./assets/js/project.js"></script>
+    <script src="./assets/js/content.js"></script>
   </body>
 </html>

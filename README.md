@@ -6,6 +6,23 @@
 [![Twitter Follow](https://img.shields.io/twitter/follow/Subroto0108?style=social)](https://twitter.com/intent/follow?screen_name=Subroto0108)
 
 
+## Pages
+
+One page per nav item; the home page is the intro plus About.
+
+| Page | File | Content comes from |
+|---|---|---|
+| About (home) | `index.html` | the HTML itself |
+| Experience | `experience.html` | `data/experience.json`, `freelance.json`, `testimonials.json`, `community.json`, `tools-tech.json` |
+| Projects | `projects.html` | the HTML itself (each project page reads `projects/projects.json`) |
+| Sessions | `sessions.html` | `data/sessions.json` |
+| Blog | `blog.html` | `blog/posts.json` |
+| Contact | `contact.html` | the HTML itself |
+
+The top bar, mobile menu, footer, previous/next links and ⌘K palette are shared and
+live in `assets/js/chrome.js`, so navigation is edited once, not per page. Old links
+such as `index.html#blog` redirect to the matching page.
+
 ## Writing a blog post
 
 This site hosts your own writing — no backend, no build step.
@@ -57,8 +74,8 @@ Every project has its own page at `project.html?id=<slug>`, driven by
 }
 ```
 
-- The homepage **Projects** grid is generated from your existing cards and each
-  card links to its launch page (filtering still works as before).
+- The **Projects** page (`projects.html`) lists the project rows; each links to its
+  launch page, and the category tabs filter them (`projects.html?c=music` opens a filter).
 - To add a **detailed launch write-up**, create a Markdown file in
   `projects/details/` and point `"body"` at it. Leave `"body": ""` for a
   short page (hero + links only).
@@ -86,7 +103,8 @@ JSON files in `data/`, so you can edit them without touching any HTML:
 
 - `data/experience.json` — professional experience, grouped by company/role
 - `data/freelance.json` — freelance & client cards, the NDA note, and the CTA text
-- `data/testimonials.json` — testimonial cards
+- `data/testimonials.json` — testimonial cards. Each shows the `avatarLetter` by default;
+  add `"photo": "./assets/images/<file>"` to an entry to show that person's picture instead
 - `data/community.json` — community efforts & positions of responsibility
 - `data/tools-tech.json` — tools & tech chip groups
 - `data/sessions.json` — talks / sessions list
@@ -102,8 +120,18 @@ Google Drive folder that holds it, so there's nothing to keep in sync here.
 
 ## Theming
 
-Amber/gold on espresso. Dark/light is toggled with the button in the top-right and
-remembered per visitor (`localStorage`). First visit follows the OS preference.
+Monochrome and text-first: near-black ground, one typeface (Geist), hairline rules.
+Imagery is the portrait in the hero plus project, talk and post thumbnails. Colour is
+used only for state (the green "available" dot). All tokens live at the top of
+`assets/css/core.css`.
+
+Motion is deliberately quiet: headings rise in on load, lists fade up on scroll, pages
+cross-fade with the nav marker sliding between items (View Transitions, where the
+browser supports them). All of it is switched off for visitors who ask their system
+for reduced motion.
+
+Dark is the default. The button in the top-right switches to light, and the choice is
+remembered per visitor (`localStorage`).
 
 ## License
 

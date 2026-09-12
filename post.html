@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
@@ -6,76 +6,56 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Reading… — Subroto Banerjee</title>
 
-    <link rel="shortcut icon" href="./assets/images/newpic.png" type="image/x-icon" />
-    <link rel="stylesheet" href="./assets/css/core.css" />
-    <link rel="stylesheet" href="./assets/css/sections.css" />
-    <link rel="stylesheet" href="./assets/css/reader.css" />
+    <link
+      rel="shortcut icon"
+      href="./assets/images/newpic.jpg"
+      type="image/x-icon"
+    />
 
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
-      href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap"
+      href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600&family=Geist+Mono:wght@400;500&display=swap"
       rel="stylesheet"
     />
 
-    <meta name="theme-color" content="#080a0c" />
+    <link rel="stylesheet" href="./assets/css/core.css" />
+    <link rel="stylesheet" href="./assets/css/sections.css" />
+    <link rel="stylesheet" href="./assets/css/reader.css" />
+
+    <meta name="theme-color" content="#0a0a0a" />
     <script>
       (function () {
+        var t = "dark";
         try {
-          document.documentElement.setAttribute("data-theme", localStorage.getItem("theme") || "dark");
-        } catch (e) {
-          document.documentElement.setAttribute("data-theme", "dark");
-        }
+          t = localStorage.getItem("theme") || "dark";
+        } catch (e) {}
+        var d = document.documentElement;
+        d.setAttribute("data-theme", t);
+        d.classList.add("js");
+        if (t === "light")
+          document
+            .querySelector('meta[name="theme-color"]')
+            .setAttribute("content", "#fafafa");
       })();
     </script>
   </head>
 
-  <body>
-    <div class="fx-aurora" aria-hidden="true"></div>
-    <div class="fx-grid" aria-hidden="true"></div>
-    <div class="fx-vignette" aria-hidden="true"></div>
-    <div class="fx-grain" aria-hidden="true"></div>
-    <div class="cursor-glow" aria-hidden="true"></div>
+  <body data-page="blog" data-pager="off">
     <div class="reader-progress" data-progress aria-hidden="true"></div>
+    <script src="./assets/js/chrome.js"></script>
 
-    <header class="mini-bar" data-topbar>
-      <a class="brand" href="./index.html" aria-label="Subroto Banerjee — home">
-        <span class="brand-mark"><span>SB</span></span>
-        <span class="brand-text">
-          <span class="brand-name">Subroto Banerjee</span>
-          <span class="brand-role">Builder | Creator</span>
-        </span>
-      </a>
-
-      <div class="bar-actions">
-        <a class="back-link" href="./index.html#blog">
-          <ion-icon name="arrow-back-outline"></ion-icon>
-          <span>All writing</span>
-        </a>
-
-        <button
-          class="icon-btn theme-toggle"
-          data-theme-toggle
-          aria-label="Toggle dark / light theme"
-          title="Toggle theme"
-          type="button"
-        >
-          <ion-icon class="icon-moon" name="moon-outline"></ion-icon>
-          <ion-icon class="icon-sun" name="sunny-outline"></ion-icon>
-        </button>
-
-        <a class="btn btn-primary btn-sm btn-sheen" href="./index.html#contact">
-          <span>Hire Me</span>
-        </a>
-      </div>
-    </header>
-
-    <main class="reader-wrap">
-      <div class="reader-article" data-article>
+    <main class="wrap reader-wrap" id="main">
+      <a class="crumb enter" href="./blog.html">← All writing</a>
+      <article data-article>
         <p class="reader-state">Loading…</p>
-      </div>
+      </article>
     </main>
 
+    <script>
+      Chrome.footer();
+    </script>
+    <script src="./assets/js/app.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
     <script>
       /* ================= GISCUS CONFIG =================
@@ -87,153 +67,169 @@
          4. Paste them below (replace the REPLACE_ values).            */
       const GISCUS = {
         repo: "TeeWrath/teewrath.github.io",
-        repoId: "R_kgDOMJhweA",            // your repo's node id (pre-filled)
-        category: "Announcements",          // change if you pick another category
-        categoryId: "DIC_kwDOMJhweM4C-v9X" // get this from giscus.app (see README)
+        repoId: "R_kgDOMJhweA", // your repo's node id (pre-filled)
+        category: "Announcements", // change if you pick another category
+        categoryId: "DIC_kwDOMJhweM4C-v9X", // get this from giscus.app (see README)
       };
       /* ================================================= */
 
       (function () {
         const root = document.documentElement;
-        const reduceMotion = matchMedia('(prefers-reduced-motion: reduce)').matches;
         const giscusTheme = () =>
-          root.getAttribute('data-theme') === 'light' ? 'light' : 'transparent_dark';
+          root.getAttribute("data-theme") === "light"
+            ? "light"
+            : "transparent_dark";
 
-        // theme toggle (+ keep giscus in sync)
-        const btn = document.querySelector('[data-theme-toggle]');
-        if (btn) btn.addEventListener('click', () => {
-          const next = root.getAttribute('data-theme') === 'light' ? 'dark' : 'light';
-          root.setAttribute('data-theme', next);
-          try { localStorage.setItem('theme', next); } catch (e) {}
-          const meta = document.querySelector('meta[name="theme-color"]');
-          if (meta) meta.setAttribute('content', next === 'light' ? '#f1f4f6' : '#080a0c');
-          const frame = document.querySelector('iframe.giscus-frame');
-          if (frame) frame.contentWindow.postMessage(
-            { giscus: { setConfig: { theme: giscusTheme() } } }, 'https://giscus.app');
+        // keep giscus in step with the site theme (app.js owns the toggle)
+        document.addEventListener("theme:change", () => {
+          const frame = document.querySelector("iframe.giscus-frame");
+          if (frame)
+            frame.contentWindow.postMessage(
+              { giscus: { setConfig: { theme: giscusTheme() } } },
+              "https://giscus.app",
+            );
         });
 
-        // toast helper
-        let toastEl;
-        const toast = (msg) => {
-          if (!toastEl) { toastEl = document.createElement('div'); toastEl.className = 'reader-toast'; document.body.appendChild(toastEl); }
-          toastEl.textContent = msg;
-          requestAnimationFrame(() => { toastEl.style.opacity = '1'; toastEl.style.transform = 'translate(-50%, 0)'; });
-          clearTimeout(toastEl._t);
-          toastEl._t = setTimeout(() => { toastEl.style.opacity = '0'; toastEl.style.transform = 'translate(-50%, 12px)'; }, 1800);
-        };
-
         // share current post
+        const toast = (msg) => window.UI && window.UI.toast(msg);
         const share = () => {
           const data = { title: document.title, url: location.href };
           if (navigator.share) navigator.share(data).catch(() => {});
-          else if (navigator.clipboard) navigator.clipboard.writeText(location.href).then(() => toast('Link copied'));
-          else prompt('Copy this link:', location.href);
+          else if (navigator.clipboard)
+            navigator.clipboard
+              .writeText(location.href)
+              .then(() => toast("Link copied"));
+          else prompt("Copy this link:", location.href);
         };
 
         // mount giscus once content is ready — one thread PER post
         const mountGiscus = (container, postId) => {
-          if (!GISCUS.repoId || GISCUS.repoId.startsWith('REPLACE') ||
-              !GISCUS.categoryId || GISCUS.categoryId.startsWith('REPLACE')) {
+          if (
+            !GISCUS.repoId ||
+            GISCUS.repoId.startsWith("REPLACE") ||
+            !GISCUS.categoryId ||
+            GISCUS.categoryId.startsWith("REPLACE")
+          ) {
             container.innerHTML =
               '<div class="comments-placeholder">Comments &amp; reactions are not wired up yet. ' +
-              'Enable GitHub <code>Discussions</code>, install the <code>giscus</code> app, then paste your ' +
-              '<code>repoId</code> and <code>categoryId</code> into <code>post.html</code>. ' +
-              'Until then, use <strong>Share</strong> to send this post around.</div>';
+              "Enable GitHub <code>Discussions</code>, install the <code>giscus</code> app, then paste your " +
+              "<code>repoId</code> and <code>categoryId</code> into <code>post.html</code>. " +
+              "Until then, use <strong>Share</strong> to send this post around.</div>";
             return;
           }
-          const s = document.createElement('script');
-          s.src = 'https://giscus.app/client.js';
-          s.async = true; s.crossOrigin = 'anonymous';
+          const s = document.createElement("script");
+          s.src = "https://giscus.app/client.js";
+          s.async = true;
+          s.crossOrigin = "anonymous";
           Object.assign(s.dataset, {
-            repo: GISCUS.repo, repoId: GISCUS.repoId,
-            category: GISCUS.category, categoryId: GISCUS.categoryId,
+            repo: GISCUS.repo,
+            repoId: GISCUS.repoId,
+            category: GISCUS.category,
+            categoryId: GISCUS.categoryId,
             // unique discussion per post so comments/reactions don't bleed across blogs
-            mapping: 'specific', term: 'blog: ' + postId,
-            strict: '1', reactionsEnabled: '1',
-            emitMetadata: '0', inputPosition: 'top', theme: giscusTheme(), lang: 'en', loading: 'lazy'
+            mapping: "specific",
+            term: "blog: " + postId,
+            strict: "1",
+            reactionsEnabled: "1",
+            emitMetadata: "0",
+            inputPosition: "top",
+            theme: giscusTheme(),
+            lang: "en",
+            loading: "lazy",
           });
           container.appendChild(s);
         };
 
-        // cursor glow
-        const glow = document.querySelector('.cursor-glow');
-        if (glow && matchMedia('(pointer: fine)').matches && !reduceMotion) {
-          let x = innerWidth / 2, y = innerHeight / 2, cx = x, cy = y, on = false;
-          addEventListener('mousemove', (e) => { x = e.clientX; y = e.clientY; if (!on) { glow.style.opacity = '1'; on = true; } }, { passive: true });
-          (function loop() { cx += (x - cx) * 0.13; cy += (y - cy) * 0.13; glow.style.transform = `translate3d(${cx}px, ${cy}px, 0)`; requestAnimationFrame(loop); })();
-        }
-
-        // reading progress + sticky bar
-        const bar = document.querySelector('[data-progress]');
-        const topbar = document.querySelector('[data-topbar]');
-        addEventListener('scroll', () => {
-          const h = document.documentElement;
-          const max = h.scrollHeight - h.clientHeight;
-          if (bar) bar.style.width = (max > 0 ? (h.scrollTop / max) * 100 : 0) + '%';
-          if (topbar) topbar.classList.toggle('stuck', h.scrollTop > 24);
-        }, { passive: true });
+        // reading progress
+        const bar = document.querySelector("[data-progress]");
+        addEventListener(
+          "scroll",
+          () => {
+            const h = document.documentElement;
+            const max = h.scrollHeight - h.clientHeight;
+            if (bar)
+              bar.style.width = (max > 0 ? (h.scrollTop / max) * 100 : 0) + "%";
+          },
+          { passive: true },
+        );
 
         // load post
-        const id = new URLSearchParams(location.search).get('id');
-        const wrap = document.querySelector('[data-article]');
-        const fmt = (iso) => { const d = new Date(iso); return isNaN(d) ? iso : d.toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' }); };
-        const readingTime = (txt) => Math.max(1, Math.round(txt.split(/\s+/).length / 200)) + ' min read';
+        const id = new URLSearchParams(location.search).get("id");
+        const wrap = document.querySelector("[data-article]");
+        const fmt = (iso) => {
+          const d = new Date(iso);
+          return isNaN(d)
+            ? iso
+            : d.toLocaleDateString("en-US", {
+                year: "numeric",
+                month: "long",
+                day: "numeric",
+              });
+        };
+        const readingTime = (txt) =>
+          Math.max(1, Math.round(txt.split(/\s+/).length / 200)) + " min read";
 
-        if (!id) { wrap.innerHTML = '<p class="reader-state">No post specified.</p>'; return; }
+        if (!id) {
+          wrap.innerHTML = '<p class="reader-state">No post specified.</p>';
+          return;
+        }
 
-        fetch('./blog/posts.json', { cache: 'no-cache' })
+        fetch("./blog/posts.json", { cache: "no-cache" })
           .then((r) => r.json())
           .then((posts) => {
             const post = posts.find((p) => p.id === id);
-            if (!post) throw new Error('not found');
-            if (post.type === 'external') { location.replace(post.url); return Promise.reject('redirect'); }
-            return fetch(post.file, { cache: 'no-cache' }).then((r) => {
-              if (!r.ok) throw new Error('md ' + r.status);
-              return r.text();
-            }).then((md) => ({ post, md }));
+            if (!post) throw new Error("not found");
+            if (post.type === "external") {
+              location.replace(post.url);
+              return Promise.reject("redirect");
+            }
+            return fetch(post.file, { cache: "no-cache" })
+              .then((r) => {
+                if (!r.ok) throw new Error("md " + r.status);
+                return r.text();
+              })
+              .then((md) => ({ post, md }));
           })
           .then((res) => {
             if (!res) return;
             const { post, md } = res;
-            document.title = post.title + ' — Subroto Banerjee';
-            const cover = post.cover ? `<img class="reader-cover" src="${post.cover}" alt="${post.title}" />` : '';
+            document.title = post.title + " — Subroto Banerjee";
+            const cover = post.cover
+              ? `<img class="reader-cover enter" style="--i:2" src="${post.cover}" alt="${post.title}" />`
+              : "";
             wrap.innerHTML = `
-              <div class="reader-meta">
-                <span>${post.category || ''}</span><span class="dot"></span>
-                <time>${fmt(post.date)}</time><span class="dot"></span>
+              <div class="reader-meta enter" style="--i:0">
+                <span>${post.category || ""}</span><span class="sep">·</span>
+                <time datetime="${post.date}">${fmt(post.date)}</time><span class="sep">·</span>
                 <span>${readingTime(md)}</span>
-                <button class="reader-share" data-share type="button">
-                  <ion-icon name="share-social-outline"></ion-icon> Share
-                </button>
+                <button class="reader-share" data-share type="button">Share</button>
               </div>
-              <h1 class="reader-title">${post.title}</h1>
+              <h1 class="reader-title enter" style="--i:1">${post.title}</h1>
               ${cover}
               <hr class="reader-hr" />
-              <div class="reader-body">${marked.parse(md)}</div>
+              <div class="reader-body enter" style="--i:3">${marked.parse(md)}</div>
               <div class="reader-footer">
-                <a href="./index.html#blog"><ion-icon name="arrow-back-outline"></ion-icon> Back to all writing</a>
-                <button class="reader-share" data-share type="button">
-                  <ion-icon name="share-social-outline"></ion-icon> Share this post
-                </button>
-                <a href="./index.html#contact">Work with me <ion-icon name="arrow-forward-outline"></ion-icon></a>
+                <a href="./blog.html">← Back to all writing</a>
+                <button class="reader-share" data-share type="button">Share this post</button>
+                <a href="./contact.html">Work with me →</a>
               </div>
               <section class="reader-comments">
                 <p class="reader-comments-title">Comments &amp; reactions</p>
                 <div data-giscus></div>
               </section>`;
 
-            wrap.querySelectorAll('[data-share]').forEach((b) => b.addEventListener('click', share));
-            mountGiscus(wrap.querySelector('[data-giscus]'), post.id);
+            wrap
+              .querySelectorAll("[data-share]")
+              .forEach((b) => b.addEventListener("click", share));
+            mountGiscus(wrap.querySelector("[data-giscus]"), post.id);
           })
           .catch((err) => {
-            if (err === 'redirect') return;
+            if (err === "redirect") return;
             console.error(err);
-            wrap.innerHTML = '<p class="reader-state">Post not found. <a href="./index.html#blog">Back to blog</a>.</p>';
+            wrap.innerHTML =
+              '<p class="reader-state">Post not found. <a href="./blog.html">Back to blog</a>.</p>';
           });
       })();
     </script>
-
-    <script type="module" src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.esm.js"></script>
-    <script nomodule src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.js"></script>
   </body>
 </html>

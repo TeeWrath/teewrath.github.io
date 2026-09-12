@@ -1,21 +1,19 @@
 'use strict';
 
 /* ==========================================================================
-   app.js — interface engine
-   boot · theme · command bar + scroll spy · drawer · particle field
-   cursor spotlight · scroll reveals · text scramble · card tilt/spotlight
-   project filters · contact form · command palette (⌘K) · timeline beam
+   app.js — runtime shared by every page
+   theme · top bar · drawer · reveals · on-page sub-nav · project filters
+   contact form · copy buttons · command palette (⌘K) · toast
+   Page-specific pieces only wire up when their markup is on the page.
    ========================================================================== */
 
 (function () {
   /* ---------------------------------------------------------------- utils */
   const qs = (sel, scope) => (scope || document).querySelector(sel);
   const qsa = (sel, scope) => Array.from((scope || document).querySelectorAll(sel));
-  const clamp = (v, a, b) => Math.min(b, Math.max(a, v));
   const root = document.documentElement;
-
   const reduceMotion = matchMedia('(prefers-reduced-motion: reduce)').matches;
-  const finePointer = matchMedia('(pointer: fine)').matches;
+  const count = (key, n) => qsa(`[data-count="${key}"]`).forEach((el) => (el.textContent = n));
 
   /* ---------------------------------------------------------------- toast */
   let toastEl;
@@ -23,6 +21,7 @@
     if (!toastEl) {
       toastEl = document.createElement('div');
       toastEl.className = 'toast';
+      toastEl.setAttribute('role', 'status');
       document.body.appendChild(toastEl);
     }
     toastEl.textContent = msg;
@@ -31,87 +30,56 @@
     toastEl._t = setTimeout(() => toastEl.classList.remove('on'), 1900);
   };
 
-  /* ---------------------------------------------------------------- boot */
-  const boot = qs('[data-boot]');
-  const net = qs('[data-net]');
-  const startedAt = Date.now();
-
-  let booted = false;
-  const finishBoot = () => {
-    if (booted) return;
-    booted = true;
-    // hold the curtain just long enough to read, never long enough to annoy
-    const wait = Math.max(0, (reduceMotion ? 100 : 950) - (Date.now() - startedAt));
-    setTimeout(() => {
-      if (boot) boot.classList.add('done');
-      if (net) net.classList.add('on');
-      // kick off entrance typing once the curtain lifts
-      typeHeroRole();
-    }, wait);
-  };
-
-  // DOM-ready, not load: third-party embeds must not hold the page hostage
-  if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', finishBoot);
-  else finishBoot();
-  setTimeout(finishBoot, 2200); // hard fallback
-
   /* ---------------------------------------------------------------- theme */
-  const themeBtn = qs('[data-theme-toggle]');
   const setTheme = (next) => {
     root.setAttribute('data-theme', next);
     try { localStorage.setItem('theme', next); } catch (e) {}
     const meta = qs('meta[name="theme-color"]');
-    if (meta) meta.setAttribute('content', next === 'light' ? '#f1f4f6' : '#080a0c');
+    if (meta) meta.setAttribute('content', next === 'light' ? '#fafafa' : '#0a0a0a');
+    // pages with embeds (giscus) follow along
+    document.dispatchEvent(new CustomEvent('theme:change', { detail: next }));
   };
-  if (themeBtn) {
-    themeBtn.addEventListener('click', () =>
-      setTheme(root.getAttribute('data-theme') === 'light' ? 'dark' : 'light')
-    );
-  }
+  const toggleTheme = () => {
+    const next = root.getAttribute('data-theme') === 'light' ? 'dark' : 'light';
+    // cross-fade the swap where the browser supports it
+    if (document.startViewTransition && !reduceMotion) document.startViewTransition(() => setTheme(next));
+    else setTheme(next);
+  };
+  qsa('[data-theme-toggle]').forEach((b) => b.addEventListener('click', toggleTheme));
 
   /* ---------------------------------------------------------------- year */
-  const year = qs('[data-year]');
-  if (year) year.textContent = String(new Date().getFullYear());
+  qsa('[data-year]').forEach((el) => (el.textContent = String(new Date().getFullYear())));
 
-  /* -------------------------------------------------- hero role typing */
-  let typed = false;
-  function typeHeroRole() {
-    const el = qs('[data-typed]');
-    if (!el || typed) return;
-    typed = true;
-    const text = el.dataset.text || el.textContent;
-    if (reduceMotion) { el.textContent = text; return; }
-    el.textContent = '';
-    let i = 0;
-    (function step() {
-      el.textContent = text.slice(0, ++i);
-      if (i < text.length) setTimeout(step, 52);
-    })();
-  }
-
-  /* ------------------------------------------------- command bar + spy */
+  /* ------------------------------------------------ top bar + sub-nav spy */
   const topbar = qs('[data-topbar]');
-  const navLinks = qsa('[data-nav-link]');
-  const navPill = qs('[data-nav-pill]');
-  const progress = qs('[data-progress]');
-  const sections = qsa('[data-section]');
-  const beams = qsa('[data-beam]');
+  const spy = qs('[data-spy]');
+  const spyLinks = spy ? qsa('a[href^="#"]', spy) : [];
+  const spyTargets = spyLinks.map((l) => document.getElementById(l.getAttribute('href').slice(1)));
+  let spyActive = null;
 
-  const movePill = (link) => {
-    if (!navPill) return;
-    if (!link) { navPill.style.opacity = '0'; return; }
-    navPill.style.opacity = '1';
-    navPill.style.width = link.offsetWidth + 'px';
-    navPill.style.transform = `translateX(${link.offsetLeft}px)`;
-  };
+  const updateSpy = () => {
+    if (!spy) return;
+    const line = (topbar ? topbar.offsetHeight : 56) + spy.offsetHeight + 64;
+    let idx = 0;
+    spyTargets.forEach((t, i) => {
+      if (t && t.getBoundingClientRect().top <= line) idx = i;
+    });
+    // a short last block never reaches the line; at the bottom, it wins
+    const doc = document.documentElement;
+    if (scrollY > 0 && innerHeight + scrollY >= doc.scrollHeight - 4) idx = spyTargets.length - 1;
 
-  let activeLink = null;
-  const setActive = (id) => {
-    const link = id ? navLinks.find((l) => l.getAttribute('href') === '#' + id) : null;
-    if (link === activeLink) return;
-    navLinks.forEach((l) => l.classList.toggle('active', l === link));
-    activeLink = link;
-    movePill(link);
+    const link = spyLinks[idx];
+    if (!link || link === spyActive) return;
+    spyActive = link;
+    spyLinks.forEach((l) => {
+      l.classList.toggle('active', l === link);
+      if (l === link) l.setAttribute('aria-current', 'true');
+      else l.removeAttribute('aria-current');
+    });
+    // keep the active tab in view when the strip scrolls sideways
+    if (spy.scrollWidth > spy.clientWidth) {
+      spy.scrollTo({ left: Math.max(0, link.offsetLeft - 24), behavior: reduceMotion ? 'auto' : 'smooth' });
+    }
   };
 
   let ticking = false;
@@ -119,337 +87,113 @@
     if (ticking) return;
     ticking = true;
     requestAnimationFrame(() => {
-      const y = scrollY;
-      const doc = document.documentElement;
-
-      if (topbar) topbar.classList.toggle('stuck', y > 24);
-
-      if (progress) {
-        const max = doc.scrollHeight - doc.clientHeight;
-        progress.style.transform = `scaleX(${max > 0 ? clamp(y / max, 0, 1) : 0})`;
-      }
-
-      // scroll spy — last section whose top has passed the bar
-      const line = (topbar ? topbar.offsetHeight : 64) + 130;
-      let current = null;
-      sections.forEach((s) => {
-        if (s.getBoundingClientRect().top <= line) current = s.id;
-      });
-      setActive(current);
-
-      // timeline beams
-      beams.forEach((el) => {
-        const r = el.getBoundingClientRect();
-        const p = clamp((innerHeight * 0.78 - r.top) / Math.max(r.height, 1), 0, 1);
-        el.style.setProperty('--beam', (p * 100).toFixed(2));
-      });
-
+      if (topbar) topbar.classList.toggle('stuck', scrollY > 8);
+      updateSpy();
       ticking = false;
     });
   };
   addEventListener('scroll', onScroll, { passive: true });
-  addEventListener('resize', () => { movePill(activeLink); onScroll(); });
+  addEventListener('resize', onScroll);
   onScroll();
 
   /* ---------------------------------------------------------------- drawer */
   const drawerBtn = qs('[data-drawer-toggle]');
-  const closeDrawer = () => {
-    document.body.classList.remove('drawer-open', 'is-locked');
-    if (drawerBtn) drawerBtn.setAttribute('aria-expanded', 'false');
-  };
-  if (drawerBtn) {
-    drawerBtn.addEventListener('click', () => {
-      const open = document.body.classList.toggle('drawer-open');
-      document.body.classList.toggle('is-locked', open);
+  const setDrawer = (open) => {
+    document.body.classList.toggle('drawer-open', open);
+    document.body.classList.toggle('is-locked', open);
+    if (drawerBtn) {
       drawerBtn.setAttribute('aria-expanded', String(open));
       drawerBtn.setAttribute('aria-label', open ? 'Close menu' : 'Open menu');
-    });
-  }
-  // close first, then scroll: a native anchor jump while the body is
-  // scroll-locked lands in the wrong place
-  qsa('[data-drawer-link]').forEach((l) =>
-    l.addEventListener('click', (e) => {
-      const href = l.getAttribute('href') || '';
-      if (!href.startsWith('#')) { closeDrawer(); return; }
-      e.preventDefault();
-      closeDrawer();
-      requestAnimationFrame(() => {
-        const target = qs(href);
-        if (target) target.scrollIntoView({ behavior: reduceMotion ? 'auto' : 'smooth', block: 'start' });
-        history.replaceState(null, '', href);
-      });
-    })
-  );
-
-  /* --------------------------------------------------------- cursor glow */
-  if (finePointer && !reduceMotion) {
-    const glow = qs('.cursor-glow');
-    if (glow) {
-      let x = innerWidth / 2, y = innerHeight / 2, cx = x, cy = y, shown = false;
-      addEventListener('mousemove', (e) => {
-        x = e.clientX; y = e.clientY;
-        if (!shown) { glow.style.opacity = '1'; shown = true; }
-      }, { passive: true });
-      document.addEventListener('mouseleave', () => { glow.style.opacity = '0'; shown = false; });
-      (function loop() {
-        cx += (x - cx) * 0.13;
-        cy += (y - cy) * 0.13;
-        glow.style.transform = `translate3d(${cx}px, ${cy}px, 0)`;
-        requestAnimationFrame(loop);
-      })();
     }
-  }
-
-  /* ------------------------------------------------------ particle field */
-  // isolated: a canvas failure must never take the rest of the interface down
-  if (net && !reduceMotion) try {
-    const ctx = net.getContext('2d');
-    const styles = getComputedStyle(root);
-    let w = 0, h = 0, dpr = 1, nodes = [], raf = 0;
-    const pointer = { x: -9999, y: -9999 };
-    const LINK = 132;
-
-    const readColor = (name, fallback) =>
-      (styles.getPropertyValue(name) || fallback).trim() || fallback;
-
-    let lineColor = readColor('--net-line', 'rgba(90,220,235,.5)');
-    let dotColor = readColor('--net-dot', 'rgba(150,235,255,.8)');
-
-    const build = () => {
-      dpr = Math.min(2, devicePixelRatio || 1);
-      w = innerWidth;
-      h = innerHeight;
-      net.width = Math.floor(w * dpr);
-      net.height = Math.floor(h * dpr);
-      net.style.width = w + 'px';
-      net.style.height = h + 'px';
-      ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
-
-      const count = clamp(Math.round((w * h) / 26000), 22, innerWidth < 700 ? 34 : 78);
-      nodes = Array.from({ length: count }, () => ({
-        x: Math.random() * w,
-        y: Math.random() * h,
-        vx: (Math.random() - 0.5) * 0.24,
-        vy: (Math.random() - 0.5) * 0.24,
-        r: Math.random() * 1.3 + 0.7,
-      }));
-    };
-
-    const frame = () => {
-      ctx.clearRect(0, 0, w, h);
-
-      for (const n of nodes) {
-        n.x += n.vx;
-        n.y += n.vy;
-        if (n.x < 0 || n.x > w) n.vx *= -1;
-        if (n.y < 0 || n.y > h) n.vy *= -1;
-
-        // gentle drift away from the cursor
-        const dx = n.x - pointer.x, dy = n.y - pointer.y;
-        const d2 = dx * dx + dy * dy;
-        if (d2 < 14000 && d2 > 0.01) {
-          const f = (1 - d2 / 14000) * 0.55;
-          const d = Math.sqrt(d2);
-          n.x += (dx / d) * f;
-          n.y += (dy / d) * f;
-        }
-      }
-
-      ctx.lineWidth = 1;
-      for (let i = 0; i < nodes.length; i++) {
-        const a = nodes[i];
-        for (let j = i + 1; j < nodes.length; j++) {
-          const b = nodes[j];
-          const dx = a.x - b.x, dy = a.y - b.y;
-          const d = Math.hypot(dx, dy);
-          if (d < LINK) {
-            ctx.globalAlpha = (1 - d / LINK) * 0.3;
-            ctx.strokeStyle = lineColor;
-            ctx.beginPath();
-            ctx.moveTo(a.x, a.y);
-            ctx.lineTo(b.x, b.y);
-            ctx.stroke();
-          }
-        }
-
-        // link to the cursor
-        const mx = a.x - pointer.x, my = a.y - pointer.y;
-        const md = Math.hypot(mx, my);
-        if (md < 190) {
-          ctx.globalAlpha = (1 - md / 190) * 0.45;
-          ctx.strokeStyle = lineColor;
-          ctx.beginPath();
-          ctx.moveTo(a.x, a.y);
-          ctx.lineTo(pointer.x, pointer.y);
-          ctx.stroke();
-        }
-
-        ctx.globalAlpha = 0.75;
-        ctx.fillStyle = dotColor;
-        ctx.beginPath();
-        ctx.arc(a.x, a.y, a.r, 0, Math.PI * 2);
-        ctx.fill();
-      }
-
-      ctx.globalAlpha = 1;
-      raf = requestAnimationFrame(frame);
-    };
-
-    const start = () => { if (!raf) raf = requestAnimationFrame(frame); };
-    const stop = () => { cancelAnimationFrame(raf); raf = 0; };
-
-    build();
-    start();
-
-    let rt;
-    addEventListener('resize', () => {
-      clearTimeout(rt);
-      rt = setTimeout(build, 180);
-    });
-    if (finePointer) {
-      addEventListener('mousemove', (e) => { pointer.x = e.clientX; pointer.y = e.clientY; }, { passive: true });
-      document.addEventListener('mouseleave', () => { pointer.x = pointer.y = -9999; });
-    }
-    document.addEventListener('visibilitychange', () => (document.hidden ? stop() : start()));
-    // repaint palette when the theme flips
-    if (themeBtn) themeBtn.addEventListener('click', () => {
-      setTimeout(() => {
-        lineColor = readColor('--net-line', lineColor);
-        dotColor = readColor('--net-dot', dotColor);
-      }, 60);
-    });
-  } catch (err) {
-    console.warn('Particle field disabled:', err);
-    net.remove();
-  }
-
-  /* --------------------------------------------------------- scramble text */
-  const GLYPHS = '█▓▒░<>/\\|{}[]#*+=$@%&01';
-  const scramble = (el) => {
-    if (reduceMotion || el.dataset.scrambled) return;
-    el.dataset.scrambled = '1';
-    const text = el.textContent;
-    const total = 16 + text.length * 2;
-    let f = 0;
-    (function step() {
-      const done = Math.floor((f / total) * text.length * 1.35);
-      let out = '';
-      for (let i = 0; i < text.length; i++) {
-        const ch = text[i];
-        if (ch === ' ') { out += ' '; continue; }
-        out += i < done ? ch : GLYPHS[(Math.random() * GLYPHS.length) | 0];
-      }
-      el.textContent = out;
-      if (f++ < total) requestAnimationFrame(step);
-      else el.textContent = text;
-    })();
   };
+  const closeDrawer = () => setDrawer(false);
+  if (drawerBtn) drawerBtn.addEventListener('click', () => setDrawer(!document.body.classList.contains('drawer-open')));
+  qsa('[data-drawer] a').forEach((a) => a.addEventListener('click', closeDrawer));
+  addEventListener('resize', () => {
+    if (innerWidth > 800 && document.body.classList.contains('drawer-open')) closeDrawer();
+  });
 
-  /* ------------------------------------------------------- scroll reveals */
-  const io = 'IntersectionObserver' in window
+  /* --------------------------------------------------------------- reveals */
+  // children of [data-reveal] rise in once as they enter the viewport;
+  // core.css hides them only while this is running (see .reveal-ready)
+  root.classList.add('reveal-ready');
+  const io = !reduceMotion && 'IntersectionObserver' in window
     ? new IntersectionObserver((entries) => {
-        entries.forEach((entry) => {
-          if (!entry.isIntersecting) return;
-          entry.target.classList.add('in');
-          io.unobserve(entry.target);
-          const title = entry.target.matches('[data-scramble]')
-            ? entry.target
-            : qs('[data-scramble]', entry.target);
-          if (title) scramble(title);
+        let n = 0;
+        entries.forEach((e) => {
+          if (!e.isIntersecting) return;
+          e.target.style.setProperty('--rd', Math.min(n++, 6) * 60 + 'ms');
+          e.target.classList.add('in');
+          io.unobserve(e.target);
         });
-      }, { threshold: 0.08, rootMargin: '0px 0px -5% 0px' })
+      }, { rootMargin: '0px 0px -6% 0px' })
     : null;
 
   const observeReveals = () => {
-    qsa('.reveal:not([data-seen])').forEach((el) => {
-      el.dataset.seen = '1';
-      if (!io) { el.classList.add('in'); return; }
-      // stagger by position among reveal siblings
-      const sibs = Array.from(el.parentElement ? el.parentElement.children : []).filter((n) =>
-        n.classList.contains('reveal')
-      );
-      const idx = Math.max(0, sibs.indexOf(el));
-      el.style.setProperty('--d', Math.min(idx, 7) * 70 + 'ms');
-      io.observe(el);
+    qsa('[data-reveal] > :not(.state-line)').forEach((el) => {
+      if (el.dataset.rv) return;
+      el.dataset.rv = '1';
+      if (io) io.observe(el);
+      else el.classList.add('in');
     });
   };
 
-  /* ------------------------------------------- card spotlight + soft tilt */
-  const TILT = 3.6;
-  const bindCards = () => {
-    qsa('.card:not([data-bound])').forEach((card) => {
-      card.dataset.bound = '1';
-      const tiltable = finePointer && !reduceMotion && card.matches('.work-card, .svc-card, .fl-card, .tm-card');
-
-      card.addEventListener('mousemove', (e) => {
-        const r = card.getBoundingClientRect();
-        const px = (e.clientX - r.left) / r.width;
-        const py = (e.clientY - r.top) / r.height;
-        card.style.setProperty('--mx', (px * 100).toFixed(2) + '%');
-        card.style.setProperty('--my', (py * 100).toFixed(2) + '%');
-        if (tiltable) {
-          card.style.transition = 'transform .14s linear, border-color .4s, box-shadow .5s';
-          card.style.transform =
-            `perspective(1000px) rotateX(${((0.5 - py) * TILT).toFixed(2)}deg) ` +
-            `rotateY(${((px - 0.5) * TILT).toFixed(2)}deg) translateY(-5px)`;
-        }
-      }, { passive: true });
-
-      card.addEventListener('mouseleave', () => {
-        card.style.transition = '';
-        card.style.transform = '';
-      });
+  // play the entrance again for items that just became visible (filters)
+  const replay = (els) => {
+    if (reduceMotion) return;
+    els.forEach((el, i) => {
+      el.style.transition = 'none';
+      el.classList.remove('in');
+      el.style.setProperty('--rd', Math.min(i, 8) * 35 + 'ms');
+    });
+    void document.body.offsetHeight; // commit the hidden state before animating back
+    els.forEach((el) => {
+      el.style.transition = '';
+      el.classList.add('in');
     });
   };
 
   /* ------------------------------------------------------ project filters */
-  const filterItems = () => qsa('[data-filter-item]');
-  const selectValue = qs('[data-select-value]');
   const filterBtns = qsa('[data-filter-btn]');
+  if (filterBtns.length) {
+    const items = qsa('[data-filter-item]');
 
-  const applyFilter = (value) => {
-    const v = String(value).toLowerCase();
-    const shown = [];
-    filterItems().forEach((li) => {
-      const match = v === 'all' || li.dataset.category === v;
-      li.classList.toggle('hidden', !match);
-      if (match) shown.push(li);
+    filterBtns.forEach((btn) => {
+      const v = btn.textContent.trim().toLowerCase();
+      btn.dataset.filter = v;
+      const n = v === 'all' ? items.length : items.filter((li) => li.dataset.category === v).length;
+      btn.insertAdjacentHTML('beforeend', `<span class="count">${n}</span>`);
     });
-    if (reduceMotion) return;
-    shown.forEach((li, i) => {
-      li.classList.add('filtering');
-      li.style.transitionDelay = Math.min(i, 8) * 28 + 'ms';
-      requestAnimationFrame(() => requestAnimationFrame(() => li.classList.remove('filtering')));
-      setTimeout(() => (li.style.transitionDelay = ''), 700);
-    });
-  };
+    count('projects', items.length);
+    count('project-categories', filterBtns.length - 1);
 
-  filterBtns.forEach((btn) => {
-    btn.addEventListener('click', () => {
-      filterBtns.forEach((b) => b.classList.remove('active'));
-      btn.classList.add('active');
-      if (selectValue) selectValue.textContent = btn.textContent.trim();
-      applyFilter(btn.textContent.trim());
-    });
-  });
+    const apply = (value, remember) => {
+      const btn = filterBtns.find((b) => b.dataset.filter === value) || filterBtns[0];
+      const v = btn.dataset.filter;
+      filterBtns.forEach((b) => {
+        b.classList.toggle('active', b === btn);
+        b.setAttribute('aria-pressed', String(b === btn));
+      });
+      const shown = [];
+      items.forEach((li) => {
+        const match = v === 'all' || li.dataset.category === v;
+        li.classList.toggle('hidden', !match);
+        if (match) shown.push(li);
+      });
+      // the filter is part of the URL, so a filtered list can be shared
+      if (remember) {
+        const url = new URL(location.href);
+        if (v === 'all') url.searchParams.delete('c');
+        else url.searchParams.set('c', v);
+        history.replaceState(null, '', url);
+      }
+      return shown;
+    };
 
-  const select = qs('[data-select]');
-  if (select) {
-    select.addEventListener('click', (e) => {
-      e.stopPropagation();
-      select.classList.toggle('open');
-    });
-    document.addEventListener('click', () => select.classList.remove('open'));
+    filterBtns.forEach((btn) => btn.addEventListener('click', () => replay(apply(btn.dataset.filter, true))));
+    const initial = new URLSearchParams(location.search).get('c');
+    if (initial) apply(initial.toLowerCase(), false);
   }
-  qsa('[data-select-item]').forEach((btn) => {
-    btn.addEventListener('click', () => {
-      const label = btn.textContent.trim();
-      if (selectValue) selectValue.textContent = label;
-      if (select) select.classList.remove('open');
-      filterBtns.forEach((b) => b.classList.toggle('active', b.textContent.trim() === label));
-      applyFilter(label);
-    });
-  });
 
   /* ---------------------------------------------------------- contact form */
   const form = qs('[data-form]');
@@ -465,7 +209,22 @@
     });
   }
 
+  /* ---------------------------------------------------------- copy buttons */
+  const copy = (text, btn) => {
+    const done = () => {
+      toast('Copied');
+      if (!btn) return;
+      btn.textContent = 'Copied';
+      clearTimeout(btn._t);
+      btn._t = setTimeout(() => (btn.textContent = 'Copy'), 1600);
+    };
+    if (navigator.clipboard) navigator.clipboard.writeText(text).then(done, () => toast(text));
+    else toast(text);
+  };
+  qsa('[data-copy]').forEach((b) => b.addEventListener('click', () => copy(b.dataset.copy, b)));
+
   /* -------------------------------------------------------- command palette */
+  let closePalette = () => {};
   const cmdk = qs('[data-cmdk]');
   if (cmdk) {
     const input = qs('[data-cmdk-input]', cmdk);
@@ -474,37 +233,26 @@
     let cursor = 0;
     let visible = [];
 
+    const chrome = window.Chrome || { pages: [], current: '' };
     const COMMANDS = [
-      { group: 'Sections', label: 'About', icon: 'person-outline', hint: 'Jump', href: '#about' },
-      { group: 'Sections', label: 'Experience', icon: 'briefcase-outline', hint: 'Jump', href: '#experience' },
-      { group: 'Sections', label: 'Projects', icon: 'cube-outline', hint: 'Jump', href: '#projects' },
-      { group: 'Sections', label: 'Sessions', icon: 'mic-outline', hint: 'Jump', href: '#sessions' },
-      { group: 'Sections', label: 'Blog', icon: 'document-text-outline', hint: 'Jump', href: '#blog' },
-      { group: 'Sections', label: 'Contact', icon: 'send-outline', hint: 'Jump', href: '#contact' },
+      ...chrome.pages.map((p) => ({
+        group: 'Pages', label: p.label, hint: p.id === chrome.current ? 'Current' : 'Go', href: p.href,
+      })),
 
-      { group: 'Links', label: 'View Résumé', icon: 'newspaper-outline', hint: 'Open',
+      { group: 'Links', label: 'View Résumé', hint: 'Open',
         href: 'https://drive.google.com/drive/folders/1ex4i0-DQcms5r-k4Vz_VuVopnX_t4C9b?usp=sharing', ext: true },
-      { group: 'Links', label: 'Email — subroto.2003@gmail.com', icon: 'mail-outline', hint: 'Mail',
-        href: 'mailto:subroto.2003@gmail.com' },
-      { group: 'Links', label: 'GitHub', icon: 'logo-github', hint: 'Open', href: 'https://github.com/TeeWrath', ext: true },
-      { group: 'Links', label: 'LinkedIn', icon: 'logo-linkedin', hint: 'Open',
-        href: 'https://www.linkedin.com/in/subroto-banerjee-70983b214/', ext: true },
-      { group: 'Links', label: 'Twitter', icon: 'logo-twitter', hint: 'Open', href: 'https://twitter.com/Subroto0108', ext: true },
-      { group: 'Links', label: 'Instagram', icon: 'logo-instagram', hint: 'Open',
-        href: 'https://instagram.com/subroto._banerjee', ext: true },
-      { group: 'Links', label: 'Reddit', icon: 'logo-reddit', hint: 'Open', href: 'https://reddit.com/u/TeeWrath', ext: true },
-      { group: 'Links', label: 'bio.link', icon: 'link-outline', hint: 'Open', href: 'https://bio.link/teewrath', ext: true },
-      { group: 'Links', label: 'Mastodon', icon: 'logo-mastodon', hint: 'Open', href: 'https://mastodon.social/@TeeWrath', ext: true },
+      { group: 'Links', label: 'Email — subroto.2003@gmail.com', hint: 'Mail', href: 'mailto:subroto.2003@gmail.com' },
+      { group: 'Links', label: 'GitHub', hint: 'Open', href: 'https://github.com/TeeWrath', ext: true },
+      { group: 'Links', label: 'LinkedIn', hint: 'Open', href: 'https://www.linkedin.com/in/subroto-banerjee-70983b214/', ext: true },
+      { group: 'Links', label: 'Twitter', hint: 'Open', href: 'https://twitter.com/Subroto0108', ext: true },
+      { group: 'Links', label: 'Instagram', hint: 'Open', href: 'https://instagram.com/subroto._banerjee', ext: true },
+      { group: 'Links', label: 'Reddit', hint: 'Open', href: 'https://reddit.com/u/TeeWrath', ext: true },
+      { group: 'Links', label: 'bio.link', hint: 'Open', href: 'https://bio.link/teewrath', ext: true },
+      { group: 'Links', label: 'Mastodon', hint: 'Open', href: 'https://mastodon.social/@TeeWrath', ext: true },
 
-      { group: 'Actions', label: 'Copy email address', icon: 'copy-outline', hint: 'Copy',
-        run: () => {
-          const mail = 'subroto.2003@gmail.com';
-          if (navigator.clipboard) navigator.clipboard.writeText(mail).then(() => toast('Email copied'));
-          else toast(mail);
-        } },
-      { group: 'Actions', label: 'Toggle theme', icon: 'contrast-outline', hint: 'Switch',
-        run: () => setTheme(root.getAttribute('data-theme') === 'light' ? 'dark' : 'light') },
-      { group: 'Actions', label: 'Back to top', icon: 'arrow-up-outline', hint: 'Scroll',
+      { group: 'Actions', label: 'Copy email address', hint: 'Copy', run: () => copy('subroto.2003@gmail.com') },
+      { group: 'Actions', label: 'Toggle theme', hint: 'Switch', run: toggleTheme },
+      { group: 'Actions', label: 'Back to top', hint: 'Scroll',
         run: () => scrollTo({ top: 0, behavior: reduceMotion ? 'auto' : 'smooth' }) },
     ];
 
@@ -527,8 +275,7 @@
         }
         html +=
           `<button class="cmdk-item" type="button" data-i="${i}" aria-selected="${i === 0}">` +
-          `<ion-icon name="${c.icon}"></ion-icon><span>${c.label}</span>` +
-          `<span class="hint">${c.hint}</span></button>`;
+          `<span>${c.label}</span><span class="hint">${c.hint}</span></button>`;
       });
       list.innerHTML = html;
     };
@@ -542,18 +289,21 @@
     };
 
     const close = () => {
+      if (!cmdk.classList.contains('open')) return;
       cmdk.classList.remove('open');
       document.body.classList.remove('is-locked');
       if (lastFocus) lastFocus.focus();
     };
+    closePalette = close;
 
     const open = () => {
       lastFocus = document.activeElement;
+      closeDrawer();
       cmdk.classList.add('open');
       document.body.classList.add('is-locked');
       input.value = '';
       render('');
-      setTimeout(() => input.focus(), 60);
+      setTimeout(() => input.focus(), 30);
     };
 
     const run = (cmd) => {
@@ -561,12 +311,6 @@
       close();
       if (cmd.run) { cmd.run(); return; }
       if (cmd.ext) { window.open(cmd.href, '_blank', 'noopener'); return; }
-      if (cmd.href.startsWith('#')) {
-        const target = qs(cmd.href);
-        if (target) target.scrollIntoView({ behavior: reduceMotion ? 'auto' : 'smooth', block: 'start' });
-        history.replaceState(null, '', cmd.href);
-        return;
-      }
       location.href = cmd.href;
     };
 
@@ -590,7 +334,7 @@
         else if (document.body.classList.contains('drawer-open')) closeDrawer();
         return;
       }
-      if (!isOpen) return;
+      if (!isOpen || !visible.length) return;
       if (e.key === 'ArrowDown') { e.preventDefault(); cursor = (cursor + 1) % visible.length; mark(); }
       else if (e.key === 'ArrowUp') { e.preventDefault(); cursor = (cursor - 1 + visible.length) % visible.length; mark(); }
       else if (e.key === 'Enter') { e.preventDefault(); run(visible[cursor]); }
@@ -598,14 +342,31 @@
   }
 
   /* ------------------------------------------------------------- lifecycle */
+  // deep links into JSON-rendered pages: the target moves as content loads,
+  // so settle on it again until the visitor scrolls on their own
+  let userMoved = false;
+  ['wheel', 'touchstart', 'keydown', 'mousedown'].forEach((t) =>
+    addEventListener(t, () => (userMoved = true), { once: true, passive: true })
+  );
+  const settleHash = () => {
+    if (userMoved || location.hash.length < 2) return;
+    const target = document.getElementById(decodeURIComponent(location.hash.slice(1)));
+    if (target) target.scrollIntoView({ block: 'start' });
+  };
+
   observeReveals();
-  bindCards();
   document.addEventListener('content:updated', () => {
     observeReveals();
-    bindCards();
+    settleHash();
     onScroll();
   });
 
-  // expose a couple of helpers for the JSON renderers
-  window.UI = { observeReveals, bindCards, toast };
+  // coming back through the back/forward cache: never restore an open overlay
+  addEventListener('pageshow', (e) => {
+    if (!e.persisted) return;
+    closeDrawer();
+    closePalette();
+  });
+
+  window.UI = { toast };
 })();

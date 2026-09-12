@@ -1,0 +1,393 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Contact — Subroto Banerjee</title>
+    <meta
+      name="description"
+      content="Get in touch with Subroto Banerjee, or book a call."
+    />
+
+    <link
+      rel="shortcut icon"
+      href="./assets/images/newpic.jpg"
+      type="image/x-icon"
+    />
+
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600&family=Geist+Mono:wght@400;500&display=swap"
+      rel="stylesheet"
+    />
+
+    <link rel="stylesheet" href="./assets/css/core.css" />
+    <link rel="stylesheet" href="./assets/css/sections.css" />
+
+    <meta name="theme-color" content="#0a0a0a" />
+
+    <!-- set theme before paint to avoid flash -->
+    <script>
+      (function () {
+        // dark is the house style — only an explicit user choice overrides it
+        var t = "dark";
+        try {
+          t = localStorage.getItem("theme") || "dark";
+        } catch (e) {}
+        var d = document.documentElement;
+        d.setAttribute("data-theme", t);
+        d.classList.add("js");
+        if (t === "light")
+          document
+            .querySelector('meta[name="theme-color"]')
+            .setAttribute("content", "#fafafa");
+      })();
+    </script>
+  </head>
+
+  <body data-page="contact">
+    <!-- top bar, menu, footer and ⌘K are shared: assets/js/chrome.js -->
+    <script src="./assets/js/chrome.js"></script>
+
+    <main class="wrap" id="main">
+      <header class="page-head">
+        <h1 class="page-title enter" style="--i: 0">Contact</h1>
+        <p class="page-lede enter" style="--i: 1">
+          Send a message, reach me directly, or book a call.
+        </p>
+        <p class="page-meta enter" style="--i: 2">
+          <span class="status"
+            >Available for freelance &amp; collaborations</span
+          >
+        </p>
+      </header>
+
+      <div class="page-body">
+        <div class="block">
+          <h2 class="form-title">Let's build something</h2>
+          <p class="form-hint">Response within 24 hours</p>
+
+          <form
+            action="https://formsubmit.co/subroto.2003@gmail.com"
+            method="POST"
+            class="form"
+            data-form
+          >
+            <input
+              type="hidden"
+              name="_subject"
+              value="New message from portfolio"
+            />
+            <input type="hidden" name="_captcha" value="false" />
+            <input type="text" name="_honey" style="display: none" />
+
+            <div
+              class="intent"
+              role="radiogroup"
+              aria-label="What is this about?"
+            >
+              <input
+                type="radio"
+                id="intent-collab"
+                name="intent"
+                value="Collaboration"
+                checked
+              />
+              <label for="intent-collab">Collaborate</label>
+
+              <input
+                type="radio"
+                id="intent-project"
+                name="intent"
+                value="Project / Freelance"
+              />
+              <label for="intent-project">Project / Freelance</label>
+
+              <input
+                type="radio"
+                id="intent-call"
+                name="intent"
+                value="Book a call"
+              />
+              <label for="intent-call">Book a call</label>
+            </div>
+
+            <div class="field-row">
+              <input
+                type="text"
+                name="fullname"
+                class="input"
+                placeholder="Full name"
+                aria-label="Full name"
+                autocomplete="name"
+                required
+                data-form-input
+              />
+              <input
+                type="email"
+                name="email"
+                class="input"
+                placeholder="Email address"
+                aria-label="Email address"
+                autocomplete="email"
+                required
+                data-form-input
+              />
+            </div>
+
+            <textarea
+              name="message"
+              class="input"
+              placeholder="Tell me about your idea, project or collab…"
+              aria-label="Message"
+              required
+              data-form-input
+            ></textarea>
+
+            <button
+              class="btn btn-primary form-btn"
+              type="submit"
+              disabled
+              data-form-btn
+            >
+              Send Message
+            </button>
+          </form>
+        </div>
+
+        <div class="block">
+          <h2 class="form-title">Or reach out to me through</h2>
+          <p class="form-hint" style="margin-bottom: 20px">
+            Direct channels — pick whichever you actually use.
+          </p>
+
+          <dl class="channels">
+            <div class="entry">
+              <dt class="entry-aside">Email</dt>
+              <dd>
+                <a class="link" href="mailto:subroto.2003@gmail.com"
+                  >subroto.2003@gmail.com</a
+                ><button
+                  class="copy-btn"
+                  type="button"
+                  data-copy="subroto.2003@gmail.com"
+                >
+                  Copy
+                </button>
+              </dd>
+            </div>
+            <div class="entry">
+              <dt class="entry-aside">Résumé</dt>
+              <dd>
+                <a
+                  class="link"
+                  href="https://drive.google.com/drive/folders/1ex4i0-DQcms5r-k4Vz_VuVopnX_t4C9b?usp=sharing"
+                  target="_blank"
+                  rel="noopener"
+                  >View Résumé ↗</a
+                >
+              </dd>
+            </div>
+            <div class="entry">
+              <dt class="entry-aside">Social</dt>
+              <dd>
+                <ul class="inline-list">
+                  <li>
+                    <a
+                      class="link"
+                      href="https://github.com/TeeWrath"
+                      target="_blank"
+                      rel="noopener"
+                      >GitHub</a
+                    >
+                  </li>
+                  <li>
+                    <a
+                      class="link"
+                      href="https://www.linkedin.com/in/subroto-banerjee-70983b214/"
+                      target="_blank"
+                      rel="noopener"
+                      >LinkedIn</a
+                    >
+                  </li>
+                  <li>
+                    <a
+                      class="link"
+                      href="https://twitter.com/Subroto0108"
+                      target="_blank"
+                      rel="noopener"
+                      >Twitter</a
+                    >
+                  </li>
+                  <li>
+                    <a
+                      class="link"
+                      href="https://medium.com/@subroto.2003"
+                      target="_blank"
+                      rel="noopener"
+                      >Medium</a
+                    >
+                  </li>
+                  <li>
+                    <a
+                      class="link"
+                      rel="me noopener"
+                      href="https://mastodon.social/@TeeWrath"
+                      target="_blank"
+                      >Mastodon</a
+                    >
+                  </li>
+                  <li>
+                    <a
+                      class="link"
+                      href="https://www.youtube.com/channel/UCoa6CBkSNICu_TjKf5xOZ_A"
+                      target="_blank"
+                      rel="noopener"
+                      >YouTube</a
+                    >
+                  </li>
+                  <li>
+                    <a
+                      class="link"
+                      href="https://reddit.com/u/TeeWrath"
+                      target="_blank"
+                      rel="noopener"
+                      >Reddit</a
+                    >
+                  </li>
+                  <li>
+                    <a
+                      class="link"
+                      href="https://instagram.com/subroto._banerjee"
+                      target="_blank"
+                      rel="noopener"
+                      >Instagram</a
+                    >
+                  </li>
+                  <li>
+                    <a
+                      class="link"
+                      href="https://www.facebook.com/subroto.banerjee.56"
+                      target="_blank"
+                      rel="noopener"
+                      >Facebook</a
+                    >
+                  </li>
+                  <li>
+                    <a
+                      class="link"
+                      href="https://www.snapchat.com/add/i_subbu01"
+                      target="_blank"
+                      rel="noopener"
+                      >Snapchat</a
+                    >
+                  </li>
+                  <li>
+                    <a
+                      class="link"
+                      href="https://wa.me/+8954402360"
+                      target="_blank"
+                      rel="noopener"
+                      >WhatsApp</a
+                    >
+                  </li>
+                  <li>
+                    <a
+                      class="link"
+                      href="https://bio.link/teewrath"
+                      target="_blank"
+                      rel="noopener"
+                      >bio.link</a
+                    >
+                  </li>
+                </ul>
+              </dd>
+            </div>
+          </dl>
+        </div>
+
+        <!-- book a call -->
+        <div class="block">
+          <h2 class="form-title">Or book a call directly</h2>
+
+          <div class="cal-frame">
+            <!-- Cal inline embed code begins -->
+            <div id="my-cal-inline"></div>
+            <script type="text/javascript">
+              (function (C, A, L) {
+                let p = function (a, ar) {
+                  a.q.push(ar);
+                };
+                let d = C.document;
+                C.Cal =
+                  C.Cal ||
+                  function () {
+                    let cal = C.Cal;
+                    let ar = arguments;
+                    if (!cal.loaded) {
+                      cal.ns = {};
+                      cal.q = cal.q || [];
+                      d.head.appendChild(d.createElement("script")).src = A;
+                      cal.loaded = true;
+                    }
+                    if (ar[0] === L) {
+                      const api = function () {
+                        p(api, arguments);
+                      };
+                      const namespace = ar[1];
+                      api.q = api.q || [];
+                      if (typeof namespace === "string") {
+                        cal.ns[namespace] = cal.ns[namespace] || api;
+                        p(cal.ns[namespace], ar);
+                        p(cal, ["initNamespace", namespace]);
+                      } else p(cal, ar);
+                      return;
+                    }
+                    p(cal, ar);
+                  };
+              })(window, "https://app.cal.com/embed/embed.js", "init");
+              Cal("init", "30min", { origin: "https://cal.com" });
+
+              Cal.ns["30min"]("inline", {
+                elementOrSelector: "#my-cal-inline",
+                calLink: "subrotobanerjee/30min",
+                layout: "month_view",
+                config: {
+                  layout: "month_view",
+                  theme:
+                    document.documentElement.getAttribute("data-theme") ===
+                    "light"
+                      ? "light"
+                      : "dark",
+                },
+              });
+
+              Cal.ns["30min"]("ui", {
+                // follow the site theme; monochrome brand colour per theme
+                theme:
+                  document.documentElement.getAttribute("data-theme") ===
+                  "light"
+                    ? "light"
+                    : "dark",
+                cssVarsPerTheme: {
+                  light: { "cal-brand": "#0a0a0a" },
+                  dark: { "cal-brand": "#ededed" },
+                },
+                hideEventTypeDetails: false,
+                layout: "month_view",
+              });
+            </script>
+            <!-- Cal inline embed code ends -->
+          </div>
+        </div>
+      </div>
+    </main>
+
+    <script>
+      Chrome.footer();
+    </script>
+    <script src="./assets/js/app.js"></script>
+  </body>
+</html>

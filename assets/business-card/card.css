@@ -1,0 +1,193 @@
+/*==========================================================================
+  card.css — business card in the site's language (assets/css/core.css,
+  dark): near-black ground, Geist, hairline rules, monochrome.
+
+  Size: 3.5in × 2in at 200px/in → 700 × 400 CSS px, exported at 3×
+  (2100 × 1200 px = 600 dpi). 1px ≈ 0.36pt.
+
+  Grid
+    · 44px margin on all four sides → a 612 × 312 content box
+    · two 290px columns with a 32px gutter (back)
+    · one spacing unit, 26px, between every band and row
+    · line heights on a 4px step: labels 16, values 24, name 44
+  The front is centred on the vertical axis; the back's bands add up to
+  exactly the 312px content height, so nothing floats. Print files are
+  square and full-bleed; only the preview sheet rounds the corners.
+==========================================================================*/
+
+:root {
+  --bg:       #0a0a0a;
+  --line:     #2e2e2e;
+  --text-hi:  #ededed;
+  --text-mid: #a1a1a1;
+  --text-low: #7a7a7a;
+  --text-dim: #464646;
+
+  --ff-sans: 'Geist', ui-sans-serif, system-ui, -apple-system, 'Segoe UI', sans-serif;
+
+  --margin: 44px;
+  --gutter: 32px;
+  --space:  26px;
+}
+
+* { box-sizing: border-box; margin: 0; padding: 0; }
+li { list-style: none; }
+
+body {
+  background: transparent;
+  font-family: var(--ff-sans);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-rendering: geometricPrecision;
+}
+
+.card {
+  position: relative;
+  width: 700px;
+  height: 400px;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  padding: var(--margin);
+  background: var(--bg);
+  color: var(--text-mid);
+}
+
+/* small uppercase label — capitals stay legible at 4pt where lowercase won't */
+.k {
+  font-size: 11px;
+  line-height: 16px;
+  font-weight: 500;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--text-low);
+}
+
+/* the fixed part of a URL recedes; the part that identifies you stays bright */
+.pre { font-weight: 400; color: var(--text-low); }
+
+/* a band: one line, left item and right item on a shared baseline */
+.band {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  font-size: 16px;
+  line-height: 24px;
+  font-weight: 500;
+  color: var(--text-hi);
+  white-space: nowrap;
+}
+/* one 24px line + the 26px space + the 1px rule. Mixed sizes on a shared baseline
+   would otherwise grow the line box by a pixel and push the grid off by one. */
+.band--head, .band--foot { height: calc(24px + var(--space) + 1px); }
+
+/*--------------------------------------------------------------------------
+  FRONT
+  identity centred in the space above the rule; links mirrored below it
+--------------------------------------------------------------------------*/
+
+.identity {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+}
+
+.name {
+  font-size: 40px;
+  line-height: 44px;
+  font-weight: 600;
+  letter-spacing: -0.025em;
+  color: var(--text-hi);
+}
+
+.role {
+  display: flex;
+  align-items: center;
+  margin-top: 16px;
+  /* tracking also trails the last letter; pad the front by the same amount
+     so the line is centred on its letters, not on its box */
+  padding-left: 0.28em;
+  font-size: 13px;
+  line-height: 20px;
+  font-weight: 500;
+  letter-spacing: 0.28em;
+  text-transform: uppercase;
+  color: var(--text-mid);
+}
+/* hairline divider between the words, not a typed "|" */
+.role i {
+  width: 1px;
+  height: 11px;
+  margin-inline: 12px calc(12px + 0.28em);
+  background: var(--text-dim);
+}
+
+.band--foot {
+  padding-top: var(--space);
+  border-top: 1px solid var(--line);
+}
+
+/*--------------------------------------------------------------------------
+  BACK
+  head band (24) · space · rule · contacts (26 + 44 + 26 + 44 + 26) ·
+  rule · space · services (16 + 4 + 48)  =  312
+--------------------------------------------------------------------------*/
+
+.band--head {
+  padding-bottom: var(--space);
+  border-bottom: 1px solid var(--line);
+}
+.brand { display: flex; align-items: baseline; gap: 12px; }
+.brand b { font-size: 17px; font-weight: 600; letter-spacing: -0.01em; }
+.band .sub { font-weight: 400; color: var(--text-mid); }
+
+.cols {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  column-gap: var(--gutter);
+}
+
+.contacts {
+  padding-block: var(--space);
+  row-gap: var(--space);
+}
+.contacts dd {
+  margin-top: 4px;
+  font-size: 17px;
+  line-height: 24px;
+  font-weight: 500;
+  color: var(--text-hi);
+  white-space: nowrap;
+  font-variant-numeric: tabular-nums;
+}
+
+.services {
+  padding-top: var(--space);
+  border-top: 1px solid var(--line);
+}
+.services .cols {
+  margin-top: 4px;
+  font-size: 16px;
+  line-height: 24px;
+  color: var(--text-mid);
+  white-space: nowrap;
+}
+
+/*--------------------------------------------------------------------------
+  PREVIEW SHEET — both sides on the site's ground, corners rounded for display
+--------------------------------------------------------------------------*/
+
+.preview { background: #141414; padding: 46px; }
+.sheet { display: grid; gap: 34px; justify-items: start; }
+.sheet figcaption {
+  margin-bottom: 11px;
+  font-size: 13px;
+  color: var(--text-low);
+}
+.sheet .card {
+  border-radius: 16px;
+  box-shadow: 0 0 0 1px var(--line), 0 30px 60px -30px #000;
+}
