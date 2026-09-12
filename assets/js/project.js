@@ -1,6 +1,6 @@
 'use strict';
 
-/* project.js — renders a single project "launch page" from projects/projects.json
+/* project.js — renders a single project page from projects/projects.json
    (+ optional Markdown body), with share and per-project Giscus comments/reactions. */
 
 (function () {
@@ -16,18 +16,10 @@
     root.setAttribute('data-theme', next);
     try { localStorage.setItem('theme', next); } catch (e) {}
     const meta = document.querySelector('meta[name="theme-color"]');
-    if (meta) meta.setAttribute('content', next === 'light' ? '#f1f4f6' : '#080a0c');
+    if (meta) meta.setAttribute('content', next === 'light' ? '#fafafa' : '#0a0a0a');
     const frame = document.querySelector('iframe.giscus-frame');
     if (frame) frame.contentWindow.postMessage({ giscus: { setConfig: { theme: giscusTheme() } } }, 'https://giscus.app');
   });
-
-  /* cursor glow */
-  const glow = document.querySelector('.cursor-glow');
-  if (glow && matchMedia('(pointer: fine)').matches && !matchMedia('(prefers-reduced-motion: reduce)').matches) {
-    let x = innerWidth / 2, y = innerHeight / 2, cx = x, cy = y, on = false;
-    addEventListener('mousemove', (e) => { x = e.clientX; y = e.clientY; if (!on) { glow.style.opacity = '1'; on = true; } }, { passive: true });
-    (function loop(){ cx += (x-cx)*0.13; cy += (y-cy)*0.13; glow.style.transform = `translate3d(${cx}px,${cy}px,0)`; requestAnimationFrame(loop); })();
-  }
 
   /* reading progress + sticky bar */
   const bar = document.querySelector('[data-progress]');
@@ -35,17 +27,17 @@
   addEventListener('scroll', () => {
     const h = document.documentElement, max = h.scrollHeight - h.clientHeight;
     if (bar) bar.style.width = (max > 0 ? (h.scrollTop / max) * 100 : 0) + '%';
-    if (topbar) topbar.classList.toggle('stuck', h.scrollTop > 24);
+    if (topbar) topbar.classList.toggle('stuck', h.scrollTop > 8);
   }, { passive: true });
 
   /* toast + share */
   let toastEl;
   const toast = (msg) => {
-    if (!toastEl) { toastEl = document.createElement('div'); toastEl.className = 'proj-toast'; document.body.appendChild(toastEl); }
+    if (!toastEl) { toastEl = document.createElement('div'); toastEl.className = 'proj-toast'; toastEl.setAttribute('role', 'status'); document.body.appendChild(toastEl); }
     toastEl.textContent = msg;
-    requestAnimationFrame(() => { toastEl.style.opacity = '1'; toastEl.style.transform = 'translateX(-50%) translateY(0)'; });
+    requestAnimationFrame(() => { toastEl.style.opacity = '1'; toastEl.style.transform = 'translate(-50%, 0)'; });
     clearTimeout(toastEl._t);
-    toastEl._t = setTimeout(() => { toastEl.style.opacity = '0'; toastEl.style.transform = 'translateX(-50%) translateY(10px)'; }, 1800);
+    toastEl._t = setTimeout(() => { toastEl.style.opacity = '0'; toastEl.style.transform = 'translate(-50%, 8px)'; }, 1800);
   };
   const share = () => {
     const data = { title: document.title, url: location.href };
@@ -72,21 +64,21 @@
     container.appendChild(s);
   };
 
-  const esc = (s) => String(s == null ? '' : s).replace(/"/g, '&quot;');
+  const esc = (s) => String(s == null ? '' : s).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/"/g, '&quot;');
 
   const linkBtns = (p) => {
     const out = [];
-    if (p.repo)  out.push(`<a class="proj-btn primary" href="${esc(p.repo)}" target="_blank" rel="noopener"><ion-icon name="logo-github"></ion-icon> Source</a>`);
-    if (p.demo)  out.push(`<a class="proj-btn" href="${esc(p.demo)}" target="_blank" rel="noopener"><ion-icon name="globe-outline"></ion-icon> Live</a>`);
-    if (p.watch) out.push(`<a class="proj-btn" href="${esc(p.watch)}" target="_blank" rel="noopener"><ion-icon name="logo-youtube"></ion-icon> Watch</a>`);
-    (p.links || []).forEach((l) => out.push(`<a class="proj-btn" href="${esc(l.url)}" target="_blank" rel="noopener"><ion-icon name="open-outline"></ion-icon> ${esc(l.label || 'Visit')}</a>`));
-    out.push(`<button class="proj-share" data-share type="button"><ion-icon name="share-social-outline"></ion-icon> Share</button>`);
+    if (p.repo)  out.push(`<a class="proj-btn primary" href="${esc(p.repo)}" target="_blank" rel="noopener">Source ↗</a>`);
+    if (p.demo)  out.push(`<a class="proj-btn" href="${esc(p.demo)}" target="_blank" rel="noopener">Live ↗</a>`);
+    if (p.watch) out.push(`<a class="proj-btn" href="${esc(p.watch)}" target="_blank" rel="noopener">Watch ↗</a>`);
+    (p.links || []).forEach((l) => out.push(`<a class="proj-btn" href="${esc(l.url)}" target="_blank" rel="noopener">${esc(l.label || 'Visit')} ↗</a>`));
+    out.push(`<button class="proj-share" data-share type="button">Share</button>`);
     return out.join('');
   };
 
-  const techChips = (p) =>
+  const techList = (p) =>
     (p.tech && p.tech.length)
-      ? `<div class="proj-tech">${p.tech.map((t) => `<span class="tech-chip">${esc(t)}</span>`).join('')}</div>`
+      ? `<div class="proj-tech"><ul class="inline-list">${p.tech.map((t) => `<li>${esc(t)}</li>`).join('')}</ul></div>`
       : '';
 
   const id = new URLSearchParams(location.search).get('id');
@@ -116,14 +108,14 @@
             <h1 class="proj-title">${esc(p.title)}</h1>
             <p class="proj-tagline">${esc(p.excerpt || '')}</p>
             <div class="proj-actions">${linkBtns(p)}</div>
-            ${techChips(p)}
+            ${techList(p)}
           </div>
           ${cover}
         </div>
         ${bodyHtml}
         <div class="proj-footer">
-          <a href="./index.html#projects"><ion-icon name="arrow-back-outline"></ion-icon> All projects</a>
-          <a href="./index.html#contact">Work with me <ion-icon name="arrow-forward-outline"></ion-icon></a>
+          <a href="./index.html#projects">← All projects</a>
+          <a href="./index.html#contact">Work with me →</a>
         </div>
         <section class="proj-comments">
           <p class="proj-comments-title">Reactions &amp; comments</p>
@@ -135,6 +127,6 @@
     })
     .catch((err) => {
       console.error(err);
-      wrap.innerHTML = '<p class="proj-state">Project not found. <a href="./index.html#projects" style="color:var(--accent)">Back to projects</a>.</p>';
+      wrap.innerHTML = '<p class="proj-state">Project not found. <a href="./index.html#projects">Back to projects</a>.</p>';
     });
 })();

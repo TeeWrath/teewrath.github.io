@@ -1,7 +1,7 @@
 'use strict';
 
 /* content.js — renders experience, freelance, testimonials, community,
-   tools & tech (+ the hero ticker) and sessions from the JSON files in ./data/
+   tools & tech and sessions from the JSON files in ./data/
    Single source of truth for these sections: edit the JSON, not the HTML. */
 
 (function () {
@@ -29,26 +29,23 @@
         xpList.innerHTML = companies
           .map(
             (c) => `
-            <li class="card xp-company reveal">
-              <div class="xp-head">
-                <span class="xp-logo">${esc(c.logo)}</span>
-                <div class="xp-head-info">
-                  <h4 class="xp-company-name">${esc(c.company)}</h4>
-                  <p class="xp-company-meta">${esc(c.meta)}</p>
-                </div>
+            <li>
+              <div class="xp-head offset">
+                <h4 class="xp-company-name">${esc(c.company)}</h4>
+                <p class="xp-company-meta">${esc(c.meta)}</p>
               </div>
               <ol class="xp-roles">
                 ${c.roles
                   .map(
                     (role) => `
-                  <li class="xp-role${role.current ? ' current' : ''}">
-                    <div class="xp-role-head">
-                      <h5 class="xp-role-title">${esc(role.title)}</h5>
-                      <span class="xp-role-date">${esc(role.date)}</span>
+                  <li class="entry xp-role${role.current ? ' current' : ''}">
+                    <p class="entry-aside">${esc(role.date)}</p>
+                    <div>
+                      <h5 class="entry-title">${esc(role.title)}</h5>
+                      <ul class="bullets">
+                        ${role.points.map((p) => `<li>${p}</li>`).join('')}
+                      </ul>
                     </div>
-                    <ul class="xp-points">
-                      ${role.points.map((p) => `<li>${p}</li>`).join('')}
-                    </ul>
                   </li>`
                   )
                   .join('')}
@@ -72,15 +69,13 @@
         freelanceList.innerHTML = data.items
           .map(
             (item) => `
-            <li class="card fl-card reveal">
-              <div class="fc-top">
-                <h4>${esc(item.title)}</h4>
-                <span class="fc-role">${esc(item.role)}</span>
+            <li class="entry">
+              <p class="entry-aside">${esc(item.role)}</p>
+              <div>
+                <h4 class="entry-title">${esc(item.title)}</h4>
+                <p class="entry-text">${item.description}</p>
+                <a class="link entry-link" ${item.external ? 'target="_blank" rel="noopener"' : ''} href="${attr(item.linkHref)}">${esc(item.linkText)} ${item.external ? '↗' : '→'}</a>
               </div>
-              <p>${item.description}</p>
-              <a ${item.external ? 'target="_blank" rel="noopener"' : ''} href="${attr(item.linkHref)}">
-                ${esc(item.linkText)} <ion-icon name="arrow-forward-outline"></ion-icon>
-              </a>
             </li>`
           )
           .join('');
@@ -98,18 +93,11 @@
         tmList.innerHTML = items
           .map(
             (t) => `
-            <li class="card tm-card reveal">
-              <span class="tm-mark" aria-hidden="true">&ldquo;</span>
-              <p class="tm-quote">${esc(t.quote)}</p>
-              <div class="tm-author">
-                <span class="tm-avatar" aria-hidden="true">${esc(t.avatarLetter)}</span>
-                <div>
-                  <p class="tm-name">
-                    <a href="${attr(t.url)}" target="_blank" rel="noopener noreferrer">${esc(t.name)}</a>
-                  </p>
-                  <p class="tm-role">${esc(t.role)}</p>
-                </div>
-              </div>
+            <li class="quote offset">
+              <blockquote>&ldquo;${esc(t.quote)}&rdquo;</blockquote>
+              <p class="quote-by">
+                <a href="${attr(t.url)}" target="_blank" rel="noopener noreferrer">${esc(t.name)}</a>, ${esc(t.role)}
+              </p>
             </li>`
           )
           .join('');
@@ -126,17 +114,19 @@
         communityList.innerHTML = items
           .map(
             (c) => `
-            <li class="tl-item reveal">
-              <h4 class="tl-title">${esc(c.title)}</h4>
-              <span class="tl-date">${esc(c.date)}</span>
-              ${
-                c.text || c.linkHref
-                  ? `<p class="tl-text">
-                      ${c.text || ''}
-                      ${c.linkHref ? `<a target="_blank" rel="noopener" href="${attr(c.linkHref)}">${esc(c.linkText)}</a>` : ''}
-                     </p>`
-                  : ''
-              }
+            <li class="entry">
+              <p class="entry-aside">${esc(c.date)}</p>
+              <div>
+                <h4 class="entry-title">${esc(c.title)}</h4>
+                ${
+                  c.text || c.linkHref
+                    ? `<p class="entry-text">
+                        ${c.text || ''}
+                        ${c.linkHref ? `<a class="link" target="_blank" rel="noopener" href="${attr(c.linkHref)}">${esc(c.linkText)} ↗</a>` : ''}
+                       </p>`
+                    : ''
+                }
+              </div>
             </li>`
           )
           .join('');
@@ -147,38 +137,25 @@
 
   /* --------------------------------------------------------- Tools & Tech */
   const techCloud = document.querySelector('[data-tech-cloud]');
-  const tickerTrack = document.querySelector('[data-ticker-track]');
-  if (techCloud || tickerTrack) {
+  if (techCloud) {
     load('./data/tools-tech.json')
       .then((groups) => {
-        if (techCloud) {
-          techCloud.innerHTML = groups
-            .map(
-              (g) => `
-              <div class="tech-group reveal">
-                <p class="tech-label">${esc(g.label)}</p>
-                <ul class="tech-list">
-                  ${g.items.map((i) => `<li class="tech-chip">${esc(i)}</li>`).join('')}
-                </ul>
-              </div>`
-            )
-            .join('');
-        }
-
-        if (tickerTrack) {
-          // one flat pass of every tool, duplicated for a seamless marquee
-          const flat = groups.reduce((all, g) => all.concat(g.items), []);
-          const run = flat
-            .map((i) => `${esc(i)}<i aria-hidden="true"></i>`)
-            .join('');
-          tickerTrack.innerHTML = `<span>${run}</span><span>${run}</span>`;
-        }
-
+        techCloud.innerHTML = groups
+          .map(
+            (g) => `
+            <div class="entry">
+              <p class="entry-aside">${esc(String(g.label).replace(/:\s*$/, ''))}</p>
+              <ul class="inline-list entry-text" style="margin-top: 0">
+                ${g.items.map((i) => `<li>${esc(i)}</li>`).join('')}
+              </ul>
+            </div>`
+          )
+          .join('');
         done();
       })
       .catch((err) => {
         console.error('Failed to load tools-tech.json:', err);
-        if (techCloud) techCloud.innerHTML = '<p class="state-line">Couldn\'t load this section.</p>';
+        techCloud.innerHTML = '<p class="state-line">Couldn\'t load this section.</p>';
       });
   }
 
@@ -190,18 +167,16 @@
         sessionsList.innerHTML = items
           .map(
             (s) => `
-            <li class="work-item reveal">
-              <a class="card work-card brackets" target="_blank" rel="noopener" href="${attr(s.url)}">
-                <figure class="work-media">
-                  <img src="${attr(s.image)}" alt="${attr(s.title)}" loading="lazy" />
-                  <span class="work-eye"><span><ion-icon name="eye-outline"></ion-icon></span></span>
+            <li>
+              <a class="row row--media" target="_blank" rel="noopener" href="${attr(s.url)}">
+                <figure class="row-thumb">
+                  <img src="${attr(s.image)}" alt="" loading="lazy" />
                 </figure>
-                <div class="work-body">
-                  <p class="work-kicker"><i class="pulse-dot" aria-hidden="true"></i> Session</p>
-                  <h3 class="work-title">${esc(s.title)}</h3>
-                  <p class="work-text">${esc(s.category)}</p>
-                  <span class="work-more">Watch <ion-icon name="open-outline"></ion-icon></span>
-                </div>
+                <span class="row-main">
+                  <h3 class="row-title">${esc(s.title)}</h3>
+                  <p class="row-text">${esc(s.category)}</p>
+                </span>
+                <span class="row-arrow ext" aria-hidden="true">↗</span>
               </a>
             </li>`
           )

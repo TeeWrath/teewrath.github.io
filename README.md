@@ -102,8 +102,12 @@ Google Drive folder that holds it, so there's nothing to keep in sync here.
 
 ## Theming
 
-Amber/gold on espresso. Dark/light is toggled with the button in the top-right and
-remembered per visitor (`localStorage`). First visit follows the OS preference.
+Monochrome and text-first: near-black ground, one typeface (Geist), hairline rules,
+no imagery beyond project/talk/post thumbnails. Colour is used only for state (the
+green "available" dot). All tokens live at the top of `assets/css/core.css`.
+
+Dark is the default. The button in the top-right switches to light, and the choice is
+remembered per visitor (`localStorage`).
 
 ## License
 
