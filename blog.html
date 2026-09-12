@@ -1,0 +1,89 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Blog — Subroto Banerjee</title>
+    <meta name="description" content="Writing by Subroto Banerjee." />
+
+    <link
+      rel="shortcut icon"
+      href="./assets/images/newpic.jpg"
+      type="image/x-icon"
+    />
+
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600&family=Geist+Mono:wght@400;500&display=swap"
+      rel="stylesheet"
+    />
+
+    <link rel="stylesheet" href="./assets/css/core.css" />
+    <link rel="stylesheet" href="./assets/css/sections.css" />
+
+    <meta name="theme-color" content="#0a0a0a" />
+
+    <!-- set theme before paint to avoid flash -->
+    <script>
+      (function () {
+        // dark is the house style — only an explicit user choice overrides it
+        var t = "dark";
+        try {
+          t = localStorage.getItem("theme") || "dark";
+        } catch (e) {}
+        var d = document.documentElement;
+        d.setAttribute("data-theme", t);
+        d.classList.add("js");
+        if (t === "light")
+          document
+            .querySelector('meta[name="theme-color"]')
+            .setAttribute("content", "#fafafa");
+      })();
+    </script>
+  </head>
+
+  <body data-page="blog">
+    <!-- top bar, menu, footer and ⌘K are shared: assets/js/chrome.js -->
+    <script src="./assets/js/chrome.js"></script>
+
+    <main class="wrap" id="main">
+      <header class="page-head">
+        <h1 class="page-title enter" style="--i: 0">Blog</h1>
+        <p class="page-lede enter" style="--i: 1">
+          Writing on Flutter, programming, Linux and building in public.
+        </p>
+        <p class="page-meta enter" style="--i: 2">
+          <span data-count="posts">–</span> posts ·
+          <span data-count="posts-self">–</span> on this site,
+          <span data-count="posts-ext">–</span> elsewhere
+        </p>
+      </header>
+
+      <div class="page-body">
+        <div class="tabs" role="group" aria-label="Filter posts">
+          <button class="tab active" data-blog-filter="all" type="button">
+            All
+          </button>
+          <button class="tab" data-blog-filter="self" type="button">
+            Mine
+          </button>
+          <button class="tab" data-blog-filter="external" type="button">
+            External
+          </button>
+        </div>
+
+        <div class="blog-groups" data-blog-list>
+          <p class="state-line" data-blog-loading>Loading posts…</p>
+        </div>
+      </div>
+    </main>
+
+    <script>
+      Chrome.footer();
+    </script>
+    <script src="./assets/js/app.js"></script>
+    <script src="./assets/js/blog.js"></script>
+  </body>
+</html>

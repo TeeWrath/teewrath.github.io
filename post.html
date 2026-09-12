@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
@@ -6,7 +6,11 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Reading… — Subroto Banerjee</title>
 
-    <link rel="shortcut icon" href="./assets/images/newpic.png" type="image/x-icon" />
+    <link
+      rel="shortcut icon"
+      href="./assets/images/newpic.jpg"
+      type="image/x-icon"
+    />
 
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
@@ -23,39 +27,35 @@
     <script>
       (function () {
         var t = "dark";
-        try { t = localStorage.getItem("theme") || "dark"; } catch (e) {}
-        document.documentElement.setAttribute("data-theme", t);
-        if (t === "light") document.querySelector('meta[name="theme-color"]').setAttribute("content", "#fafafa");
+        try {
+          t = localStorage.getItem("theme") || "dark";
+        } catch (e) {}
+        var d = document.documentElement;
+        d.setAttribute("data-theme", t);
+        d.classList.add("js");
+        if (t === "light")
+          document
+            .querySelector('meta[name="theme-color"]')
+            .setAttribute("content", "#fafafa");
       })();
     </script>
   </head>
 
-  <body>
+  <body data-page="blog" data-pager="off">
     <div class="reader-progress" data-progress aria-hidden="true"></div>
+    <script src="./assets/js/chrome.js"></script>
 
-    <header class="topbar" data-topbar>
-      <div class="wrap topbar-inner">
-        <a class="brand" href="./index.html" aria-label="Subroto Banerjee — home">Subroto Banerjee</a>
-
-        <a class="back-link" href="./index.html#blog">← <span>All writing</span></a>
-
-        <div class="bar-actions">
-          <button class="icon-btn theme-toggle" data-theme-toggle aria-label="Toggle dark / light theme" title="Toggle theme" type="button">
-            <svg class="ico icon-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 14.5A8 8 0 0 1 9.5 4a8 8 0 1 0 10.5 10.5z"/></svg>
-            <svg class="ico icon-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/></svg>
-          </button>
-
-          <a class="btn btn-primary btn-sm" href="./index.html#contact">Hire Me</a>
-        </div>
-      </div>
-    </header>
-
-    <main class="wrap reader-wrap">
+    <main class="wrap reader-wrap" id="main">
+      <a class="crumb enter" href="./blog.html">← All writing</a>
       <article data-article>
         <p class="reader-state">Loading…</p>
       </article>
     </main>
 
+    <script>
+      Chrome.footer();
+    </script>
+    <script src="./assets/js/app.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
     <script>
       /* ================= GISCUS CONFIG =================
@@ -67,135 +67,167 @@
          4. Paste them below (replace the REPLACE_ values).            */
       const GISCUS = {
         repo: "TeeWrath/teewrath.github.io",
-        repoId: "R_kgDOMJhweA",            // your repo's node id (pre-filled)
-        category: "Announcements",          // change if you pick another category
-        categoryId: "DIC_kwDOMJhweM4C-v9X" // get this from giscus.app (see README)
+        repoId: "R_kgDOMJhweA", // your repo's node id (pre-filled)
+        category: "Announcements", // change if you pick another category
+        categoryId: "DIC_kwDOMJhweM4C-v9X", // get this from giscus.app (see README)
       };
       /* ================================================= */
 
       (function () {
         const root = document.documentElement;
         const giscusTheme = () =>
-          root.getAttribute('data-theme') === 'light' ? 'light' : 'transparent_dark';
+          root.getAttribute("data-theme") === "light"
+            ? "light"
+            : "transparent_dark";
 
-        // theme toggle (+ keep giscus in sync)
-        const btn = document.querySelector('[data-theme-toggle]');
-        if (btn) btn.addEventListener('click', () => {
-          const next = root.getAttribute('data-theme') === 'light' ? 'dark' : 'light';
-          root.setAttribute('data-theme', next);
-          try { localStorage.setItem('theme', next); } catch (e) {}
-          const meta = document.querySelector('meta[name="theme-color"]');
-          if (meta) meta.setAttribute('content', next === 'light' ? '#fafafa' : '#0a0a0a');
-          const frame = document.querySelector('iframe.giscus-frame');
-          if (frame) frame.contentWindow.postMessage(
-            { giscus: { setConfig: { theme: giscusTheme() } } }, 'https://giscus.app');
+        // keep giscus in step with the site theme (app.js owns the toggle)
+        document.addEventListener("theme:change", () => {
+          const frame = document.querySelector("iframe.giscus-frame");
+          if (frame)
+            frame.contentWindow.postMessage(
+              { giscus: { setConfig: { theme: giscusTheme() } } },
+              "https://giscus.app",
+            );
         });
 
-        // toast helper
-        let toastEl;
-        const toast = (msg) => {
-          if (!toastEl) { toastEl = document.createElement('div'); toastEl.className = 'reader-toast'; toastEl.setAttribute('role', 'status'); document.body.appendChild(toastEl); }
-          toastEl.textContent = msg;
-          requestAnimationFrame(() => { toastEl.style.opacity = '1'; toastEl.style.transform = 'translate(-50%, 0)'; });
-          clearTimeout(toastEl._t);
-          toastEl._t = setTimeout(() => { toastEl.style.opacity = '0'; toastEl.style.transform = 'translate(-50%, 8px)'; }, 1800);
-        };
-
         // share current post
+        const toast = (msg) => window.UI && window.UI.toast(msg);
         const share = () => {
           const data = { title: document.title, url: location.href };
           if (navigator.share) navigator.share(data).catch(() => {});
-          else if (navigator.clipboard) navigator.clipboard.writeText(location.href).then(() => toast('Link copied'));
-          else prompt('Copy this link:', location.href);
+          else if (navigator.clipboard)
+            navigator.clipboard
+              .writeText(location.href)
+              .then(() => toast("Link copied"));
+          else prompt("Copy this link:", location.href);
         };
 
         // mount giscus once content is ready — one thread PER post
         const mountGiscus = (container, postId) => {
-          if (!GISCUS.repoId || GISCUS.repoId.startsWith('REPLACE') ||
-              !GISCUS.categoryId || GISCUS.categoryId.startsWith('REPLACE')) {
+          if (
+            !GISCUS.repoId ||
+            GISCUS.repoId.startsWith("REPLACE") ||
+            !GISCUS.categoryId ||
+            GISCUS.categoryId.startsWith("REPLACE")
+          ) {
             container.innerHTML =
               '<div class="comments-placeholder">Comments &amp; reactions are not wired up yet. ' +
-              'Enable GitHub <code>Discussions</code>, install the <code>giscus</code> app, then paste your ' +
-              '<code>repoId</code> and <code>categoryId</code> into <code>post.html</code>. ' +
-              'Until then, use <strong>Share</strong> to send this post around.</div>';
+              "Enable GitHub <code>Discussions</code>, install the <code>giscus</code> app, then paste your " +
+              "<code>repoId</code> and <code>categoryId</code> into <code>post.html</code>. " +
+              "Until then, use <strong>Share</strong> to send this post around.</div>";
             return;
           }
-          const s = document.createElement('script');
-          s.src = 'https://giscus.app/client.js';
-          s.async = true; s.crossOrigin = 'anonymous';
+          const s = document.createElement("script");
+          s.src = "https://giscus.app/client.js";
+          s.async = true;
+          s.crossOrigin = "anonymous";
           Object.assign(s.dataset, {
-            repo: GISCUS.repo, repoId: GISCUS.repoId,
-            category: GISCUS.category, categoryId: GISCUS.categoryId,
+            repo: GISCUS.repo,
+            repoId: GISCUS.repoId,
+            category: GISCUS.category,
+            categoryId: GISCUS.categoryId,
             // unique discussion per post so comments/reactions don't bleed across blogs
-            mapping: 'specific', term: 'blog: ' + postId,
-            strict: '1', reactionsEnabled: '1',
-            emitMetadata: '0', inputPosition: 'top', theme: giscusTheme(), lang: 'en', loading: 'lazy'
+            mapping: "specific",
+            term: "blog: " + postId,
+            strict: "1",
+            reactionsEnabled: "1",
+            emitMetadata: "0",
+            inputPosition: "top",
+            theme: giscusTheme(),
+            lang: "en",
+            loading: "lazy",
           });
           container.appendChild(s);
         };
 
-        // reading progress + sticky bar
-        const bar = document.querySelector('[data-progress]');
-        const topbar = document.querySelector('[data-topbar]');
-        addEventListener('scroll', () => {
-          const h = document.documentElement;
-          const max = h.scrollHeight - h.clientHeight;
-          if (bar) bar.style.width = (max > 0 ? (h.scrollTop / max) * 100 : 0) + '%';
-          if (topbar) topbar.classList.toggle('stuck', h.scrollTop > 8);
-        }, { passive: true });
+        // reading progress
+        const bar = document.querySelector("[data-progress]");
+        addEventListener(
+          "scroll",
+          () => {
+            const h = document.documentElement;
+            const max = h.scrollHeight - h.clientHeight;
+            if (bar)
+              bar.style.width = (max > 0 ? (h.scrollTop / max) * 100 : 0) + "%";
+          },
+          { passive: true },
+        );
 
         // load post
-        const id = new URLSearchParams(location.search).get('id');
-        const wrap = document.querySelector('[data-article]');
-        const fmt = (iso) => { const d = new Date(iso); return isNaN(d) ? iso : d.toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' }); };
-        const readingTime = (txt) => Math.max(1, Math.round(txt.split(/\s+/).length / 200)) + ' min read';
+        const id = new URLSearchParams(location.search).get("id");
+        const wrap = document.querySelector("[data-article]");
+        const fmt = (iso) => {
+          const d = new Date(iso);
+          return isNaN(d)
+            ? iso
+            : d.toLocaleDateString("en-US", {
+                year: "numeric",
+                month: "long",
+                day: "numeric",
+              });
+        };
+        const readingTime = (txt) =>
+          Math.max(1, Math.round(txt.split(/\s+/).length / 200)) + " min read";
 
-        if (!id) { wrap.innerHTML = '<p class="reader-state">No post specified.</p>'; return; }
+        if (!id) {
+          wrap.innerHTML = '<p class="reader-state">No post specified.</p>';
+          return;
+        }
 
-        fetch('./blog/posts.json', { cache: 'no-cache' })
+        fetch("./blog/posts.json", { cache: "no-cache" })
           .then((r) => r.json())
           .then((posts) => {
             const post = posts.find((p) => p.id === id);
-            if (!post) throw new Error('not found');
-            if (post.type === 'external') { location.replace(post.url); return Promise.reject('redirect'); }
-            return fetch(post.file, { cache: 'no-cache' }).then((r) => {
-              if (!r.ok) throw new Error('md ' + r.status);
-              return r.text();
-            }).then((md) => ({ post, md }));
+            if (!post) throw new Error("not found");
+            if (post.type === "external") {
+              location.replace(post.url);
+              return Promise.reject("redirect");
+            }
+            return fetch(post.file, { cache: "no-cache" })
+              .then((r) => {
+                if (!r.ok) throw new Error("md " + r.status);
+                return r.text();
+              })
+              .then((md) => ({ post, md }));
           })
           .then((res) => {
             if (!res) return;
             const { post, md } = res;
-            document.title = post.title + ' — Subroto Banerjee';
-            const cover = post.cover ? `<img class="reader-cover" src="${post.cover}" alt="${post.title}" />` : '';
+            document.title = post.title + " — Subroto Banerjee";
+            const cover = post.cover
+              ? `<img class="reader-cover enter" style="--i:2" src="${post.cover}" alt="${post.title}" />`
+              : "";
             wrap.innerHTML = `
-              <div class="reader-meta">
-                <span>${post.category || ''}</span><span class="sep">·</span>
+              <div class="reader-meta enter" style="--i:0">
+                <span>${post.category || ""}</span><span class="sep">·</span>
                 <time datetime="${post.date}">${fmt(post.date)}</time><span class="sep">·</span>
                 <span>${readingTime(md)}</span>
                 <button class="reader-share" data-share type="button">Share</button>
               </div>
-              <h1 class="reader-title">${post.title}</h1>
+              <h1 class="reader-title enter" style="--i:1">${post.title}</h1>
               ${cover}
               <hr class="reader-hr" />
-              <div class="reader-body">${marked.parse(md)}</div>
+              <div class="reader-body enter" style="--i:3">${marked.parse(md)}</div>
               <div class="reader-footer">
-                <a href="./index.html#blog">← Back to all writing</a>
+                <a href="./blog.html">← Back to all writing</a>
                 <button class="reader-share" data-share type="button">Share this post</button>
-                <a href="./index.html#contact">Work with me →</a>
+                <a href="./contact.html">Work with me →</a>
               </div>
               <section class="reader-comments">
                 <p class="reader-comments-title">Comments &amp; reactions</p>
                 <div data-giscus></div>
               </section>`;
 
-            wrap.querySelectorAll('[data-share]').forEach((b) => b.addEventListener('click', share));
-            mountGiscus(wrap.querySelector('[data-giscus]'), post.id);
+            wrap
+              .querySelectorAll("[data-share]")
+              .forEach((b) => b.addEventListener("click", share));
+            mountGiscus(wrap.querySelector("[data-giscus]"), post.id);
           })
           .catch((err) => {
-            if (err === 'redirect') return;
+            if (err === "redirect") return;
             console.error(err);
-            wrap.innerHTML = '<p class="reader-state">Post not found. <a href="./index.html#blog">Back to blog</a>.</p>';
+            wrap.innerHTML =
+              '<p class="reader-state">Post not found. <a href="./blog.html">Back to blog</a>.</p>';
           });
       })();
     </script>

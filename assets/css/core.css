@@ -1,8 +1,8 @@
 /*==========================================================================
-  core.css — tokens, base, chrome
+  core.css — tokens, base, chrome, page scaffold, motion
   Monochrome, text-first. One column, a left rail for dates and labels,
   hairlines for structure. Colour is reserved for state (the "available" dot).
-  Shared by index.html, post.html and project.html.
+  Shared by every page; the chrome markup comes from assets/js/chrome.js.
 ==========================================================================*/
 
 /*--------------------------------------------------------------------------
@@ -106,6 +106,21 @@ time, .num { font-variant-numeric: tabular-nums; }
   overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; border: 0;
 }
 
+.skip-link {
+  position: absolute;
+  left: 12px;
+  top: -48px;
+  z-index: 120;
+  padding: 8px 12px;
+  border-radius: 6px;
+  background: var(--btn-bg);
+  color: var(--btn-fg);
+  font-size: 13px;
+  font-weight: 500;
+  transition: top 0.15s;
+}
+.skip-link:focus { top: 12px; }
+
 /* inline text link */
 .link,
 .prose a {
@@ -144,6 +159,8 @@ time, .num { font-variant-numeric: tabular-nums; }
   background: var(--bg);
   border-bottom: 1px solid transparent;
   transition: border-color 0.2s, background 0.2s;
+  /* stays put while pages cross-fade underneath it */
+  view-transition-name: topbar;
 }
 .topbar.stuck {
   border-bottom-color: var(--line);
@@ -173,13 +190,25 @@ time, .num { font-variant-numeric: tabular-nums; }
   margin-left: auto;
 }
 .nav-link {
+  position: relative;
   font-size: 13.5px;
   color: var(--text-low);
   transition: color 0.15s;
   white-space: nowrap;
 }
-.nav-link:hover { color: var(--text-hi); }
-.nav-link.active { color: var(--text-hi); }
+.nav-link:hover,
+.nav-link[aria-current="page"] { color: var(--text-hi); }
+
+/* current-page marker on the bar's bottom edge; slides between pages */
+.nav-ind {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: calc((100% - var(--bar-h)) / 2);
+  height: 1px;
+  background: var(--text-hi);
+  view-transition-name: nav-ind;
+}
 
 .bar-actions {
   display: flex;
@@ -242,8 +271,16 @@ body.drawer-open .drawer { opacity: 1; visibility: visible; }
   font-size: 20px;
   font-weight: 500;
   letter-spacing: -0.015em;
-  color: var(--text-hi);
+  color: var(--text-mid);
+  transition: color 0.15s;
 }
+.drawer-link:hover,
+.drawer-link[aria-current="page"] { color: var(--text-hi); }
+body.drawer-open .drawer-link {
+  animation: enter 0.45s var(--ease) both;
+  animation-delay: calc(var(--i, 0) * 35ms);
+}
+
 .drawer-foot {
   margin-top: 28px;
   display: grid;
@@ -270,9 +307,10 @@ body.drawer-open .drawer { opacity: 1; visibility: visible; }
   font-weight: 500;
   color: var(--text-hi);
   white-space: nowrap;
-  transition: background 0.15s, border-color 0.15s, opacity 0.15s;
+  transition: background 0.15s, border-color 0.15s, opacity 0.15s, transform 0.15s var(--ease);
 }
 .btn:hover { background: var(--bg-hover); }
+.btn:active { transform: scale(0.98); }
 .btn-primary {
   background: var(--btn-bg);
   border-color: var(--btn-bg);
@@ -282,7 +320,81 @@ body.drawer-open .drawer { opacity: 1; visibility: visible; }
 .btn-sm { height: 32px; padding: 0 12px; font-size: 13px; }
 
 /*--------------------------------------------------------------------------
-  7. COMMAND PALETTE
+  7. PAGE SCAFFOLD — header, breadcrumb, previous/next
+--------------------------------------------------------------------------*/
+
+.page-head { padding-block: clamp(48px, 9vw, 88px) clamp(28px, 4vw, 40px); }
+.page-title {
+  font-size: clamp(28px, 4.4vw, 36px);
+  line-height: 1.15;
+  letter-spacing: -0.026em;
+}
+.page-lede {
+  margin-top: 12px;
+  max-width: 58ch;
+  font-size: 16.5px;
+  line-height: 1.65;
+  color: var(--text-mid);
+}
+.page-meta {
+  margin-top: 14px;
+  font-size: 13.5px;
+  color: var(--text-low);
+  font-variant-numeric: tabular-nums;
+}
+.page-body { padding-bottom: clamp(48px, 7vw, 64px); }
+
+.crumb {
+  display: inline-flex;
+  margin-bottom: clamp(24px, 4vw, 36px);
+  font-size: 13.5px;
+  color: var(--text-low);
+  transition: color 0.15s;
+}
+.crumb:hover { color: var(--text-hi); }
+
+.pager {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+  padding-block: 8px clamp(48px, 7vw, 72px);
+}
+.pager-link {
+  display: grid;
+  gap: 2px;
+  padding: 14px 16px;
+  border-radius: var(--radius);
+  border: 1px solid var(--line);
+  transition: background 0.15s, border-color 0.15s;
+}
+.pager-link:hover { background: var(--bg-hover); border-color: var(--line-strong); }
+.pager-link.next { grid-column: 2; text-align: right; }
+.pager-dir { font-size: 12.5px; color: var(--text-low); }
+.pager-name { font-size: 15px; font-weight: 500; color: var(--text-hi); }
+
+/*--------------------------------------------------------------------------
+  8. FOOTER
+--------------------------------------------------------------------------*/
+
+.footer { border-top: 1px solid var(--line); }
+.footer-inner {
+  padding-block: 36px 44px;
+  display: grid;
+  gap: 16px;
+  font-size: 13.5px;
+  color: var(--text-low);
+}
+.footer-name { color: var(--text-hi); font-weight: 500; }
+.footer-nav,
+.footer-base { display: flex; flex-wrap: wrap; gap: 6px 18px; }
+.footer-nav a,
+.footer-base a { transition: color 0.15s; }
+.footer-nav a:hover,
+.footer-base a:hover { color: var(--text-hi); }
+.footer-base .up { margin-left: auto; }
+
+/*--------------------------------------------------------------------------
+  9. COMMAND PALETTE
 --------------------------------------------------------------------------*/
 
 .cmdk {
@@ -307,7 +419,7 @@ body.drawer-open .drawer { opacity: 1; visibility: visible; }
   background: var(--bg-elev);
   box-shadow: 0 24px 64px -16px rgba(0, 0, 0, 0.6);
   overflow: hidden;
-  transform: translateY(-6px);
+  transform: translateY(-6px) scale(0.99);
   transition: transform 0.2s var(--ease);
 }
 .cmdk.open .cmdk-panel { transform: none; }
@@ -360,7 +472,7 @@ kbd {
 .cmdk-empty { padding: 24px 10px; text-align: center; font-size: 13px; color: var(--text-low); }
 
 /*--------------------------------------------------------------------------
-  8. TOAST
+  10. TOAST
 --------------------------------------------------------------------------*/
 
 .toast {
@@ -382,7 +494,47 @@ kbd {
 .toast.on { opacity: 1; transform: translate(-50%, 0); }
 
 /*--------------------------------------------------------------------------
-  9. RESPONSIVE CHROME
+  11. MOTION
+--------------------------------------------------------------------------*/
+
+/* entrance: page headings and the intro rise in on load, staggered by --i */
+@keyframes enter {
+  from { opacity: 0; transform: translateY(10px); }
+}
+.enter {
+  animation: enter 0.7s var(--ease) both;
+  animation-delay: calc(var(--i, 0) * 70ms + 40ms);
+}
+
+/* scroll reveals: children of [data-reveal] rise in as they enter the
+   viewport. Hidden only when JS is on (.js is set in <head>); if app.js never
+   runs, the failsafe shows everything after a moment. */
+.js [data-reveal] > :not(.state-line) {
+  opacity: 0;
+  transform: translateY(10px);
+  transition: opacity 0.55s var(--ease), transform 0.7s var(--ease);
+  transition-delay: var(--rd, 0ms);
+  animation: reveal-failsafe 0s 2.5s forwards;
+}
+.js.reveal-ready [data-reveal] > * { animation: none; }
+.js [data-reveal] > .in { opacity: 1; transform: none; }
+@keyframes reveal-failsafe {
+  to { opacity: 1; transform: none; }
+}
+
+/* page-to-page: the bar holds still, content cross-fades, the nav marker slides */
+@view-transition { navigation: auto; }
+::view-transition-old(root) { animation: vt-out 0.16s ease both; }
+::view-transition-new(root) { animation: vt-in 0.26s ease both; }
+::view-transition-group(nav-ind) {
+  animation-duration: 0.4s;
+  animation-timing-function: cubic-bezier(0.2, 0, 0, 1);
+}
+@keyframes vt-out { to { opacity: 0; } }
+@keyframes vt-in { from { opacity: 0; } }
+
+/*--------------------------------------------------------------------------
+  12. RESPONSIVE CHROME
 --------------------------------------------------------------------------*/
 
 @media (max-width: 800px) {
@@ -391,11 +543,28 @@ kbd {
   .bar-actions { margin-left: auto; }
 }
 
+@media (max-width: 640px) {
+  .footer-base .up { margin-left: 0; }
+}
+
 @media (max-width: 420px) {
   :root { --gutter: 18px; }
 }
 
+/*--------------------------------------------------------------------------
+  13. REDUCED MOTION
+--------------------------------------------------------------------------*/
+
 @media (prefers-reduced-motion: reduce) {
   html { scroll-behavior: auto; }
-  *, *::before, *::after { transition-duration: 0.01ms !important; animation-duration: 0.01ms !important; }
+  *, *::before, *::after {
+    transition-duration: 0.01ms !important;
+    transition-delay: 0s !important;
+    animation-duration: 0.01ms !important;
+    animation-delay: 0s !important;
+    animation-iteration-count: 1 !important;
+  }
+  ::view-transition-group(*),
+  ::view-transition-old(*),
+  ::view-transition-new(*) { animation: none !important; }
 }

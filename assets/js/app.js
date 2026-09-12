@@ -1,9 +1,10 @@
 'use strict';
 
 /* ==========================================================================
-   app.js — interface
-   theme · top bar + scroll spy · drawer · project filters · contact form
-   command palette (⌘K) · toast
+   app.js — runtime shared by every page
+   theme · top bar · drawer · reveals · on-page sub-nav · project filters
+   contact form · copy buttons · command palette (⌘K) · toast
+   Page-specific pieces only wire up when their markup is on the page.
    ========================================================================== */
 
 (function () {
@@ -12,6 +13,7 @@
   const qsa = (sel, scope) => Array.from((scope || document).querySelectorAll(sel));
   const root = document.documentElement;
   const reduceMotion = matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const count = (key, n) => qsa(`[data-count="${key}"]`).forEach((el) => (el.textContent = n));
 
   /* ---------------------------------------------------------------- toast */
   let toastEl;
@@ -29,35 +31,55 @@
   };
 
   /* ---------------------------------------------------------------- theme */
-  const themeBtn = qs('[data-theme-toggle]');
   const setTheme = (next) => {
     root.setAttribute('data-theme', next);
     try { localStorage.setItem('theme', next); } catch (e) {}
     const meta = qs('meta[name="theme-color"]');
     if (meta) meta.setAttribute('content', next === 'light' ? '#fafafa' : '#0a0a0a');
+    // pages with embeds (giscus) follow along
+    document.dispatchEvent(new CustomEvent('theme:change', { detail: next }));
   };
-  const toggleTheme = () => setTheme(root.getAttribute('data-theme') === 'light' ? 'dark' : 'light');
-  if (themeBtn) themeBtn.addEventListener('click', toggleTheme);
+  const toggleTheme = () => {
+    const next = root.getAttribute('data-theme') === 'light' ? 'dark' : 'light';
+    // cross-fade the swap where the browser supports it
+    if (document.startViewTransition && !reduceMotion) document.startViewTransition(() => setTheme(next));
+    else setTheme(next);
+  };
+  qsa('[data-theme-toggle]').forEach((b) => b.addEventListener('click', toggleTheme));
 
   /* ---------------------------------------------------------------- year */
-  const year = qs('[data-year]');
-  if (year) year.textContent = String(new Date().getFullYear());
+  qsa('[data-year]').forEach((el) => (el.textContent = String(new Date().getFullYear())));
 
-  /* ------------------------------------------------- top bar + scroll spy */
+  /* ------------------------------------------------ top bar + sub-nav spy */
   const topbar = qs('[data-topbar]');
-  const navLinks = qsa('[data-nav-link]');
-  const sections = qsa('[data-section]');
+  const spy = qs('[data-spy]');
+  const spyLinks = spy ? qsa('a[href^="#"]', spy) : [];
+  const spyTargets = spyLinks.map((l) => document.getElementById(l.getAttribute('href').slice(1)));
+  let spyActive = null;
 
-  let activeId = null;
-  const setActive = (id) => {
-    if (id === activeId) return;
-    activeId = id;
-    navLinks.forEach((l) => {
-      const on = l.getAttribute('href') === '#' + id;
-      l.classList.toggle('active', on);
-      if (on) l.setAttribute('aria-current', 'true');
+  const updateSpy = () => {
+    if (!spy) return;
+    const line = (topbar ? topbar.offsetHeight : 56) + spy.offsetHeight + 64;
+    let idx = 0;
+    spyTargets.forEach((t, i) => {
+      if (t && t.getBoundingClientRect().top <= line) idx = i;
+    });
+    // a short last block never reaches the line; at the bottom, it wins
+    const doc = document.documentElement;
+    if (scrollY > 0 && innerHeight + scrollY >= doc.scrollHeight - 4) idx = spyTargets.length - 1;
+
+    const link = spyLinks[idx];
+    if (!link || link === spyActive) return;
+    spyActive = link;
+    spyLinks.forEach((l) => {
+      l.classList.toggle('active', l === link);
+      if (l === link) l.setAttribute('aria-current', 'true');
       else l.removeAttribute('aria-current');
     });
+    // keep the active tab in view when the strip scrolls sideways
+    if (spy.scrollWidth > spy.clientWidth) {
+      spy.scrollTo({ left: Math.max(0, link.offsetLeft - 24), behavior: reduceMotion ? 'auto' : 'smooth' });
+    }
   };
 
   let ticking = false;
@@ -66,14 +88,7 @@
     ticking = true;
     requestAnimationFrame(() => {
       if (topbar) topbar.classList.toggle('stuck', scrollY > 8);
-
-      // last section whose top has passed just below the bar
-      const line = (topbar ? topbar.offsetHeight : 56) + 120;
-      let current = null;
-      sections.forEach((s) => {
-        if (s.getBoundingClientRect().top <= line) current = s.id;
-      });
-      setActive(current);
+      updateSpy();
       ticking = false;
     });
   };
@@ -83,57 +98,102 @@
 
   /* ---------------------------------------------------------------- drawer */
   const drawerBtn = qs('[data-drawer-toggle]');
-  const closeDrawer = () => {
-    document.body.classList.remove('drawer-open', 'is-locked');
+  const setDrawer = (open) => {
+    document.body.classList.toggle('drawer-open', open);
+    document.body.classList.toggle('is-locked', open);
     if (drawerBtn) {
-      drawerBtn.setAttribute('aria-expanded', 'false');
-      drawerBtn.setAttribute('aria-label', 'Open menu');
-    }
-  };
-  if (drawerBtn) {
-    drawerBtn.addEventListener('click', () => {
-      const open = document.body.classList.toggle('drawer-open');
-      document.body.classList.toggle('is-locked', open);
       drawerBtn.setAttribute('aria-expanded', String(open));
       drawerBtn.setAttribute('aria-label', open ? 'Close menu' : 'Open menu');
-    });
-  }
-  // close first, then scroll: a native anchor jump while the body is
-  // scroll-locked lands in the wrong place
-  qsa('[data-drawer-link]').forEach((l) =>
-    l.addEventListener('click', (e) => {
-      const href = l.getAttribute('href') || '';
-      if (!href.startsWith('#')) { closeDrawer(); return; }
-      e.preventDefault();
-      closeDrawer();
-      requestAnimationFrame(() => {
-        const target = qs(href);
-        if (target) target.scrollIntoView({ behavior: reduceMotion ? 'auto' : 'smooth', block: 'start' });
-        history.replaceState(null, '', href);
-      });
-    })
-  );
+    }
+  };
+  const closeDrawer = () => setDrawer(false);
+  if (drawerBtn) drawerBtn.addEventListener('click', () => setDrawer(!document.body.classList.contains('drawer-open')));
+  qsa('[data-drawer] a').forEach((a) => a.addEventListener('click', closeDrawer));
   addEventListener('resize', () => {
     if (innerWidth > 800 && document.body.classList.contains('drawer-open')) closeDrawer();
   });
 
-  /* ------------------------------------------------------ project filters */
-  const filterBtns = qsa('[data-filter-btn]');
-  const applyFilter = (value) => {
-    const v = String(value).toLowerCase();
-    qsa('[data-filter-item]').forEach((li) => {
-      li.classList.toggle('hidden', !(v === 'all' || li.dataset.category === v));
+  /* --------------------------------------------------------------- reveals */
+  // children of [data-reveal] rise in once as they enter the viewport;
+  // core.css hides them only while this is running (see .reveal-ready)
+  root.classList.add('reveal-ready');
+  const io = !reduceMotion && 'IntersectionObserver' in window
+    ? new IntersectionObserver((entries) => {
+        let n = 0;
+        entries.forEach((e) => {
+          if (!e.isIntersecting) return;
+          e.target.style.setProperty('--rd', Math.min(n++, 6) * 60 + 'ms');
+          e.target.classList.add('in');
+          io.unobserve(e.target);
+        });
+      }, { rootMargin: '0px 0px -6% 0px' })
+    : null;
+
+  const observeReveals = () => {
+    qsa('[data-reveal] > :not(.state-line)').forEach((el) => {
+      if (el.dataset.rv) return;
+      el.dataset.rv = '1';
+      if (io) io.observe(el);
+      else el.classList.add('in');
     });
   };
-  filterBtns.forEach((btn) => {
-    btn.addEventListener('click', () => {
+
+  // play the entrance again for items that just became visible (filters)
+  const replay = (els) => {
+    if (reduceMotion) return;
+    els.forEach((el, i) => {
+      el.style.transition = 'none';
+      el.classList.remove('in');
+      el.style.setProperty('--rd', Math.min(i, 8) * 35 + 'ms');
+    });
+    void document.body.offsetHeight; // commit the hidden state before animating back
+    els.forEach((el) => {
+      el.style.transition = '';
+      el.classList.add('in');
+    });
+  };
+
+  /* ------------------------------------------------------ project filters */
+  const filterBtns = qsa('[data-filter-btn]');
+  if (filterBtns.length) {
+    const items = qsa('[data-filter-item]');
+
+    filterBtns.forEach((btn) => {
+      const v = btn.textContent.trim().toLowerCase();
+      btn.dataset.filter = v;
+      const n = v === 'all' ? items.length : items.filter((li) => li.dataset.category === v).length;
+      btn.insertAdjacentHTML('beforeend', `<span class="count">${n}</span>`);
+    });
+    count('projects', items.length);
+    count('project-categories', filterBtns.length - 1);
+
+    const apply = (value, remember) => {
+      const btn = filterBtns.find((b) => b.dataset.filter === value) || filterBtns[0];
+      const v = btn.dataset.filter;
       filterBtns.forEach((b) => {
         b.classList.toggle('active', b === btn);
         b.setAttribute('aria-pressed', String(b === btn));
       });
-      applyFilter(btn.textContent.trim());
-    });
-  });
+      const shown = [];
+      items.forEach((li) => {
+        const match = v === 'all' || li.dataset.category === v;
+        li.classList.toggle('hidden', !match);
+        if (match) shown.push(li);
+      });
+      // the filter is part of the URL, so a filtered list can be shared
+      if (remember) {
+        const url = new URL(location.href);
+        if (v === 'all') url.searchParams.delete('c');
+        else url.searchParams.set('c', v);
+        history.replaceState(null, '', url);
+      }
+      return shown;
+    };
+
+    filterBtns.forEach((btn) => btn.addEventListener('click', () => replay(apply(btn.dataset.filter, true))));
+    const initial = new URLSearchParams(location.search).get('c');
+    if (initial) apply(initial.toLowerCase(), false);
+  }
 
   /* ---------------------------------------------------------- contact form */
   const form = qs('[data-form]');
@@ -149,7 +209,22 @@
     });
   }
 
+  /* ---------------------------------------------------------- copy buttons */
+  const copy = (text, btn) => {
+    const done = () => {
+      toast('Copied');
+      if (!btn) return;
+      btn.textContent = 'Copied';
+      clearTimeout(btn._t);
+      btn._t = setTimeout(() => (btn.textContent = 'Copy'), 1600);
+    };
+    if (navigator.clipboard) navigator.clipboard.writeText(text).then(done, () => toast(text));
+    else toast(text);
+  };
+  qsa('[data-copy]').forEach((b) => b.addEventListener('click', () => copy(b.dataset.copy, b)));
+
   /* -------------------------------------------------------- command palette */
+  let closePalette = () => {};
   const cmdk = qs('[data-cmdk]');
   if (cmdk) {
     const input = qs('[data-cmdk-input]', cmdk);
@@ -158,13 +233,11 @@
     let cursor = 0;
     let visible = [];
 
+    const chrome = window.Chrome || { pages: [], current: '' };
     const COMMANDS = [
-      { group: 'Sections', label: 'About', hint: 'Jump', href: '#about' },
-      { group: 'Sections', label: 'Experience', hint: 'Jump', href: '#experience' },
-      { group: 'Sections', label: 'Projects', hint: 'Jump', href: '#projects' },
-      { group: 'Sections', label: 'Sessions', hint: 'Jump', href: '#sessions' },
-      { group: 'Sections', label: 'Blog', hint: 'Jump', href: '#blog' },
-      { group: 'Sections', label: 'Contact', hint: 'Jump', href: '#contact' },
+      ...chrome.pages.map((p) => ({
+        group: 'Pages', label: p.label, hint: p.id === chrome.current ? 'Current' : 'Go', href: p.href,
+      })),
 
       { group: 'Links', label: 'View Résumé', hint: 'Open',
         href: 'https://drive.google.com/drive/folders/1ex4i0-DQcms5r-k4Vz_VuVopnX_t4C9b?usp=sharing', ext: true },
@@ -177,12 +250,7 @@
       { group: 'Links', label: 'bio.link', hint: 'Open', href: 'https://bio.link/teewrath', ext: true },
       { group: 'Links', label: 'Mastodon', hint: 'Open', href: 'https://mastodon.social/@TeeWrath', ext: true },
 
-      { group: 'Actions', label: 'Copy email address', hint: 'Copy',
-        run: () => {
-          const mail = 'subroto.2003@gmail.com';
-          if (navigator.clipboard) navigator.clipboard.writeText(mail).then(() => toast('Email copied'));
-          else toast(mail);
-        } },
+      { group: 'Actions', label: 'Copy email address', hint: 'Copy', run: () => copy('subroto.2003@gmail.com') },
       { group: 'Actions', label: 'Toggle theme', hint: 'Switch', run: toggleTheme },
       { group: 'Actions', label: 'Back to top', hint: 'Scroll',
         run: () => scrollTo({ top: 0, behavior: reduceMotion ? 'auto' : 'smooth' }) },
@@ -221,10 +289,12 @@
     };
 
     const close = () => {
+      if (!cmdk.classList.contains('open')) return;
       cmdk.classList.remove('open');
       document.body.classList.remove('is-locked');
       if (lastFocus) lastFocus.focus();
     };
+    closePalette = close;
 
     const open = () => {
       lastFocus = document.activeElement;
@@ -241,12 +311,6 @@
       close();
       if (cmd.run) { cmd.run(); return; }
       if (cmd.ext) { window.open(cmd.href, '_blank', 'noopener'); return; }
-      if (cmd.href.startsWith('#')) {
-        const target = qs(cmd.href);
-        if (target) target.scrollIntoView({ behavior: reduceMotion ? 'auto' : 'smooth', block: 'start' });
-        history.replaceState(null, '', cmd.href);
-        return;
-      }
       location.href = cmd.href;
     };
 
@@ -278,8 +342,31 @@
   }
 
   /* ------------------------------------------------------------- lifecycle */
-  // JSON renderers announce new nodes; section heights change, so re-spy
-  document.addEventListener('content:updated', onScroll);
+  // deep links into JSON-rendered pages: the target moves as content loads,
+  // so settle on it again until the visitor scrolls on their own
+  let userMoved = false;
+  ['wheel', 'touchstart', 'keydown', 'mousedown'].forEach((t) =>
+    addEventListener(t, () => (userMoved = true), { once: true, passive: true })
+  );
+  const settleHash = () => {
+    if (userMoved || location.hash.length < 2) return;
+    const target = document.getElementById(decodeURIComponent(location.hash.slice(1)));
+    if (target) target.scrollIntoView({ block: 'start' });
+  };
+
+  observeReveals();
+  document.addEventListener('content:updated', () => {
+    observeReveals();
+    settleHash();
+    onScroll();
+  });
+
+  // coming back through the back/forward cache: never restore an open overlay
+  addEventListener('pageshow', (e) => {
+    if (!e.persisted) return;
+    closeDrawer();
+    closePalette();
+  });
 
   window.UI = { toast };
 })();

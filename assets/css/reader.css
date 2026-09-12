@@ -14,20 +14,8 @@
   opacity: 0.5;
 }
 
-.back-link {
-  display: inline-flex;
-  align-items: center;
-  gap: 6px;
-  margin-left: auto;
-  margin-right: 8px;
-  font-size: 13.5px;
-  color: var(--text-low);
-  transition: color 0.15s;
-}
-.back-link:hover { color: var(--text-hi); }
-
 .reader-wrap,
-.proj-wrap { padding-block: clamp(40px, 8vw, 80px) clamp(64px, 10vw, 112px); }
+.proj-wrap { padding-block: clamp(32px, 6vw, 56px) clamp(56px, 9vw, 96px); }
 
 .reader-state,
 .proj-state { font-size: 14px; color: var(--text-low); }
@@ -186,11 +174,13 @@
   font-size: 13px;
   font-weight: 500;
   color: var(--text-hi);
-  transition: background 0.15s;
+  transition: background 0.15s, transform 0.15s var(--ease);
 }
 .reader-meta .reader-share { margin-left: auto; height: 28px; padding: 0 10px; }
 .reader-share:hover,
 .proj-share:hover { background: var(--bg-hover); }
+.reader-share:active,
+.proj-share:active { transform: scale(0.98); }
 
 .reader-footer,
 .proj-footer {
@@ -232,24 +222,6 @@
 }
 .comments-placeholder code { font-family: var(--ff-mono); color: var(--text-hi); }
 
-.reader-toast,
-.proj-toast {
-  position: fixed;
-  left: 50%;
-  bottom: 24px;
-  z-index: 110;
-  transform: translate(-50%, 8px);
-  padding: 9px 14px;
-  border-radius: 8px;
-  border: 1px solid var(--line-strong);
-  background: var(--bg-elev);
-  font-size: 13px;
-  color: var(--text-hi);
-  opacity: 0;
-  pointer-events: none;
-  transition: opacity 0.2s, transform 0.2s var(--ease);
-}
-
 /*--------------------------------------------------------------------------
   project header
 --------------------------------------------------------------------------*/
@@ -271,9 +243,10 @@
   font-size: 14px;
   font-weight: 500;
   color: var(--text-hi);
-  transition: background 0.15s, opacity 0.15s;
+  transition: background 0.15s, opacity 0.15s, transform 0.15s var(--ease);
 }
 .proj-btn:hover { background: var(--bg-hover); }
+.proj-btn:active { transform: scale(0.98); }
 .proj-btn.primary { background: var(--btn-bg); border-color: var(--btn-bg); color: var(--btn-fg); }
 .proj-btn.primary:hover { opacity: 0.86; }
 .proj-share { height: 36px; padding: 0 14px; font-size: 14px; }
@@ -282,6 +255,5 @@
 .proj-tech .inline-list li { color: var(--text-mid); }
 
 @media (max-width: 560px) {
-  .back-link span { display: none; }
   .reader-footer, .proj-footer { flex-direction: column; align-items: flex-start; }
 }

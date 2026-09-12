@@ -1,11 +1,12 @@
 /*==========================================================================
-  sections.css — home page content
-  Hero · sections · entries (left rail + body) · clickable rows ·
-  experience · testimonials · filters · contact · footer
+  sections.css — page content
+  Hero · sections & blocks · entries (left rail + body) · clickable rows ·
+  experience + timeline · testimonials · sub-nav · filters · talks ·
+  writing by year · contact
 ==========================================================================*/
 
 /*--------------------------------------------------------------------------
-  1. HERO
+  1. HERO (home)
 --------------------------------------------------------------------------*/
 
 .hero { padding-block: clamp(56px, 11vw, 112px) clamp(48px, 8vw, 80px); }
@@ -53,10 +54,16 @@
   content: "";
   width: 7px;
   height: 7px;
+  flex-shrink: 0;
   border-radius: 50%;
   background: var(--live);
-  box-shadow: 0 0 0 3px color-mix(in srgb, var(--live) 18%, transparent);
+  animation: live 2.8s ease-out infinite;
 }
+@keyframes live {
+  0%        { box-shadow: 0 0 0 0 color-mix(in srgb, var(--live) 55%, transparent); }
+  70%, 100% { box-shadow: 0 0 0 7px color-mix(in srgb, var(--live) 0%, transparent); }
+}
+.page-meta .status { margin-top: 0; font-size: 13.5px; }
 
 .hero-cta { margin-top: 28px; display: flex; flex-wrap: wrap; gap: 10px; }
 
@@ -79,7 +86,7 @@
 }
 
 /*--------------------------------------------------------------------------
-  2. SECTIONS
+  2. SECTIONS & BLOCKS
 --------------------------------------------------------------------------*/
 
 .section {
@@ -95,11 +102,36 @@
 }
 
 .block + .block { margin-top: clamp(44px, 6vw, 56px); }
+.page-body > .block + .block {
+  margin-top: clamp(44px, 6vw, 56px);
+  padding-top: clamp(40px, 6vw, 48px);
+  border-top: 1px solid var(--line);
+}
+/* when a block is jumped to, its rule lands on the sub-nav's own rule
+   (bar is covered by scroll-padding; 46px sub-nav, 1px overlap) */
+.page-body > .block[id] { scroll-margin-top: 45px; }
+.page-body > .block[id]:first-child { scroll-margin-top: 77px; }
+
 .block-title {
   font-size: 13px;
   font-weight: 500;
   color: var(--text-low);
   margin-bottom: 20px;
+}
+.block-head {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 4px 16px;
+  margin-bottom: 24px;
+}
+.block-head h2 { font-size: 17px; }
+.block-count {
+  font-size: 13px;
+  color: var(--text-low);
+  white-space: nowrap;
+  font-variant-numeric: tabular-nums;
 }
 
 .prose p { font-size: 16px; line-height: 1.75; color: var(--text-mid); }
@@ -142,7 +174,7 @@
 .offset { padding-left: calc(var(--aside) + var(--col-gap)); }
 
 /*--------------------------------------------------------------------------
-  4. ROWS — whole-row links (projects, talks, writing)
+  4. ROWS — whole-row links (projects, writing)
 --------------------------------------------------------------------------*/
 
 .rows { display: grid; }
@@ -177,9 +209,9 @@
   padding-top: 1px;
   font-size: 14px;
   color: var(--text-low);
-  transition: color 0.15s, transform 0.15s var(--ease);
+  transition: color 0.15s, transform 0.2s var(--ease);
 }
-.row:hover .row-arrow { color: var(--text-hi); transform: translateX(2px); }
+.row:hover .row-arrow { color: var(--text-hi); transform: translateX(3px); }
 .row:hover .row-arrow.ext { transform: translate(2px, -2px); }
 
 .row-thumb {
@@ -190,7 +222,13 @@
   border: 1px solid var(--line);
   background: var(--bg-elev);
 }
-.row-thumb img { width: 100%; height: 100%; object-fit: cover; }
+.row-thumb img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.6s var(--ease);
+}
+.row:hover .row-thumb img { transform: scale(1.04); }
 .row-thumb-fallback {
   position: absolute;
   inset: 0;
@@ -215,7 +253,36 @@
 .xp-company-meta { font-size: 13.5px; color: var(--text-low); margin-top: 1px; }
 
 .xp-roles { display: grid; gap: 22px; }
+.xp-role { position: relative; }
 .xp-role.current .entry-aside { color: var(--text-hi); }
+
+/* timeline: a dot per role in the gap between date and body, joined by a line */
+.xp-role::before {
+  content: "";
+  position: absolute;
+  top: 8px;
+  left: calc(var(--aside) + var(--col-gap) / 2 - 4px);
+  z-index: 1;
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  border: 1px solid var(--text-low);
+  background: var(--bg);
+}
+.xp-role:not(:last-child)::after {
+  content: "";
+  position: absolute;
+  top: 17px;
+  bottom: -30px;
+  left: calc(var(--aside) + var(--col-gap) / 2 - 1px);
+  width: 1px;
+  background: var(--line-strong);
+}
+.xp-role.current::before {
+  border-color: var(--live);
+  background: var(--live);
+  box-shadow: 0 0 0 3px color-mix(in srgb, var(--live) 20%, transparent);
+}
 
 .bullets { margin-top: 6px; display: grid; gap: 6px; }
 .bullets li {
@@ -272,7 +339,49 @@
 .quote-by a:hover { text-decoration: underline; text-underline-offset: 3px; }
 
 /*--------------------------------------------------------------------------
-  6. FILTER TABS
+  6. ON-PAGE SUB-NAV (sticky under the top bar)
+--------------------------------------------------------------------------*/
+
+.subnav {
+  position: sticky;
+  top: var(--bar-h);
+  z-index: 40;
+  display: flex;
+  gap: 22px;
+  height: 46px;
+  margin-bottom: clamp(28px, 4vw, 40px);
+  background: var(--bg);
+  border-bottom: 1px solid var(--line);
+  overflow-x: auto;
+  scrollbar-width: none;
+}
+.subnav::-webkit-scrollbar { display: none; }
+.subnav a {
+  position: relative;
+  display: flex;
+  align-items: center;
+  font-size: 13.5px;
+  color: var(--text-low);
+  white-space: nowrap;
+  transition: color 0.15s;
+}
+.subnav a:hover,
+.subnav a.active { color: var(--text-hi); }
+.subnav a::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: -1px;
+  height: 1px;
+  background: var(--text-hi);
+  transform: scaleX(0);
+  transition: transform 0.3s var(--ease);
+}
+.subnav a.active::after { transform: scaleX(1); }
+
+/*--------------------------------------------------------------------------
+  7. FILTER TABS
 --------------------------------------------------------------------------*/
 
 .tabs {
@@ -282,6 +391,9 @@
   margin-bottom: 16px;
 }
 .tab {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
   height: 30px;
   padding: 0 10px;
   border-radius: 6px;
@@ -289,17 +401,73 @@
   font-size: 13px;
   color: var(--text-low);
   white-space: nowrap;
-  transition: color 0.15s, background 0.15s;
+  transition: color 0.15s, background 0.15s, border-color 0.15s, transform 0.15s var(--ease);
 }
 .tab:hover { color: var(--text-hi); }
+.tab:active { transform: scale(0.97); }
 .tab.active {
   color: var(--text-hi);
   background: var(--bg-elev);
   border-color: var(--line-strong);
 }
+.tab .count {
+  font-size: 12px;
+  color: var(--text-low);
+  font-variant-numeric: tabular-nums;
+}
 
 /*--------------------------------------------------------------------------
-  7. CONTACT
+  8. TALKS — thumbnail grid
+--------------------------------------------------------------------------*/
+
+.talks {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 36px 24px;
+}
+.talk { display: block; }
+.talk-thumb {
+  aspect-ratio: 16 / 10;
+  border-radius: var(--radius);
+  overflow: hidden;
+  border: 1px solid var(--line);
+  background: var(--bg-elev);
+}
+.talk-thumb img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.6s var(--ease);
+}
+.talk:hover .talk-thumb img { transform: scale(1.04); }
+.talk-title { margin-top: 14px; font-size: 15px; font-weight: 500; line-height: 1.45; }
+.talk-title .ext {
+  display: inline-block;
+  color: var(--text-low);
+  transition: color 0.15s, transform 0.2s var(--ease);
+}
+.talk:hover .talk-title .ext { color: var(--text-hi); transform: translate(2px, -2px); }
+.talk-sub { margin-top: 2px; font-size: 14px; color: var(--text-mid); }
+
+/*--------------------------------------------------------------------------
+  9. WRITING — grouped by year
+--------------------------------------------------------------------------*/
+
+.year-group + .year-group { margin-top: 36px; }
+.year {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  padding-bottom: 10px;
+  margin-bottom: 6px;
+  border-bottom: 1px solid var(--line);
+  font-size: 14px;
+  font-variant-numeric: tabular-nums;
+}
+.year-count { font-size: 13px; font-weight: 400; color: var(--text-low); }
+
+/*--------------------------------------------------------------------------
+  10. CONTACT
 --------------------------------------------------------------------------*/
 
 .form-title { font-size: 15px; font-weight: 500; }
@@ -352,6 +520,19 @@ textarea.input { height: auto; min-height: 140px; padding: 10px 12px; line-heigh
 .channels { display: grid; gap: 10px; font-size: 14px; }
 .channels .entry-aside { font-size: 14px; padding-top: 0; }
 
+.copy-btn {
+  height: 22px;
+  margin-left: 10px;
+  padding: 0 8px;
+  border-radius: 5px;
+  border: 1px solid var(--line-strong);
+  font-size: 12px;
+  color: var(--text-low);
+  vertical-align: 1px;
+  transition: color 0.15s, background 0.15s;
+}
+.copy-btn:hover { color: var(--text-hi); background: var(--bg-hover); }
+
 .cal-frame {
   margin-top: 20px;
   border: 1px solid var(--line);
@@ -361,26 +542,7 @@ textarea.input { height: auto; min-height: 140px; padding: 10px 12px; line-heigh
 #my-cal-inline { width: 100%; min-height: 620px; overflow: auto; }
 
 /*--------------------------------------------------------------------------
-  8. FOOTER
---------------------------------------------------------------------------*/
-
-.footer { border-top: 1px solid var(--line); }
-.footer-inner {
-  padding-block: 36px 44px;
-  display: grid;
-  gap: 16px;
-  font-size: 13.5px;
-  color: var(--text-low);
-}
-.footer-name { color: var(--text-hi); font-weight: 500; }
-.footer-nav { display: flex; flex-wrap: wrap; gap: 6px 18px; }
-.footer-nav a:hover,
-.footer-base a:hover { color: var(--text-hi); }
-.footer-base { display: flex; flex-wrap: wrap; gap: 6px 18px; }
-.footer-base .up { margin-left: auto; }
-
-/*--------------------------------------------------------------------------
-  9. RESPONSIVE
+  11. RESPONSIVE
 --------------------------------------------------------------------------*/
 
 @media (max-width: 640px) {
@@ -393,6 +555,9 @@ textarea.input { height: auto; min-height: 140px; padding: 10px 12px; line-heigh
   .defs { gap: 20px; }
   .offset { padding-left: 0; }
 
+  /* the rail collapses, so the timeline goes with it */
+  .xp-role::before, .xp-role::after { display: none; }
+
   .row { grid-template-columns: minmax(0, 1fr) auto; column-gap: 16px; }
   .row > .row-aside { grid-column: 1; grid-row: 1; }
   .row > .row-main  { grid-column: 1; grid-row: 2; }
@@ -403,8 +568,12 @@ textarea.input { height: auto; min-height: 140px; padding: 10px 12px; line-heigh
   .row--media > .row-main  { grid-column: 2; grid-row: 1; }
   .row--media > .row-arrow { display: none; }
 
+  .subnav { gap: 18px; }
   .field-row { grid-template-columns: 1fr; }
   .form-btn { justify-self: stretch; }
   #my-cal-inline { min-height: 520px; }
-  .footer-base .up { margin-left: 0; }
+}
+
+@media (max-width: 560px) {
+  .talks { grid-template-columns: minmax(0, 1fr); gap: 28px; }
 }
