@@ -10,6 +10,21 @@
 
 .hero { padding-block: clamp(56px, 11vw, 112px) clamp(48px, 8vw, 80px); }
 
+.hero-top {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 176px;
+  gap: 40px;
+  align-items: start;
+}
+.hero-photo {
+  aspect-ratio: 4 / 5;
+  border-radius: var(--radius);
+  overflow: hidden;
+  border: 1px solid var(--line);
+  background: var(--bg-elev);
+}
+.hero-photo img { width: 100%; height: 100%; object-fit: cover; object-position: 50% 16%; }
+
 .hero-name {
   font-size: clamp(26px, 4.4vw, 34px);
   font-weight: 600;
@@ -231,7 +246,28 @@
   color: var(--text-prose);
   text-indent: -0.4em;
 }
-.quote-by { margin-top: 8px; font-size: 13.5px; color: var(--text-low); }
+.quote-by {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-top: 12px;
+  font-size: 13.5px;
+  color: var(--text-low);
+}
+.quote-avatar {
+  display: grid;
+  place-content: center;
+  width: 32px;
+  height: 32px;
+  flex-shrink: 0;
+  border-radius: 50%;
+  border: 1px solid var(--line-strong);
+  background: var(--bg-elev);
+  object-fit: cover;
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--text-hi);
+}
 .quote-by a { color: var(--text-hi); font-weight: 500; }
 .quote-by a:hover { text-decoration: underline; text-underline-offset: 3px; }
 
@@ -348,6 +384,9 @@ textarea.input { height: auto; min-height: 140px; padding: 10px 12px; line-heigh
 --------------------------------------------------------------------------*/
 
 @media (max-width: 640px) {
+  .hero-top { grid-template-columns: minmax(0, 1fr); gap: 24px; }
+  .hero-photo { order: -1; width: 96px; }
+
   .entry { grid-template-columns: minmax(0, 1fr); }
   .facts .entry, .channels .entry { grid-template-columns: 132px minmax(0, 1fr); column-gap: 14px; }
   .facts .entry-aside, .channels .entry-aside { font-size: 13.5px; }

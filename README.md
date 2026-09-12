@@ -86,7 +86,8 @@ JSON files in `data/`, so you can edit them without touching any HTML:
 
 - `data/experience.json` — professional experience, grouped by company/role
 - `data/freelance.json` — freelance & client cards, the NDA note, and the CTA text
-- `data/testimonials.json` — testimonial cards
+- `data/testimonials.json` — testimonial cards. Each shows the `avatarLetter` by default;
+  add `"photo": "./assets/images/<file>"` to an entry to show that person's picture instead
 - `data/community.json` — community efforts & positions of responsibility
 - `data/tools-tech.json` — tools & tech chip groups
 - `data/sessions.json` — talks / sessions list
@@ -102,8 +103,8 @@ Google Drive folder that holds it, so there's nothing to keep in sync here.
 
 ## Theming
 
-Monochrome and text-first: near-black ground, one typeface (Geist), hairline rules,
-no imagery beyond project/talk/post thumbnails. Colour is used only for state (the
+Monochrome and text-first: near-black ground, one typeface (Geist), hairline rules.
+Imagery is the portrait in the hero plus project, talk and post thumbnails. Colour is used only for state (the
 green "available" dot). All tokens live at the top of `assets/css/core.css`.
 
 Dark is the default. The button in the top-right switches to light, and the choice is

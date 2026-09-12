@@ -90,13 +90,20 @@
   if (tmList) {
     load('./data/testimonials.json')
       .then((items) => {
+        // a real photo when the entry has one, the initial otherwise
+        const avatar = (t) =>
+          t.photo
+            ? `<img class="quote-avatar" src="${attr(t.photo)}" alt="" loading="lazy" />`
+            : `<span class="quote-avatar" aria-hidden="true">${esc(t.avatarLetter)}</span>`;
+
         tmList.innerHTML = items
           .map(
             (t) => `
             <li class="quote offset">
               <blockquote>&ldquo;${esc(t.quote)}&rdquo;</blockquote>
               <p class="quote-by">
-                <a href="${attr(t.url)}" target="_blank" rel="noopener noreferrer">${esc(t.name)}</a>, ${esc(t.role)}
+                ${avatar(t)}
+                <span><a href="${attr(t.url)}" target="_blank" rel="noopener noreferrer">${esc(t.name)}</a>, ${esc(t.role)}</span>
               </p>
             </li>`
           )

@@ -10,7 +10,7 @@
       content="Subroto Banerjee — Builder | Creator. Software Development Engineer and product founder building tools that solve real-world inefficiencies."
     />
 
-    <link rel="icon" href="./assets/images/favicon.svg" type="image/svg+xml" />
+    <link rel="shortcut icon" href="./assets/images/newpic.png" type="image/x-icon" />
 
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
@@ -90,21 +90,29 @@
     <main id="top" class="wrap">
       <!-- ============================= HERO ============================= -->
       <section class="hero">
-        <h1 class="hero-name">
-          Subroto Banerjee
-          <span>Builder | Creator</span>
-        </h1>
+        <div class="hero-top">
+          <div class="hero-copy">
+            <h1 class="hero-name">
+              Subroto Banerjee
+              <span>Builder | Creator</span>
+            </h1>
 
-        <p class="hero-lede">
-          I am a Software Development Engineer and product founder who builds tools to solve
-          real-world inefficiencies.
-        </p>
+            <p class="hero-lede">
+              I am a Software Development Engineer and product founder who builds tools to solve
+              real-world inefficiencies.
+            </p>
 
-        <p class="status">Available for freelance &amp; collaborations</p>
+            <p class="status">Available for freelance &amp; collaborations</p>
 
-        <div class="hero-cta">
-          <a class="btn btn-primary" href="#projects">Explore the work</a>
-          <a class="btn" href="https://drive.google.com/drive/folders/1ex4i0-DQcms5r-k4Vz_VuVopnX_t4C9b?usp=sharing" target="_blank" rel="noopener">View Résumé ↗</a>
+            <div class="hero-cta">
+              <a class="btn btn-primary" href="#projects">Explore the work</a>
+              <a class="btn" href="https://drive.google.com/drive/folders/1ex4i0-DQcms5r-k4Vz_VuVopnX_t4C9b?usp=sharing" target="_blank" rel="noopener">View Résumé ↗</a>
+            </div>
+          </div>
+
+          <figure class="hero-photo">
+            <img src="./assets/images/newpic.png" alt="Subroto Banerjee" width="1024" height="1536" />
+          </figure>
         </div>
 
         <dl class="facts">
@@ -278,9 +286,10 @@
 
         <ul class="rows" data-project-grid>
           <li data-filter-item data-category="applications">
-            <a class="row" href="./project.html?id=cooketh-flow">
-              <span class="row-aside">Applications</span>
+            <a class="row row--media" href="./project.html?id=cooketh-flow">
+              <figure class="row-thumb"><img src="./assets/images/cooketh.png" alt="" loading="lazy" /></figure>
               <span class="row-main">
+                <p class="row-meta">Applications</p>
                 <h3 class="row-title">Cooketh Flow</h3>
                 <p class="row-text">
                   Cooketh Flow is an open source, powerful visual thinking, and unified productivity
@@ -293,9 +302,10 @@
           </li>
 
           <li data-filter-item data-category="applications">
-            <a class="row" href="./project.html?id=jotit">
-              <span class="row-aside">Applications</span>
+            <a class="row row--media" href="./project.html?id=jotit">
+              <figure class="row-thumb"><img src="./assets/images/jotit.png" alt="" loading="lazy" /></figure>
               <span class="row-main">
+                <p class="row-meta">Applications</p>
                 <h3 class="row-title">Jotit</h3>
                 <p class="row-text">
                   Jotit is a sleek and efficient full-stack web application designed for seamless
@@ -310,9 +320,10 @@
           </li>
 
           <li data-filter-item data-category="applications">
-            <a class="row" href="./project.html?id=store-api">
-              <span class="row-aside">Applications</span>
+            <a class="row row--media" href="./project.html?id=store-api">
+              <figure class="row-thumb"><img src="./assets/images/store.png" alt="" loading="lazy" /></figure>
               <span class="row-main">
+                <p class="row-meta">Applications</p>
                 <h3 class="row-title">Store API</h3>
                 <p class="row-text">
                   A simple store api enabling all kinds of request to add stores, items, fetch,
@@ -324,9 +335,10 @@
           </li>
 
           <li data-filter-item data-category="applications">
-            <a class="row" href="./project.html?id=votely">
-              <span class="row-aside">Applications</span>
+            <a class="row row--media" href="./project.html?id=votely">
+              <figure class="row-thumb"><img src="./assets/images/votely-logo.png" alt="" loading="lazy" /></figure>
               <span class="row-main">
+                <p class="row-meta">Applications</p>
                 <h3 class="row-title">Votely</h3>
                 <p class="row-text">
                   Votely is an open-source voting application designed for small-scale elections or
@@ -340,9 +352,10 @@
           </li>
 
           <li data-filter-item data-category="cli projects">
-            <a class="row" href="./project.html?id=csnake">
-              <span class="row-aside">CLI Projects</span>
+            <a class="row row--media" href="./project.html?id=csnake">
+              <figure class="row-thumb"><img src="./assets/images/store.png" alt="" loading="lazy" /></figure>
               <span class="row-main">
+                <p class="row-meta">CLI Projects</p>
                 <h3 class="row-title">Csnake</h3>
                 <p class="row-text">
                   A cross-code translator designed to map C language code into Python, facilitating
@@ -355,9 +368,10 @@
           </li>
 
           <li data-filter-item data-category="packages/plugins">
-            <a class="row" href="./project.html?id=modifiable-progress-indicators">
-              <span class="row-aside">Packages/Plugins</span>
+            <a class="row row--media" href="./project.html?id=modifiable-progress-indicators">
+              <figure class="row-thumb"><img src="./assets/images/img.jpg" alt="" loading="lazy" /></figure>
               <span class="row-main">
+                <p class="row-meta">Packages/Plugins</p>
                 <h3 class="row-title">Modifiable Progress Indicators</h3>
                 <p class="row-text">
                   A Flutter package that let's you create beautiful modifiable progress indicators.
@@ -368,9 +382,10 @@
           </li>
 
           <li data-filter-item data-category="applications">
-            <a class="row" href="./project.html?id=maitri">
-              <span class="row-aside">Applications</span>
+            <a class="row row--media" href="./project.html?id=maitri">
+              <figure class="row-thumb"><img src="./assets/images/maitri.png" alt="" loading="lazy" /></figure>
               <span class="row-main">
+                <p class="row-meta">Applications</p>
                 <h3 class="row-title">Maitri</h3>
                 <p class="row-text">
                   An assistance app for visually impaired people in their day-to-day life. "Maitrī"
@@ -383,9 +398,10 @@
           </li>
 
           <li data-filter-item data-category="web development">
-            <a class="row" href="./project.html?id=mindspace-web">
-              <span class="row-aside">Web development</span>
+            <a class="row row--media" href="./project.html?id=mindspace-web">
+              <figure class="row-thumb"><img src="./assets/images/mindspace.png" alt="" loading="lazy" /></figure>
               <span class="row-main">
+                <p class="row-meta">Web development</p>
                 <h3 class="row-title">MindSpace - Web</h3>
                 <p class="row-text">
                   MindSpace is a web app that aims to improve access to mental health resources and
@@ -398,9 +414,10 @@
           </li>
 
           <li data-filter-item data-category="applications">
-            <a class="row" href="./project.html?id=annapurna">
-              <span class="row-aside">Applications</span>
+            <a class="row row--media" href="./project.html?id=annapurna">
+              <figure class="row-thumb"><img src="./assets/images/meals app.png" alt="" loading="lazy" /></figure>
               <span class="row-main">
+                <p class="row-meta">Applications</p>
                 <h3 class="row-title">Annapurna</h3>
                 <p class="row-text">
                   A simple meals app using Firebase for authentication and cloud storage to store
@@ -412,9 +429,10 @@
           </li>
 
           <li data-filter-item data-category="cli projects">
-            <a class="row" href="./project.html?id=cli-letter">
-              <span class="row-aside">CLI Projects</span>
+            <a class="row row--media" href="./project.html?id=cli-letter">
+              <figure class="row-thumb"><img src="./assets/images/cli logo.png" alt="" loading="lazy" /></figure>
               <span class="row-main">
+                <p class="row-meta">CLI Projects</p>
                 <h3 class="row-title">CLI Letter</h3>
                 <p class="row-text">A cli letter for your siginificant one</p>
               </span>
@@ -423,9 +441,10 @@
           </li>
 
           <li data-filter-item data-category="cli projects">
-            <a class="row" href="./project.html?id=restaurant-basic-restaurant-management-and-billing-system">
-              <span class="row-aside">CLI Projects</span>
+            <a class="row row--media" href="./project.html?id=restaurant-basic-restaurant-management-and-billing-system">
+              <figure class="row-thumb"><img src="./assets/images/restaarant.jpg" alt="" loading="lazy" /></figure>
               <span class="row-main">
+                <p class="row-meta">CLI Projects</p>
                 <h3 class="row-title">Restaurant Basic-Restaurant-Management-and-Billing-System</h3>
                 <p class="row-text">
                   This is a basic restaurant management and billing system in C programming language,
@@ -437,9 +456,10 @@
           </li>
 
           <li data-filter-item data-category="web development">
-            <a class="row" href="./project.html?id=angular-weather-app">
-              <span class="row-aside">Web development</span>
+            <a class="row row--media" href="./project.html?id=angular-weather-app">
+              <figure class="row-thumb"><img src="./assets/images/weather.png" alt="" loading="lazy" /></figure>
               <span class="row-main">
+                <p class="row-meta">Web development</p>
                 <h3 class="row-title">Angular Weather App</h3>
                 <p class="row-text">
                   A Weather application that gives you information about the weather of a city you
@@ -451,9 +471,10 @@
           </li>
 
           <li data-filter-item data-category="music">
-            <a class="row" href="./project.html?id=daastan-e-sach">
-              <span class="row-aside">Music</span>
+            <a class="row row--media" href="./project.html?id=daastan-e-sach">
+              <figure class="row-thumb"><img src="./assets/images/song 1.png" alt="" loading="lazy" /></figure>
               <span class="row-main">
+                <p class="row-meta">Music</p>
                 <h3 class="row-title">Daastan-e-sach</h3>
                 <p class="row-text">Conscious Rap Song</p>
               </span>
@@ -462,9 +483,10 @@
           </li>
 
           <li data-filter-item data-category="music">
-            <a class="row" href="./project.html?id=billi">
-              <span class="row-aside">Music</span>
+            <a class="row row--media" href="./project.html?id=billi">
+              <figure class="row-thumb"><img src="./assets/images/song 2.png" alt="" loading="lazy" /></figure>
               <span class="row-main">
+                <p class="row-meta">Music</p>
                 <h3 class="row-title">Billi</h3>
                 <p class="row-text">Satiric Rap Song</p>
               </span>
@@ -473,9 +495,10 @@
           </li>
 
           <li data-filter-item data-category="music">
-            <a class="row" href="./project.html?id=spring-freestyle">
-              <span class="row-aside">Music</span>
+            <a class="row row--media" href="./project.html?id=spring-freestyle">
+              <figure class="row-thumb"><img src="./assets/images/spring freestyle thumbnail.png" alt="" loading="lazy" /></figure>
               <span class="row-main">
+                <p class="row-meta">Music</p>
                 <h3 class="row-title">Spring Freestyle</h3>
                 <p class="row-text">Freestyle Rap Song</p>
               </span>
