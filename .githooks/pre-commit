@@ -1,0 +1,29 @@
+#!/bin/sh
+# Cache-bust stylesheets and scripts.
+#
+# GitHub Pages lets browsers cache assets for 10 minutes, so a visitor can get new
+# HTML paired with an old cached core.css. When a commit changes a file under
+# assets/css or assets/js, this rewrites its `?v=` query in every HTML page to the
+# first 8 chars of the file's staged blob hash, and stages that edit too.
+#
+# Enable once per clone:  git config core.hooksPath .githooks
+
+assets=$(git diff --cached --name-only --diff-filter=ACMR -- 'assets/css/*.css' 'assets/js/*.js')
+[ -z "$assets" ] && exit 0
+
+for asset in $assets; do
+  v=$(git rev-parse --short=8 ":$asset")
+  pattern=$(printf '%s' "./$asset" | sed 's/[.]/\\./g')
+
+  for page in $(git ls-files -- '*.html'); do
+    grep -qF "./$asset" "$page" || continue
+    edit="s#${pattern}(\\?v=[^\"]*)?\"#./${asset}?v=${v}\"#g"
+
+    # Edit the staged copy directly so unrelated unstaged changes in the page
+    # stay out of the commit, then mirror the edit in the working tree.
+    mode=$(git ls-files -s -- "$page" | cut -d' ' -f1)
+    blob=$(git show ":$page" | sed -E "$edit" | git hash-object -w --stdin)
+    git update-index --cacheinfo "$mode,$blob,$page"
+    sed -E "$edit" "$page" > "$page.tmp" && mv "$page.tmp" "$page"
+  done
+done

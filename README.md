@@ -133,6 +133,26 @@ for reduced motion.
 Dark is the default. The button in the top-right switches to light, and the choice is
 remembered per visitor (`localStorage`).
 
+## Cache busting
+
+Every page links its CSS and JS with a version query, e.g. `core.css?v=1a2b3c4d`, so
+browsers fetch a fresh copy whenever the file changes instead of pairing new HTML
+with a stale cached stylesheet (GitHub Pages caches assets for 10 minutes).
+
+The versions are updated automatically by a pre-commit hook: commit a change to
+anything in `assets/css/` or `assets/js/` and the hook rewrites that file's `?v=` in
+every page to a hash of its new contents and adds those page edits to the same
+commit. Don't edit the `?v=` values by hand.
+
+The hook lives in `.githooks/`. Enable it once after cloning:
+
+```sh
+git config core.hooksPath .githooks
+```
+
+When adding a new page, link assets as `./assets/css/<name>.css` (the hook adds the
+`?v=` on the next commit that touches that file).
+
 ## License
 
 MIT
