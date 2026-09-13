@@ -1,0 +1,255 @@
+/*==========================================================================
+  covers.css — social cover images in the site's language
+  (assets/css/core.css, dark): near-black ground, Geist, hairline rules,
+  monochrome. Same parts as the business card (assets/business-card): the
+  tracked role line with hairline dividers, and a rule-topped band.
+
+  One CSS px = one output px; each cover is its platform's upload size
+  (render.sh). Every platform crops or overlaps its cover differently, so
+  each places the same block inside its own safe area:
+
+    X          1500 × 500   photo overlaps bottom-left → block on the right
+    LinkedIn   1584 × 396   photo overlaps bottom-left → block on the right
+    Facebook   1640 × 720   phones show the middle 1280 and the photo covers
+                            its bottom-left → block centred, set high
+    YouTube    2560 × 1440  every device shows the middle 1546 × 423
+                            → block centred in that
+
+  Grid: the background cell divides each canvas exactly. The block's left
+  and right edges and its rule sit on grid lines, so the rule's end marks
+  land on intersections. Block height = role + gap-1 + 2 × head + gap-2 +
+  rule (1) + gap-3 + band; --y is chosen so the rule falls on a line.
+==========================================================================*/
+
+:root {
+  --bg:       #0a0a0a;
+  --grid:     #1a1a1a;
+  --line:     #2e2e2e;
+  --text-hi:  #ededed;
+  --text-mid: #a1a1a1;
+  --text-low: #7a7a7a;
+  --text-dim: #464646;
+
+  --ff-sans: 'Geist', ui-sans-serif, system-ui, -apple-system, 'Segoe UI', sans-serif;
+}
+
+* { box-sizing: border-box; margin: 0; padding: 0; }
+
+body {
+  background: var(--bg);
+  font-family: var(--ff-sans);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-rendering: geometricPrecision;
+}
+
+.cover {
+  position: relative;
+  width: var(--w);
+  height: var(--h);
+  overflow: hidden;
+  background: var(--bg);
+  color: var(--text-mid);
+}
+
+/* graph-paper grid, fading out away from the block */
+.cover::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background:
+    linear-gradient(to right,  var(--grid) 1px, transparent 1px),
+    linear-gradient(to bottom, var(--grid) 1px, transparent 1px);
+  background-size: var(--cell) var(--cell);
+  background-position: 0 var(--grid-y, 0px);
+  -webkit-mask-image: var(--fade);
+          mask-image: var(--fade);
+}
+
+.block {
+  position: absolute;
+  left: var(--x);
+  top: var(--y);
+  width: var(--bw);
+}
+
+.role {
+  display: flex;
+  align-items: center;
+  font-size: var(--fs-role);
+  line-height: var(--lh-role);
+  font-weight: 500;
+  letter-spacing: 0.28em;
+  text-transform: uppercase;
+  color: var(--text-mid);
+  white-space: nowrap;
+}
+/* hairline divider between the words, not a typed "|" */
+.role i {
+  width: 1px;
+  height: 0.85em;
+  margin-inline: 0.9em calc(0.9em + 0.28em);
+  background: var(--text-dim);
+}
+
+.headline {
+  margin-top: var(--gap-1);
+  font-size: var(--fs-head);
+  line-height: var(--lh-head);
+  font-weight: 600;
+  letter-spacing: -0.03em;
+  color: var(--text-hi);
+  white-space: nowrap;
+}
+.headline span { display: block; color: var(--text-low); }
+
+/* one line on a rule; fixed height so mixed sizes can't nudge the grid */
+.band {
+  position: relative;
+  display: flex;
+  align-items: baseline;
+  height: calc(1px + var(--gap-3) + var(--lh-band));
+  margin-top: var(--gap-2);
+  padding-top: var(--gap-3);
+  border-top: 1px solid var(--line);
+  font-size: var(--fs-band);
+  line-height: var(--lh-band);
+  font-weight: 500;
+  color: var(--text-hi);
+  white-space: nowrap;
+}
+/* registration marks where the rule crosses the grid's vertical lines;
+   --mark is odd so the 1px bars centre on the rule's pixel row */
+.band::before,
+.band::after {
+  content: "";
+  position: absolute;
+  top: calc(-1px - (var(--mark) - 1px) / 2);
+  width: var(--mark);
+  height: var(--mark);
+  background:
+    linear-gradient(var(--text-dim), var(--text-dim)) center / 100% 1px no-repeat,
+    linear-gradient(var(--text-dim), var(--text-dim)) center / 1px 100% no-repeat;
+}
+.band::before { left: calc((var(--mark) - 1px) / -2); }
+.band::after  { right: calc((var(--mark) + 1px) / -2); }
+
+/* centred covers: tracking also trails the last letter, so pad the front
+   by the same amount to centre the role line on its letters */
+.cover--center .role { justify-content: center; padding-left: 0.28em; }
+.cover--center .headline { text-align: center; }
+.cover--center .band { justify-content: center; }
+
+/*--------------------------------------------------------------------------
+  PLATFORMS
+--------------------------------------------------------------------------*/
+
+/* 20 + 28 + 128 + 40 + 1 + 25 + 26 = 268; rule at y 350 */
+.cover--x {
+  --w: 1500px; --h: 500px; --cell: 50px;
+  --x: 500px; --y: 134px; --bw: 900px;
+  --fs-role: 14px; --lh-role: 20px; --gap-1: 28px;
+  --fs-head: 60px; --lh-head: 64px; --gap-2: 40px;
+  --fs-band: 19px; --lh-band: 26px; --gap-3: 25px;
+  --mark: 11px;
+  --fade: radial-gradient(ellipse 50% 120% at 63% 54%, #000 0%, rgb(0 0 0 / .45) 50%, transparent 90%);
+}
+
+/* 20 + 24 + 108 + 32 + 1 + 23 + 24 = 232; rule at y 264 */
+.cover--linkedin {
+  --w: 1584px; --h: 396px; --cell: 44px;
+  --x: 572px; --y: 80px; --bw: 924px;
+  --fs-role: 13px; --lh-role: 20px; --gap-1: 24px;
+  --fs-head: 50px; --lh-head: 54px; --gap-2: 32px;
+  --fs-band: 17px; --lh-band: 24px; --gap-3: 23px;
+  --mark: 11px;
+  --fade: radial-gradient(ellipse 48% 130% at 65% 50%, #000 0%, rgb(0 0 0 / .45) 50%, transparent 90%);
+}
+
+/* 24 + 32 + 144 + 44 + 1 + 27 + 28 = 300; rule at y 360. Ends at 416,
+   clear of where the photo starts covering the phone crop (~444) */
+.cover--facebook {
+  --w: 1640px; --h: 720px; --cell: 40px;
+  --x: 360px; --y: 116px; --bw: 920px;
+  --fs-role: 16px; --lh-role: 24px; --gap-1: 32px;
+  --fs-head: 64px; --lh-head: 72px; --gap-2: 44px;
+  --fs-band: 20px; --lh-band: 28px; --gap-3: 27px;
+  --mark: 13px;
+  --fade: radial-gradient(ellipse 45% 75% at 50% 37%, #000 0%, rgb(0 0 0 / .45) 50%, transparent 90%);
+}
+
+/* 32 + 36 + 192 + 48 + 1 + 31 + 36 = 376, centred at y 720; rule at
+   y 840, so the grid is offset half a cell to put a line there */
+.cover--youtube {
+  --w: 2560px; --h: 1440px; --cell: 80px; --grid-y: 40px;
+  --x: 560px; --y: 532px; --bw: 1440px;
+  --fs-role: 22px; --lh-role: 32px; --gap-1: 36px;
+  --fs-head: 92px; --lh-head: 96px; --gap-2: 48px;
+  --fs-band: 28px; --lh-band: 36px; --gap-3: 31px;
+  --mark: 17px;
+  --fade: radial-gradient(ellipse 42% 42% at 50% 50%, #000 0%, rgb(0 0 0 / .45) 50%, transparent 90%);
+}
+
+/*--------------------------------------------------------------------------
+  PREVIEW SHEET — every cover at 960px wide, with where each platform puts
+  the profile photo and its crop safe area marked (approximate: platforms
+  shift these between app versions)
+--------------------------------------------------------------------------*/
+
+.preview { --note: #f5a524; background: #141414; padding: 48px; }
+.sheet { display: grid; gap: 40px; width: 960px; }
+.sheet figure { --s: calc(960 / var(--w)); }
+.sheet figcaption {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 12px;
+  font-size: 13px;
+  line-height: 20px;
+  color: var(--text-low);
+}
+.sheet figcaption span { font-variant-numeric: tabular-nums; }
+
+.slot {
+  width: 960px;
+  height: calc(var(--h) * var(--s) * 1px);
+  overflow: hidden;
+  border-radius: 8px;
+  box-shadow: 0 0 0 1px var(--line);
+}
+.frame {
+  position: relative;
+  width: calc(var(--w) * 1px);
+  height: calc(var(--h) * 1px);
+  transform: scale(var(--s));
+  transform-origin: 0 0;
+}
+.frame iframe { display: block; width: 100%; height: 100%; border: 0; }
+
+.photo,
+.safe {
+  position: absolute;
+  left: calc(var(--l) * 1px);
+  top: calc(var(--t) * 1px);
+  border: calc(2px / var(--s)) dashed var(--note);
+}
+/* label near the top of the circle: its lower half hangs off the cover */
+.photo {
+  display: grid;
+  justify-items: center;
+  align-items: start;
+  padding-top: calc(var(--d) * 0.16px);
+  width: calc(var(--d) * 1px);
+  height: calc(var(--d) * 1px);
+  border-radius: 50%;
+  background: rgb(20 20 20 / 0.8);
+}
+.safe { width: calc(var(--sw) * 1px); height: calc(var(--sh) * 1px); }
+.photo::after,
+.safe::after {
+  content: attr(data-label);
+  font-size: calc(12px / var(--s));
+  line-height: 1.4;
+  color: var(--note);
+  white-space: nowrap;
+}
+.safe::after { position: absolute; left: calc(8px / var(--s)); top: calc(4px / var(--s)); }
