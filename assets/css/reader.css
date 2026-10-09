@@ -269,3 +269,5 @@
 .reader-body .callout > * + * { margin-top: 8px; }
 .reader-body div[data-youtube-video] iframe { width: 100%; aspect-ratio: 16 / 9; height: auto; border: 0; border-radius: 10px; }
 .reader-body pre code.hljs { background: transparent; padding: 0; }
+.reader-body .callout[data-callout='tip'] { border-left-color: #3fb868; }
+.reader-body .callout[data-callout='warning'] { border-left-color: #e0a526; }

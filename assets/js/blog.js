@@ -90,8 +90,9 @@
       return r.json();
     })
     .then((data) => studio.then((extra) => {
-      const have = new Set(data.map((p) => p.id));
-      return data.concat(extra.filter((p) => !have.has(p.id)));
+      // a post edited in the studio replaces its markdown-file twin
+      const edited = new Set(extra.map((p) => p.id));
+      return data.filter((p) => !edited.has(p.id)).concat(extra);
     }))
     .then((data) => {
       posts = data.slice().sort((a, b) => new Date(b.date) - new Date(a.date));

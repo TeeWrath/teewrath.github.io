@@ -1,5 +1,6 @@
 import { Node, Extension, mergeAttributes, type Editor, type Range } from '@tiptap/core';
 import Suggestion, { type SuggestionProps } from '@tiptap/suggestion';
+import Image from '@tiptap/extension-image';
 
 // Highlighted note box:  <div data-callout="info">…</div>
 export const Callout = Node.create({
@@ -21,6 +22,20 @@ export const Callout = Node.create({
   },
   renderHTML({ HTMLAttributes }) {
     return ['div', mergeAttributes({ class: 'callout' }, HTMLAttributes), 0];
+  },
+});
+
+// Image with a width (% of column) so posts can mix full-bleed and inline images.
+export const SizedImage = Image.extend({
+  addAttributes() {
+    return {
+      ...this.parent?.(),
+      width: {
+        default: null,
+        parseHTML: (el) => parseInt((el as HTMLElement).style.width) || null,
+        renderHTML: (a) => (a.width ? { style: `width:${a.width}%` } : {}),
+      },
+    };
   },
 });
 

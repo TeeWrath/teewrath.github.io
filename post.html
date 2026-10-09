@@ -21,7 +21,7 @@
 
     <link rel="stylesheet" href="./assets/css/core.css?v=2" />
     <link rel="stylesheet" href="./assets/css/sections.css?v=2" />
-    <link rel="stylesheet" href="./assets/css/reader.css?v=e9d2fec7" />
+    <link rel="stylesheet" href="./assets/css/reader.css?v=81255b9d" />
 
     <meta name="theme-color" content="#0a0a0a" />
     <script>
@@ -177,27 +177,26 @@
           return;
         }
 
-        fetch("./blog/posts.json", { cache: "no-cache" })
-          .then((r) => r.json())
-          .then((posts) => {
-            const post = posts.find((p) => p.id === id);
-            if (!post) {
-              // not a file-based post: look it up in Supabase (written in /studio)
-              return window.StudioPosts.get(id).then((r) => {
-                if (!r) throw new Error("not found");
-                return { post: r.post, html: r.html };
+        window.StudioPosts.get(id)
+          .catch(() => null)
+          .then((sp) => {
+            if (sp) return { post: sp.post, html: sp.html };
+            return fetch("./blog/posts.json", { cache: "no-cache" })
+              .then((r) => r.json())
+              .then((posts) => {
+                const post = posts.find((p) => p.id === id);
+                if (!post) throw new Error("not found");
+                if (post.type === "external") {
+                  location.replace(post.url);
+                  return Promise.reject("redirect");
+                }
+                return fetch(post.file, { cache: "no-cache" })
+                  .then((r) => {
+                    if (!r.ok) throw new Error("md " + r.status);
+                    return r.text();
+                  })
+                  .then((md) => ({ post, md }));
               });
-            }
-            if (post.type === "external") {
-              location.replace(post.url);
-              return Promise.reject("redirect");
-            }
-            return fetch(post.file, { cache: "no-cache" })
-              .then((r) => {
-                if (!r.ok) throw new Error("md " + r.status);
-                return r.text();
-              })
-              .then((md) => ({ post, md }));
           })
           .then((res) => {
             if (!res) return;
