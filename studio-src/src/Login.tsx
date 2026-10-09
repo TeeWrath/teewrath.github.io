@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { supabase, AUTHOR_EMAIL } from './supabase';
+import { Icon } from './icons';
 
 export default function Login() {
   const [email, setEmail] = useState(AUTHOR_EMAIL);
@@ -19,6 +20,7 @@ export default function Login() {
   return (
     <div className="login">
       <form onSubmit={submit}>
+        <span className="logo big"><Icon name="pen" size={22} /></span>
         <h1>Studio</h1>
         <p className="muted">Write and publish posts for teewrath.github.io</p>
         <label>

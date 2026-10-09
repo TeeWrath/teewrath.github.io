@@ -1,15 +1,12 @@
-import { createClient } from '@supabase/supabase-js';
+import type { SupabaseClient } from '@supabase/supabase-js';
+// `@client` is the real Supabase client, or an in-memory fake under `vite --mode demo` (see vite.config.ts).
+import { client, SUPABASE_URL, SUPABASE_ANON_KEY } from '@client';
 
-// The anon key is public by design; Row Level Security (see supabase/setup.sql)
-// is what restricts writes to the author.
-export const SUPABASE_URL = 'https://zxjyeifoutndgnvxkhwe.supabase.co';
-export const SUPABASE_ANON_KEY =
-  'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Inp4anllaWZvdXRuZGdudnhraHdlIiwicm9sZSI6ImFub24iLCJpYXQiOjE3OTE1NjY5MjAsImV4cCI6MjEwNzE0MjkyMH0.KM7ErVyN483UKFuBfiYWmKm3G71tboxY_4TaCUDX2G0';
-
+export { SUPABASE_URL, SUPABASE_ANON_KEY };
 export const AUTHOR_EMAIL = 'subroto.2003@gmail.com';
 export const BUCKET = 'blog-images';
 
-export const supabase = createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+export const supabase = client as SupabaseClient;
 
 export interface Post {
   id: string;
