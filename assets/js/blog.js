@@ -82,11 +82,17 @@
 
   const tabs = Array.from(document.querySelectorAll('[data-blog-filter]'));
 
+  const studio = window.StudioPosts ? window.StudioPosts.list() : Promise.resolve([]);
+
   fetch('./blog/posts.json', { cache: 'no-cache' })
     .then((r) => {
       if (!r.ok) throw new Error('posts.json ' + r.status);
       return r.json();
     })
+    .then((data) => studio.then((extra) => {
+      const have = new Set(data.map((p) => p.id));
+      return data.concat(extra.filter((p) => !have.has(p.id)));
+    }))
     .then((data) => {
       posts = data.slice().sort((a, b) => new Date(b.date) - new Date(a.date));
       const mine = posts.filter((p) => p.type === 'self').length;
